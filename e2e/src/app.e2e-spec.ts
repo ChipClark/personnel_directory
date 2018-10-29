@@ -9,6 +9,6 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to heroes!');
+    expect(page.getParagraphText()).toEqual('Welcome to Allen Matkins Personnel Directory');
   });
 });

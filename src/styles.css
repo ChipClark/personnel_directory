@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header-bar {
+    padding-top:2px;
+    padding-bottom:5px;
+    background: #002a5f;
+    text-align: left;
+    height: 80x;
+}
+
+.header-tag {
+    display: inline-block;
+    width:400px;
+    color:#fff;
+    font-size: 22pt;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 800;
+}
+
+.header-img {
+    display: inline-block;
+    height:75px;
+    top:10px;
+    padding-right:30px;
+    padding-left:20px;
+    vertical-align: middle;
+}
+
+.main-body {
+    padding-left:20px;
+    padding-right:20px;
+    padding-top:10px;
+    padding-bottom:20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.footer-bar {
+    padding:10px;
+    background: #002a5f;
+    text-align: left;
+    color:#ccc;
+    font-size:10pt;
+}
+
+.align-right {
+    float: right;
+}
+
+body, input[text], button {
+    color: #666666;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:12pt;
+  }
