@@ -9,11 +9,20 @@ import { HttpClient } from'@angular/common/http';
 })
 export class AppComponent {
   title = 'Personnel Directory';
+  private authRslt: string = '';
+  private authBack: string = 'grey';
+  private postRslt: string = '';
+  private postBack: string = 'grey';
 
-  constructor (private http: HttpClient){};
+  constructor (
+    private http: HttpClient
+    ){};
 
+  
+  
   ngOnInit() {
   
   }
+
   
 }

@@ -18,8 +18,7 @@ const httpOptions = {
 export class APIService {
  
   private personUrl = 'http://am-web05:3030/person';  // URL to web api
-  private photoURL = ""; 
-  private jobtitleURL = "";
+  private jobtitleURL = "http://am-web05:3030/job-titles";
   
  
   constructor(
@@ -32,6 +31,8 @@ export class APIService {
       .pipe(
         tap(people => this.log('fetched people')),
         catchError(this.handleError('getPeople', []))
+
+        // 
       );
   }
   

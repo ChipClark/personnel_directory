@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Person } from '../person';
 import { APIService } from '../api.service';
+
  
 @Component({
   selector: 'app-people',
@@ -15,7 +16,7 @@ export class PeopleComponent implements OnInit {
  
   people: Person[];
 
-  constructor(private staffService: APIService) { }
+  constructor(private staffService: APIService, ) { }
 
 
   ngOnInit() {
@@ -26,6 +27,7 @@ export class PeopleComponent implements OnInit {
     this.staffService.getPeople()
         .subscribe(people => this.people = people);
   }
+
   add(PreferredFirstName : string): void {
     PreferredFirstName  = PreferredFirstName .trim();
     if (!PreferredFirstName ) { return; }

@@ -16,6 +16,18 @@ import { PhotosComponent } from './photos/photos.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { JobtitlesComponent } from './jobtitles/jobtitles.component';
 
+// 
+import { NavigationComponent } from './navigation/navigation.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,16 +39,25 @@ import { JobtitlesComponent } from './jobtitles/jobtitles.component';
     PeopleComponent,
     PhotosComponent,
     DepartmentsComponent,
-    JobtitlesComponent
+    JobtitlesComponent,
+    NavigationComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule, 
     FormsModule, 
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    PerfectScrollbarModule
   
   ],
-  providers: [],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

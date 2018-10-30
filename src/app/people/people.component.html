@@ -5,12 +5,15 @@
     <app-person-search></app-person-search>
 </div>
 -->
-
-
-<ul class="people">
-    <li *ngFor="let person of people">
-        {{person.FirstName}} {{person.LastName}}
-        
-  </li>
-</ul>
- 
+<div class="person-list">
+  <perfect-scrollbar class="person-scrollbar" [config]="config">
+    <div class="person-box">
+      <ul class="people padded-10">
+        <li *ngFor="let person of people">
+            {{person.FirstName}} {{person.LastName}}
+            <!-- this is where I want to combine the things-->
+        </li>
+      </ul>
+    </div>
+  </perfect-scrollbar>
+</div>

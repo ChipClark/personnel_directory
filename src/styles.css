@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -56,3 +57,29 @@ body, input[text], button {
     font-family: Arial, Helvetica, sans-serif;
     font-size:12pt;
   }
+
+ .person-box {
+    border-color: #ddd;
+    border: 1px;
+    border-width: 1px;
+    border-style: solid;
+    widows: 300px;
+}
+
+.padded-10 {
+    padding:10px;
+}
+
+.person-scrollbar {
+    max-width: 350px; 
+    max-height: 400px;
+}
+
+.person-list {
+    display: inline-block;
+    max-width: 400px;
+}
+.person-detail {
+    display: inline-block;
+    max-width: 600px;
+}
