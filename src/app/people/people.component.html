@@ -9,11 +9,17 @@
   <perfect-scrollbar class="person-scrollbar" [config]="config">
     <div class="person-box">
       <ul class="people padded-10">
-        <li *ngFor="let person of people">
+        <li *ngFor="let person of people" [class.selected]="person === selectedPerson"
+        (click)="onSelect(Person)">
             {{person.FirstName}} {{person.LastName}}
             <!-- this is where I want to combine the things-->
         </li>
       </ul>
     </div>
   </perfect-scrollbar>
+</div>
+<div class="person-list">
+    <!--   doesn't work 
+    <app-staff-detail [selectedPerson]="selectedPerson"></app-staff-detail>
+    -->
 </div>

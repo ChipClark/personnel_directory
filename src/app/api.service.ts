@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
 import { MessageService } from './message.service';
@@ -19,13 +19,14 @@ export class APIService {
  
   private personUrl = 'http://am-web05:3030/person';  // URL to web api
   private jobtitleURL = "http://am-web05:3030/job-titles";
+  private individualURL = 'http://am-web05:3030/person/';
   
  
   constructor(
     private http: HttpClient,
     private messageService: MessageService){ }
  
-  /** GET Persons from the server */
+  /** GET People from the server */
   getPeople (): Observable<Person[]> {
     return this.http.get<Person[]>(this.personUrl)
       .pipe(
@@ -34,6 +35,15 @@ export class APIService {
 
         // 
       );
+  }
+
+  /** GET person by id. Will 404 if id not found */
+  getPersonID(id: number): Observable<Person> {
+    const url = `${this.personUrl}/${id}`;
+    return this.http.get<Person>(url).pipe(
+      tap(_ => this.log(`fetched person id=${id}`)),
+      catchError(this.handleError<Person>(`getPersonID id=${id}`))
+    );
   }
   
   /** GET person by id. Return `undefined` when id not found */
@@ -49,15 +59,7 @@ export class APIService {
         catchError(this.handleError<Person>(`getHero id=${id}`))
       );
   }
- 
-  /** GET person by id. Will 404 if id not found */
-  getPersonID(id: number): Observable<Person> {
-    const url = `${this.personUrl}/${id}`;
-    return this.http.get<Person>(url).pipe(
-      tap(_ => this.log(`fetched person id=${id}`)),
-      catchError(this.handleError<Person>(`getPersonID id=${id}`))
-    );
-  }
+
  
   /* GET people whose name contains search term */
   searchPeople(term: string): Observable<Person[]> {

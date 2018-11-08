@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Person } from '../person';
 import { APIService } from '../api.service';
+import { StaffDetailComponent } from '../staff-detail/staff-detail.component';
 
  
 @Component({
@@ -15,7 +16,8 @@ import { APIService } from '../api.service';
 export class PeopleComponent implements OnInit {
  
   people: Person[];
-
+  selectedPerson: Person;
+  
   constructor(private staffService: APIService, ) { }
 
 
@@ -27,6 +29,11 @@ export class PeopleComponent implements OnInit {
     this.staffService.getPeople()
         .subscribe(people => this.people = people);
   }
+
+  onSelect(people: Person): void {
+    this.selectedPerson.PKPersonId = people.PKPersonId;
+  }
+
 
   add(PreferredFirstName : string): void {
     PreferredFirstName  = PreferredFirstName .trim();

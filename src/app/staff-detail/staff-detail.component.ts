@@ -10,9 +10,10 @@ import { APIService }  from '../api.service';
   templateUrl: './staff-detail.component.html',
   styleUrls: ['./staff-detail.component.css']
 })
+
 export class StaffDetailComponent implements OnInit {
   
-  @Input() person: Person;
+  @Input() selectedPerson: Person;
  
   constructor(
     private route: ActivatedRoute,
@@ -26,16 +27,17 @@ export class StaffDetailComponent implements OnInit {
  
   getPerson(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    this.staffService.getPersonID(id)
-      .subscribe(person => this.person = person);
+    this.staffService.getPersonID(id) 
+      .subscribe(person => this.selectedPerson = person);
   }
+
  
   goBack(): void {
     this.location.back();
   }
 
   save(): void {
-    this.staffService.updatePerson(this.person)
+    this.staffService.updatePerson(this.selectedPerson)
       .subscribe(() => this.goBack());
   }
 
