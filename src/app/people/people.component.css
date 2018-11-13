@@ -10,6 +10,7 @@
     list-style-type: none;
     padding: 10px;
   }
+
   .people li {
     cursor: pointer;
     position: relative;
@@ -69,5 +70,9 @@
   }
 
   .userdetails {
-    display: inline;
+    display: inline-block;
+  }
+
+  .leftColumn .rightcolumn {
+    display: inline-block;
   }

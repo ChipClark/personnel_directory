@@ -49,5 +49,6 @@ export class Person {
     ValidToDate: string;
     LegalSubDepartmentId: number;
     ShowPhoto: boolean;
+    PhotoLocation: string;
     LegalDepartmentId: number;
       }

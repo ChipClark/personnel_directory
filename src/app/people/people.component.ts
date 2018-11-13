@@ -28,6 +28,7 @@ export class PeopleComponent implements OnInit {
   getPeople(): void {
     this.staffService.getPeople()
         .subscribe(people => this.people = people);
+    //this.selectedPerson.PhotoLocation = "http://amjabber/" + this.selectedPerson.ADDomainAccount + ".jpg";
   }
 
   onSelect(people: Person): void {
