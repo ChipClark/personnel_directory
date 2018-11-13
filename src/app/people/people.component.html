@@ -5,21 +5,45 @@
     <app-person-search></app-person-search>
 </div>
 -->
-<div class="person-list">
-  <perfect-scrollbar class="person-scrollbar" [config]="config">
-    <div class="person-box">
-      <ul class="people padded-10">
-        <li *ngFor="let person of people" [class.selected]="person === selectedPerson"
-        (click)="onSelect(Person)">
-            {{person.FirstName}} {{person.LastName}}
-            <!-- this is where I want to combine the things-->
-        </li>
-      </ul>
+<div class="person-list col-md-12" >
+  <!-- <perfect-scrollbar class="person-scrollbar" [config]="config"> -->
+    <div *ngFor="let person of people; let index=index; let odd=odd;"  [ngClass]="{odd:odd}" >
+        <div class="people col-sm-4 col-md-6">
+              <script> 
+                 var userphotolocation = "http://amjabber" + {addomainaccount} + ".jpg";
+              </script>
+          <div id="Photo" class="userphoto"></div>
+              <script type="text/javascript">
+                document.getElementById('Photo').innerHTML = '<img src="http://amjabber' + {addomainaccount} + '.jpg" id="userphotolocation"/>';
+              </script>
+          <div [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
+            {{person.firstname}} {{person.lastname}}
+          </div>
+          <div>
+            {{person.jobtitle.jobtitle}} <br>
+            {{person.emails.emailaddress}}<br>
+            {{person.phones.phonenumber}}
+          </div>
+        </div>
+      </div>
+    <div *ngFor="let person of people; let index=index; let even=even;"  [ngClass]="{even:even}" >
+
+        <div class="people col-sm-4 col-md-6">
+            <script> 
+              var userphotolocation = "http://amjabber" + {addomainaccount} + ".jpg";
+            </script>
+          <div id="Photo" class="userphoto">
+            <img src=userphotolocation>
+          </div>
+          <div [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
+            {{person.firstname}} {{person.lastname}}
+          </div>
+          <div>
+            {{person.jobtitle.jobtitle}} <br>
+            {{person.emails.emailaddress}}<br>
+            {{person.phones.phonenumber}}
+          </div>
+        </div>
     </div>
-  </perfect-scrollbar>
-</div>
-<div class="person-list">
-    <!--   doesn't work 
-    <app-staff-detail [selectedPerson]="selectedPerson"></app-staff-detail>
-    -->
+  <!--</perfect-scrollbar>-->
 </div>
