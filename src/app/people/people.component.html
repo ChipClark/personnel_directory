@@ -6,32 +6,33 @@
 </div>
 -->
 <div class="person-list col-md-12" >
-  <!-- <perfect-scrollbar class="person-scrollbar" [config]="config"> -->
-    <div *ngFor="let person of people; let index=index; let odd=odd;"  [ngClass]="{odd:odd}" >
-        <div class="people col-sm-4 col-md-6">
-              <script> 
-                 var userphotolocation = "http://amjabber" + {addomainaccount} + ".jpg";
-              </script>
-          <div id="Photo" class="userphoto"></div>
+  <!--<perfect-scrollbar class="person-scrollbar" [config]="config"> -->
+    <div *ngFor="let person of people; let index=index; let odd=odd; let even=even;"  [ngClass]="{odd:odd}" class="people col-sm-4 col-md-6">
+        <div id="Photo" class="userphoto"><img id=PhotoLocation src="http://amjabber/mroldan.jpg"></div>
               <script type="text/javascript">
-                document.getElementById('Photo').innerHTML = '<img src="http://amjabber' + {addomainaccount} + '.jpg" id="userphotolocation"/>';
+                onload = function() {
+                  var imgLocation = "http://amjabber/" + "cclark" + ".jpg";
+                  document.getElementById('PhotoLocation').setAttribute('src',imgLocation);
+                  document.getElementById('Photo').innerHTML = '<img src="http://amjabber/' + {person:addomainaccount} + '.jpg" id="userphotolocation"/>';
+                  document.write(imgLocation);
+               }
               </script>
-          <div [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
-            {{person.firstname}} {{person.lastname}}
+        <div >
+        <div class="userdetails">
+          <div class="username">
+            Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
           </div>
-          <div>
-            {{person.jobtitle.jobtitle}} <br>
-            {{person.emails.emailaddress}}<br>
-            {{person.phones.phonenumber}}
+          <div class="userinfo">
+            Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
+            <br>
+            Email: {{person.emails.emailaddress}}<br>
+            Phone: {{person.phones.phonenumber}}
           </div>
         </div>
-      </div>
-    <div *ngFor="let person of people; let index=index; let even=even;"  [ngClass]="{even:even}" >
-
-        <div class="people col-sm-4 col-md-6">
-            <script> 
-              var userphotolocation = "http://amjabber" + {addomainaccount} + ".jpg";
-            </script>
+    </div>
+    
+    <!--
+    <div *ngFor="let person of people; let index=index; let odd=odd; let even=even;"  [ngClass]="{even:even}" class="people col-sm-4 col-md-6">
           <div id="Photo" class="userphoto">
             <img src=userphotolocation>
           </div>
@@ -43,7 +44,7 @@
             {{person.emails.emailaddress}}<br>
             {{person.phones.phonenumber}}
           </div>
-        </div>
     </div>
+  -->
   <!--</perfect-scrollbar>-->
 </div>

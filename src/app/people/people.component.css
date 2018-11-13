@@ -64,7 +64,8 @@
   }
 
   .userphoto {
-    display: inline;
+    display: inline-block;
+    padding-right:10px;
   }
 
   .userdetails {
