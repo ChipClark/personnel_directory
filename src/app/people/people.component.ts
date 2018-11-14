@@ -31,6 +31,10 @@ export class PeopleComponent implements OnInit {
     //this.selectedPerson.PhotoLocation = "http://amjabber/" + this.selectedPerson.ADDomainAccount + ".jpg";
   }
 
+  PhotoFinish(): void {
+
+  }
+
   onSelect(people: Person): void {
     this.selectedPerson.PKPersonId = people.PKPersonId;
   }

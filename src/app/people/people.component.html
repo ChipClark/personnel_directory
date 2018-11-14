@@ -11,19 +11,10 @@
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
     <div *ngFor="let person of people; let even = even; let odd = odd"  [ngClass]="{ odd: odd, even: even }" class="row people">
       <div *ngIf="!even" class="leftColumn col-lg-6">
-          <script type="text/javascript">
-            var imgLocation = "http://amjabber/" + person.addomainaccount + ".jpg";
-            document.getElementById('PhotoLocation').setAttribute('src',imgLocation);
-            document.getElementById('Photo').innerHTML = '<img src="http://amjabber/' + {person:addomainaccount} + '.jpg" id="userphotolocation"/>';
-            document.write(imgLocation);
-          </script>
-          
-
-
-        <div id="Photo" class="userphoto" >
-            <img id=PhotoLocation src=imgLocation>
+        <div class="userphoto" >
+          <img src="http://amjabber/{{person.addomainaccount}}.jpg" width="112px;" >
         </div >
-        <div class="userdetails">
+        <div class="userdetails" >
           <div class="username">
             Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
           </div>
@@ -37,16 +28,16 @@
       </div>
 
       <div *ngIf="even" class="rightcolumn col-lg-6">
-          <div id="Photo" class="userphoto" >
-              <img id=PhotoLocation src="http://amjabber/" + {{person.addomainaccount}} + ".jpg">
+          <div class="userphoto" >
+              <img src="http://amjabber/{{person.addomainaccount}}.jpg" width="112px;" >
           </div >
-            <div class="userdetails">
+          <div class="userdetails">
             <div class="username">
               Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
             </div>
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-              {{person.addomainaccount}}<br>
+              Domain Name: {{person.addomainaccount}}<br>
               Email: {{person.emails[0].emailaddress}}<br>
               Phone: {{person.phones[0].phonenumber}}
             </div>
