@@ -17,7 +17,7 @@ const httpOptions = {
 
 export class APIService {
  
-  private personUrl = 'http://am-web05:3035/api/people?filter=%7B%22where%22%3A%7B%22lastname%22%3A%22clark%22%7D%2C%22include%22%3A%5B%22emails%22%2C%22phones%22%2C%22jobtitle%22%5D%7D';  // URL to web api
+  private personUrl = 'http://am-web05:3035/api/people?filter=%7B%22where%22%3A%7B%22employmentstatus%22%3A%22A%22%7D%2C%22include%22%3A%5B%22emails%22%2C%22phones%22%2C%22jobtitle%22%5D%7D';  // URL to web api
   private jobtitleURL = "http://am-web05:3030/job-titles";
   private individualURL = 'http://am-web05:3035/api/people';
   
