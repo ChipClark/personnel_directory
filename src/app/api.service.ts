@@ -18,7 +18,7 @@ const httpOptions = {
 
 export class APIService {
  
-  private personUrl = 'http://am-web05:3035/api/people?filter={"where":{"employmentstatus":"A"},"include":["emails","phones","jobtitle","officelocation","hrdepartment", "photo"]}';  // URL to web api
+  private personUrl = 'http://am-web05:3030/api/people?filter={"where":{"employmentstatus":"A"},"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education"]}';  // URL to web api
   private jobtitleURL = 'http://am-web05:3030/job-titles';
   private individualURL = 'http://am-web05:3035/api/people';
   private schoolDetails = 'http://am-web05:3030/api/schools';

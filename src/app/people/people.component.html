@@ -24,8 +24,13 @@
             Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
             Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
             Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
-            Department: {{person.hrdepartment.description}}
-            <!--School: {{getPersonSchool(person.schoolid)}}-->
+            Department: {{person.hrdepartment.description}}<br>
+            school: {{person.education[0].schoolid}} {{person.education[0].graduationyear}}
+            <!--School: {{getPersonSchool(person.schoolid)}}
+            
+              (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )
+            
+            -->
           </div>
         </div>
       </div>

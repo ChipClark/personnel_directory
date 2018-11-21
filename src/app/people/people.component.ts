@@ -71,8 +71,13 @@ export class PeopleComponent implements OnInit {
 
   }
 
+  //getSchoolName(id: number): string) {
+      //person.education[0].schoolid = id; 
+      //return schoolid.schoolname;
+  //    return "hello";
+  //}
 
-    onSelect(people: Person): void {
+  onSelect(people: Person): void {
     this.selectedPerson.PKPersonId = people.PKPersonId;
   }
 
