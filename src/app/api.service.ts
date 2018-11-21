@@ -59,6 +59,7 @@ export class APIService {
     );
   }
 
+  /*  (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )   */
 
   /** GET person by id. Will 404 if id not found */
   getPersonID(id: number): Observable<Person> {
