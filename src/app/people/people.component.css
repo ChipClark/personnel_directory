@@ -66,6 +66,7 @@
 
   .userphoto {
     display: inline-block;
+    vertical-align: top;
     padding-right:10px;
   }
 
@@ -75,4 +76,9 @@
 
   .leftColumn .rightcolumn {
     display: inline-block;
+    min-width: 500px;
+  }
+
+  .emaillink { 
+    display: inline;
   }

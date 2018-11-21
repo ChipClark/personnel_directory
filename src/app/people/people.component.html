@@ -9,37 +9,38 @@
 
 <div class="person-list col-md-12" >
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
-    <div *ngFor="let person of people; let even = even; let odd = odd"  [ngClass]="{ odd: odd, even: even }" class="row people">
-      <div *ngIf="!even" class="leftColumn col-lg-6">
-        <div class="userphoto" >
-          <img src="http://amjabber/{{person.addomainaccount}}.jpg" width="112px;" >
-        </div >
-        <div class="userdetails" >
+    <div *ngFor="let person of people; let i = index;
+                let odd = odd let even = even; 
+                trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
+                class="people col-lg-6 col-md-12 col-sm-12">
+
+      <div class="leftColumn" *ngIf="odd">
+        <div class="userphoto" [innerHTML]="getPhoto(person.addomainaccount)"></div >
+        <div class="userdetails" > 
           <div class="username">
             Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
           </div>
           <div class="userinfo">
             Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-            Photo Location: {{person.PhotoLocation}}<br>
-            Email: {{person.emails[0].emailaddress}}<br>
-            Phone: {{person.phones[0].phonenumber}}
+            Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
+            Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+            Department: {{person.hrdepartment.description}}
+            <!--School: {{getPersonSchool(person.schoolid)}}-->
           </div>
         </div>
       </div>
-
-      <div *ngIf="even" class="rightcolumn col-lg-6">
-          <div class="userphoto" >
-              <img src="http://amjabber/{{person.addomainaccount}}.jpg" width="112px;" >
-          </div >
-          <div class="userdetails">
+      
+      <div class="rightColumn lightgray" *ngIf="even">
+          <div class="userphoto"  [innerHTML]="getPhoto(person.addomainaccount)"></div >
+          <div class="userdetails" > 
             <div class="username">
               Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
             </div>
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-              Domain Name: {{person.addomainaccount}}<br>
-              Email: {{person.emails[0].emailaddress}}<br>
-              Phone: {{person.phones[0].phonenumber}}
+              Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
+              Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+              Department: {{person.hrdepartment.description}}
             </div>
           </div>
         </div>

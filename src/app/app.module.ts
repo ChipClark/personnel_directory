@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -16,13 +16,13 @@ import { PhotosComponent } from './photos/photos.component';
 import { DepartmentsComponent } from './departments/departments.component';
 import { JobtitlesComponent } from './jobtitles/jobtitles.component';
 
-// 
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { SchoolComponent } from './school/school.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -42,7 +42,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     JobtitlesComponent,
     NavigationComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SchoolComponent
   ],
   imports: [
     BrowserModule, 
@@ -54,8 +55,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   providers: [
     {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+      provide: PERFECT_SCROLLBAR_CONFIG, 
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
     }
   ],
   bootstrap: [AppComponent]

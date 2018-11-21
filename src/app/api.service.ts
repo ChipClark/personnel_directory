@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
+import { Schools}  from './school';
 import { MessageService } from './message.service';
 
 const httpOptions = {
@@ -17,9 +18,10 @@ const httpOptions = {
 
 export class APIService {
  
-  private personUrl = 'http://am-web05:3035/api/people?filter=%7B%22where%22%3A%7B%22employmentstatus%22%3A%22A%22%7D%2C%22include%22%3A%5B%22emails%22%2C%22phones%22%2C%22jobtitle%22%5D%7D';  // URL to web api
-  private jobtitleURL = "http://am-web05:3030/job-titles";
+  private personUrl = 'http://am-web05:3035/api/people?filter={"where":{"employmentstatus":"A"},"include":["emails","phones","jobtitle","officelocation","hrdepartment", "photo"]}';  // URL to web api
+  private jobtitleURL = 'http://am-web05:3030/job-titles';
   private individualURL = 'http://am-web05:3035/api/people';
+  private schoolDetails = 'http://am-web05:3030/api/schools';
   
  
   constructor(
@@ -36,6 +38,27 @@ export class APIService {
         // 
       );
   }
+
+  /** GET Schools from the server */
+  getSchools (): Observable<Schools[]> {
+    return this.http.get<Schools[]>(this.schoolDetails)
+      .pipe(
+        tap(schools => this.log('fetched schools')),
+        catchError(this.handleError('getSchools', []))
+
+        // 
+      );
+  }
+
+  /** GET school by person.schoolid. Will 404 if id not found */
+  getPersonSchool (id: number): Observable<Schools> {
+    const url = `${this.schoolDetails}/${id}`;
+    return this.http.get<Schools>(url).pipe(
+      tap(_ => this.log(`fetched school id=${id}`)),
+      catchError(this.handleError<Schools>(`getPersonSchool id=${id}`))
+    );
+  }
+
 
   /** GET person by id. Will 404 if id not found */
   getPersonID(id: number): Observable<Person> {
