@@ -63,6 +63,9 @@ body, input[text], button {
     font-size:12pt;
   }
 
+.person-scrollbar {
+    height: 500px;
+}
  .person-box {
     border-color: #ddd;
     border: 1px;
@@ -70,7 +73,10 @@ body, input[text], button {
     border-style: solid;
 }
 
-
 .person-detail {
     display: inline-block;
+}
+
+.lightgray {
+    background-color: #f9f9f9;
 }
