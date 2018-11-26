@@ -5,8 +5,6 @@ import { Person } from '../person';
 import { Schools } from '../school';
 
 import { APIService } from '../api.service';
-import { StaffDetailComponent } from '../staff-detail/staff-detail.component';
-
 
 @Component({
   selector: 'app-people',
@@ -24,10 +22,16 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
+    //this.getPeopleByLocation("Orange County");
   }
 
   getPeople(): void {
     this.staffService.getPeople()
+        .subscribe(people => this.people = people);
+  }
+
+  getPeopleByLocation(id: number): void {
+    this.staffService.getPeopleByLocation(id)
         .subscribe(people => this.people = people);
   }
 
@@ -56,8 +60,8 @@ export class PeopleComponent implements OnInit {
     urlTest = "http://marketing/utils/img/personnel/" + ADAddress + ".jpg";
     imgString = '<img src="' + personPhoto + '" id="' + ADAddress + '" width="112px;">';
     
-    //if (this.checkUrl(urlTest ) == false) {
-    //   imgString = '<img src="' + noPhoto + '" id="' + ADAddress + '" width="112px;">';
+    //if (this.chec +kUrl(urlTest ) == false) {
+    //   imgString = '<img src="' noPhoto + '" id="' + ADAddress + '" width="112px;">';
     //}
     
     return imgString;
@@ -71,11 +75,7 @@ export class PeopleComponent implements OnInit {
 
   }
 
-  //getSchoolName(id: number): string) {
-      //person.education[0].schoolid = id; 
-      //return schoolid.schoolname;
-  //    return "hello";
-  //}
+  
 
   onSelect(people: Person): void {
     this.selectedPerson.PKPersonId = people.PKPersonId;

@@ -18,12 +18,24 @@ const httpOptions = {
 
 export class APIService {
  
+  private baseURL = 'http://am-web05:3030/api/people?'
   private personUrl = 'http://am-web05:3030/api/people?filter={"where":{"employmentstatus":"A"},"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education"]}';  // URL to web api
   private jobtitleURL = 'http://am-web05:3030/job-titles';
   private individualURL = 'http://am-web05:3035/api/people';
   private schoolDetails = 'http://am-web05:3030/api/schools';
-  
- 
+
+  // Filters
+  private All = 'filter={"where":{"employmentstatus":"A"}'
+  private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
+  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":"3"}';
+  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":"5"}';
+  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationname":"San Diego"}';
+  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationname":"Century City"}';
+
+
+  //includes
+  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
+   
   constructor(
     private http: HttpClient,
     private messageService: MessageService){ }
@@ -31,6 +43,32 @@ export class APIService {
   /** GET People from the server */
   getPeople (): Observable<Person[]> {
     return this.http.get<Person[]>(this.personUrl)
+      .pipe(
+        tap(people => this.log('fetched people')),
+        catchError(this.handleError('getPeople', []))
+
+        // 
+      );
+  }
+
+  getPeopleByLocation (id: number): Observable<Person[]> {
+    var location; 
+    switch(id) {
+      case 1: 
+        location = "CenturyCity";
+      case 2:
+        location = "LosAngeles";
+      case 3:
+        location = "OrangeCounty";
+      case 4:
+        location = "SanDiego";
+      case 5:
+        location = "SanFrancisco";
+      default: 
+        location = "";
+    }
+    this.baseURL.concat(this.baseURL, location, this.generalIncludes, '}')
+    return this.http.get<Person[]>(this.baseURL)
       .pipe(
         tap(people => this.log('fetched people')),
         catchError(this.handleError('getPeople', []))
