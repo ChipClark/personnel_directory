@@ -2,23 +2,25 @@
 
 <div class="person-list col-md-12" >
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
-    <div *ngFor="let person of people; let i = index;
+    <div *ngFor="let person of people | slice:0:20; let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
                 class="people col-lg-6 col-md-12 col-sm-12">
 
       <div class="leftColumn" *ngIf="odd">
-        <div class="userphoto" [innerHTML]="getPhoto(person.addomainaccount)"></div >
+          <div class="userphoto" [innerHTML]="getPhoto(person.addomainaccount)"></div>
         <div class="userdetails" > 
           <div class="username">
-            Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
+            Name: <strong>{{person.displayname}}</strong>
           </div>
           <div class="userinfo">
             Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
             Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
-            Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+            Phone: {{getPhone(person.phones[1].phonenumber)}}<br>
             Department: {{person.hrdepartment.description}}<br>
-            Office Location: {{person.officelocation.officelocationname}}
+            {{person.officelocation.officelocationcode}}<br>
+            Assistant: {{person.personrelationship.relatedpersonid}}<br>
+            Timekeepers Number: {{person.timekeepernumber}}
             
             <!--School: {{getPersonSchool(person.schoolid)}}
             
@@ -30,17 +32,25 @@
       </div>
       
       <div class="rightColumn lightgray" *ngIf="even">
-          <div class="userphoto"  [innerHTML]="getPhoto(person.addomainaccount)"></div >
-          <div class="userdetails" > 
+          <div class="userphoto" [innerHTML]="getPhoto(person.addomainaccount)"></div>
+            <div class="userdetails" > 
             <div class="username">
-              Name: <strong>{{person.firstname}} {{person.lastname}}</strong>
+              Name: <strong>{{person.displayname}}</strong>
             </div>
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
               Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
-              Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+              Phone: {{getPhone(person.phones[1].phonenumber)}}<br>
               Department: {{person.hrdepartment.description}}<br>
-              Office Location: {{person.officelocation.officelocationname}}
+              {{person.officelocation.officelocationcode}}<br>
+              Assistant: {{person.personrelationship.relatedpersonid}}<br>
+              Timekeepers Number: {{person.timekeepernumber}}
+              
+              <!--School: {{getPersonSchool(person.schoolid)}}
+              
+                (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )
+              
+              -->
             </div>
           </div>
         </div>

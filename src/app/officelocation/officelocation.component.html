@@ -1,8 +1,16 @@
 <h2>Personnel List</h2>
-
-<div class="cityNav" [innerHTML]="getLocation('All')"></div>
-<div class="cityNav" [innerHTML]="getLocation('Century City')"></div>
-<div class="cityNav" [innerHTML]="getLocation('Los Angeles')"></div>
-<div class="cityNav" [innerHTML]="getLocation('Orange County')"></div>
-<div class="cityNav" [innerHTML]="getLocation('San Diego')"></div>
-<div class="cityNav" [innerHTML]="getLocation('San Francisco')"></div>
+<button class="cityNav" (click)="getPeopleByLocation()">All</button>&nbsp;
+<button class="cityNav" (click)="getPeopleByLocation(1)">Century City</button>&nbsp;
+<button class="cityNav" (click)="getPeopleByLocation(2)">Los Angeles</button>&nbsp;
+<button class="cityNav" (click)="getPeopleByLocation(3)">Orange County</button>&nbsp;
+<button class="cityNav" (click)="getPeopleByLocation(4)">San Diego</button>&nbsp;
+<button class="cityNav" (click)="getPeopleByLocation(5)">San Francisco</button>
+<br>
+<!--
+<div class="cityNav" [innerHTML]="writeLocation('All')"></div>
+<div class="cityNav" [innerHTML]="writeLocation('Century City')"></div>
+<div class="cityNav" [innerHTML]="writeLocation('Los Angeles')"></div>
+<div class="cityNav" [innerHTML]="writeLocation('Orange County')"></div>
+<div class="cityNav" [innerHTML]="writeLocation('San Diego')"></div>
+<div class="cityNav" [innerHTML]="writeLocation('San Francisco')"></div>
+-->

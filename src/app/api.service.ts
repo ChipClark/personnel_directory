@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpClientModule, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { catchError, map, tap, concat } from 'rxjs/operators';
 import { Person } from './person';
 import { Schools}  from './school';
 import { MessageService } from './message.service';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -24,13 +25,14 @@ export class APIService {
   private individualURL = 'http://am-web05:3035/api/people';
   private schoolDetails = 'http://am-web05:3030/api/schools';
 
+
   // Filters
   private All = 'filter={"where":{"employmentstatus":"A"}'
   private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
-  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":"3"}';
-  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":"5"}';
-  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationname":"San Diego"}';
-  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationname":"Century City"}';
+  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":3}';
+  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":5}';
+  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationid":4}';
+  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationid":1}';
 
 
   //includes
@@ -76,6 +78,19 @@ export class APIService {
         // 
       );
   }
+
+  getPhoto(photoUrl: string): boolean {
+    var request = this.http.get(photoUrl).toPromise();
+    
+
+    //console.log(photoUrl);
+    //console.log(request.then);
+
+    return false;
+  }
+
+  
+
 
   /** GET Schools from the server */
   getSchools (): Observable<Schools[]> {

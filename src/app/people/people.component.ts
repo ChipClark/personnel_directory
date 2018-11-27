@@ -3,13 +3,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
 import { Schools } from '../school';
+import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 
 import { APIService } from '../api.service';
 
 @Component({
   selector: 'app-people',
   templateUrl: './people.component.html',
-  styleUrls: ['./people.component.css']
+  styleUrls: ['./people.component.css'],
 })
  
 export class PeopleComponent implements OnInit {
@@ -18,7 +19,10 @@ export class PeopleComponent implements OnInit {
   people: Person[];
   selectedPerson: Person;
   
-  constructor(private staffService: APIService, ) { }
+  constructor(
+    private staffService: APIService,
+    private http: HttpClient,
+    ) { }
 
   ngOnInit() {
     this.getPeople();
@@ -35,16 +39,21 @@ export class PeopleComponent implements OnInit {
         .subscribe(people => this.people = people);
   }
 
-
-  checkUrl(url): boolean {
-    if (url) {
-      //open("GET", url);
-            //if (status == 200) { return true; }
-    }
-    else {  return false; }
-  }
+  
 
   getPhone(phonenumber: string): string {
+    //var phonenumber;
+    //console.log(person.phones[].phonenumber);
+    //while (personID != people.PKPersonId ) {
+    //  case 1: 
+    //    phonenumber = people.phones.phonenumber;
+    //  default: 
+    //    phonenumber = null;
+    //}
+    //if(!phonenumber) {
+    //  return null;
+    //}
+    //else 
     return phonenumber = phonenumber.replace(/\D+/g, '')
     .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
@@ -56,16 +65,15 @@ export class PeopleComponent implements OnInit {
     var imgString;
 
     noPhoto = "http://amjabber/nophoto.gif";
+
     personPhoto = "http://amjabber/" + ADAddress + ".jpg";
-    urlTest = "http://marketing/utils/img/personnel/" + ADAddress + ".jpg";
-    imgString = '<img src="' + personPhoto + '" id="' + ADAddress + '" width="112px;">';
-    
-    //if (this.chec +kUrl(urlTest ) == false) {
-    //   imgString = '<img src="' noPhoto + '" id="' + ADAddress + '" width="112px;">';
-    //}
+
+    //var request = this.http.get(personPhoto).subscribe();
+    //console.log(request);
+
+    imgString = '<img src="' + personPhoto + '" width=112px; />';
     
     return imgString;
-
   }
 
   getEmail(EMAIL: string, personName: string): string {

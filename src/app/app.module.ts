@@ -24,11 +24,7 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { SchoolComponent } from './school/school.component';
 import { OfficelocationComponent } from './officelocation/officelocation.component';
-import { LosAngelesComponent } from './officelocation/losangeles/losangeles.component';
-import { SanDiegoComponent } from './officelocation/sandiego/sandiego.component';
-import { SanFranciscoComponent } from './officelocation/sanfrancisco/sanfrancisco.component';
-import { OrangeCountyComponent } from './officelocation/orangecounty/orangecounty.component';
-import { CenturyCityComponent } from './officelocation/centurycity/centurycity.component';
+import { CityPipe } from './city.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -51,11 +47,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FooterComponent,
     SchoolComponent,
     OfficelocationComponent,
-    LosAngelesComponent,
-    SanDiegoComponent,
-    SanFranciscoComponent,
-    OrangeCountyComponent,
-    CenturyCityComponent
+    CityPipe
   ],
   imports: [
     BrowserModule, 

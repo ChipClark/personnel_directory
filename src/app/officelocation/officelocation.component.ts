@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
 
 import { APIService } from '../api.service';
+import { PeopleComponent } from '../people/people.component';
 
 
 @Component({
@@ -9,10 +10,15 @@ import { APIService } from '../api.service';
   templateUrl: './officelocation.component.html',
   styleUrls: ['./officelocation.component.css']
 })
+
 export class OfficelocationComponent implements OnInit {
 
   people: Person[];
-
+  filterargs = {officelocationname: ''};
+  items = [{officelocationname: 'Century City'}, {officelocationname: 'Los Angeles'},
+      {officelocationname: 'Orange County'},{officelocationname: 'San Diego'},
+      {officelocationname: 'San Francisco'},]
+  
   constructor(private staffService: APIService, ) { }
 
   ngOnInit() {
@@ -35,16 +41,19 @@ export class OfficelocationComponent implements OnInit {
       default: 
         location = "";
     }
-    this.getLocation(location);
-    this.staffService.getPeopleByLocation(id)
-        .subscribe(people => this.people = people);
+    this.writeLocation(location);
+    this.staffService.getPeopleByLocation(id);
   }
 
-  getLocation(location: string): string {
+  writeLocation(location: string): string {
     var cityString; 
-    cityString = '&nbsp;<a href="/people/' + location + '"' + ' > ' + location + '</a> | ';
+    cityString = '<button (click)="getPeopleByLocation(' + location + ')">' + location + '</button>&nbsp;';  
+    
     return cityString;
+  }
 
+  getLocation(location: string): void {
+    this.filterargs.officelocationname = location;
   }
 
 }
