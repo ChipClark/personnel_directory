@@ -77,7 +77,7 @@ export class PeopleComponent implements OnInit {
   }
 
   getEmail(EMAIL: string, personName: string): string {
-    var emailString = '<a href=mailto:"' + EMAIL + '" id="' + personName + '" >' + EMAIL + '</a>'; 
+    var emailString = '<a href=mailto:' + EMAIL + ' id=' + personName + ' >' + EMAIL + '</a>'; 
   
   return emailString;
 
