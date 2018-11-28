@@ -67,7 +67,6 @@ body, input[text], button {
     height: 500px;
 }
  .person-box {
-    border-color: #ddd;
     border: 1px;
     border-width: 1px;
     border-style: solid;

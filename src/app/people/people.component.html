@@ -5,9 +5,11 @@
     <div *ngFor="let person of people | slice:0:20; let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
-                class="people col-lg-6 col-md-12 col-sm-12">
+                class="people col-lg-12 col-md-12 col-sm-12" 
+                >
 
-      <div class="leftColumn" *ngIf="odd">
+      <div class="leftColumn col-md-6 person-box" *ngIf="odd" [class.selected]="person === selectedPerson"
+      (click)="onSelect(Person)">
           <div class="userphoto">
             <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
           </div>
@@ -32,7 +34,7 @@
         </div>
       </div>
       
-      <div class="rightColumn lightgray" *ngIf="even">
+      <div class="rightColumn lightgray  col-md-6 person-box" *ngIf="even">
         <div class="userphoto" > 
           <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
 

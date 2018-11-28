@@ -25,6 +25,7 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { SchoolComponent } from './school/school.component';
 import { OfficelocationComponent } from './officelocation/officelocation.component';
 import { CityPipe } from './city.pipe';
+import { PhonesComponent } from './phones/phones.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -47,7 +48,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FooterComponent,
     SchoolComponent,
     OfficelocationComponent,
-    CityPipe
+    CityPipe,
+    PhonesComponent
   ],
   imports: [
     BrowserModule, 

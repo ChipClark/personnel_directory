@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
+import { Phones } from './phones';
 import { Schools}  from './school';
 import { MessageService } from './message.service';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
@@ -19,25 +20,27 @@ const httpOptions = {
 
 export class APIService {
  
-  private baseURL = 'http://am-web05:3030/api/people?'
-  private personUrl = 'http://am-web05:3030/api/people?filter={"where":{"employmentstatus":"A"},"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education"]}';  // URL to web api
+  private baseURL = 'http://am-web05:3030/api/people?';
+  private phoneURL = "http://am-web05:3030/api/phones";
   private jobtitleURL = 'http://am-web05:3030/job-titles';
   private individualURL = 'http://am-web05:3035/api/people';
   private schoolDetails = 'http://am-web05:3030/api/schools';
 
 
   // Filters
-  private All = 'filter={"where":{"employmentstatus":"A"}'
+  private All = 'filter={"where":{"employmentstatus":"A"},'
   private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
   private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":3}';
   private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":5}';
   private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationid":4}';
   private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationid":1}';
 
-
   //includes
   private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
-   
+  private endRequest = '}';
+
+  private personUrl = this.baseURL + this.All + this.generalIncludes + this.endRequest;  // URL to web api
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService){ }
@@ -48,6 +51,16 @@ export class APIService {
       .pipe(
         tap(people => this.log('fetched people')),
         catchError(this.handleError('getPeople', []))
+
+        // 
+      );
+  }
+
+  getAllPhones (): Observable<Phones[]> {
+    return this.http.get<Phones[]>(this.phoneURL)
+      .pipe(
+        tap(phone => this.log('fetched phone numbers')),
+        catchError(this.handleError('getAllPhones', []))
 
         // 
       );
@@ -85,19 +98,6 @@ export class APIService {
     //console.log(request.then);
     return false;
   }
-
-  getAssistant(assitantID: number): Observable<Person[]> {
-    var assistantURL = "http://am-web05:3030/api/people/";
-    var asstID = assitantID.toString();
-    assistantURL.concat(assistantURL, asstID);
-    return this.http.get<Person[]>(assistantURL)
-      .pipe(
-        tap(people => this.log('fetched people')),
-        catchError(this.handleError('getPeople', []))
-
-        // 
-      );
-  }  
 
 
   /** GET Schools from the server */
@@ -163,14 +163,14 @@ export class APIService {
   /** POST: add a new person to the server */
   addPerson (person: Person): Observable<Person> {
     return this.http.post<Person>(this.personUrl, person, httpOptions).pipe(
-      tap((person: Person) => this.log(`added Person w/ id=${person.PKPersonId}`)),
+      tap((person: Person) => this.log(`added Person w/ id=${person.pkpersonid}`)),
       catchError(this.handleError<Person>('addPerson'))
     );
   }
  
   /** DELETE: delete the Person from the server */
   deletePerson (person: Person | number): Observable<Person> {
-    const id = typeof person === 'number' ? person : person.PKPersonId;
+    const id = typeof person === 'number' ? person : person.pkpersonid;
     const url = `${this.personUrl}/${id}`;
  
     return this.http.delete<Person>(url, httpOptions).pipe(
@@ -182,7 +182,7 @@ export class APIService {
   /** PUT: update the Person on the server */
   updatePerson (person: Person): Observable<any> {
     return this.http.put(this.personUrl, person, httpOptions).pipe(
-      tap(_ => this.log(`updated Person id=${person.PKPersonId}`)),
+      tap(_ => this.log(`updated Person id=${person.pkpersonid}`)),
       catchError(this.handleError<any>('updatePerson'))
     );
   }

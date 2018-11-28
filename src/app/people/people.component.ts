@@ -6,6 +6,7 @@ import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 
 import { APIService } from '../api.service';
+import { Phones } from '../phones';
 
 @Component({
   selector: 'app-people',
@@ -16,6 +17,8 @@ import { APIService } from '../api.service';
 export class PeopleComponent implements OnInit {
 
   url: string;
+  people: Person[];
+  phone: Phones[];
   selectedPerson: Person;
   
   constructor(
@@ -25,7 +28,6 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
-    //this.getPeopleByLocation("Orange County");
   }
 
   getPeople(): void {
@@ -41,20 +43,36 @@ export class PeopleComponent implements OnInit {
   
 
   getPhone(personid: number): string {
-    var primary = this.getPersonObject(personid);
-
     var phonetypeid = 1;
+    var phonenum;
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid
+      });
  
-    var officePhone = primary.phones.find(obj => {
+    var officePhone = primary.phones.find(obj => { 
       return obj.phonetypeid === phonetypeid;
     });
 
     if(!officePhone) {
-      return null;
+
+      return null; 
+
+      phonetypeid = 3;
+      var secondaryPhone = primary.phones.find(obj => { 
+        return obj.phonetypeid === phonetypeid;
+      });
+
+      phonenum = secondaryPhone.phonenumber;
+      var sln = phonenum.length;
+      phonenum = phonenum.slice(sln-4, sln);
+      var officeID = primary.officelocationid.toString();
+      phonenum = "x" + officeID + phonenum;
+      return phonenum;
     }
 
-    return officePhone.phonenumber = officePhone.phonenumber.replace(/\D+/g, '')
-    .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+    phonenum = officePhone.phonenumber;
+    return phonenum = phonenum.replace(/\D+/g, '')
+          .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
 
 
@@ -93,7 +111,10 @@ export class PeopleComponent implements OnInit {
   getAssistants(personid: number): string {
 
     var addHTML;
-    var primary = this.getPersonObject(personid);
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid
+      });
+
 
     if(primary.personrelationship.length == 0) {
       return addHTML = "";
@@ -113,31 +134,14 @@ export class PeopleComponent implements OnInit {
 
     return addHTML;
     
-        //  addHTML = "Assistant: " + asstPerson.DisplayName + "<br>";
+        //  addHTML = "Assistant: " + asstPerson.displayname + "<br>";
     
   }
 
-  getPersonObject(personid: number): object {
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid
-      });
-
-    return primary;
-  }
-
   onSelect(people: Person): void {
-    this.selectedPerson.PKPersonId = people.PKPersonId;
+    this.selectedPerson.pkpersonid = this.people.pkpersonid;
   }
 
-
-  add(PreferredFirstName : string): void {
-    PreferredFirstName  = PreferredFirstName .trim();
-    if (!PreferredFirstName ) { return; }
-    this.staffService.addPerson({ PreferredFirstName } as Person)
-      .subscribe(person => {
-        this.people.push(person);
-      });
-  }
   
   delete(person: Person): void {
     this.people = this.people.filter(h => h !== person);
