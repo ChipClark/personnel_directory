@@ -13,53 +13,46 @@
           </div>
         <div class="userdetails" > 
           <div class="username">
-            Name: <strong>{{person.displayname}}</strong>
+              Name: <strong>{{person.displayname}}</strong> 
+              &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                <img src="../../assets/email.jpg" width="20px;"></a>
+                &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+                    <img src="../../assets/ia.jpg" width="20px;"></a>
           </div>
+
           <div class="userinfo">
             Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-            Email: 
-              <a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-              {{person.emails[0].emailaddress}}</a><br>
-            Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+            Phone: {{getPhone(person.pkpersonid)}}<br>
             Department: {{person.hrdepartment.description}}<br>
             Office: {{person.officelocation.officelocationname}}<br>
-            {{getAssistants(person.pkpersonid)}}
+            <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
             Timekeepers Number: {{person.timekeepernumber}}
           
-            <!--School: {{getPersonSchool(person.schoolid)}}
-            
-              (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )
-            
-            -->
           </div>
         </div>
       </div>
       
       <div class="rightColumn lightgray" *ngIf="even">
-          <div class="userphoto" > 
-            <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
+        <div class="userphoto" > 
+          <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
 
+        </div>
+        <div class="userdetails" > 
+          <div class="username">
+              Name: <strong>{{person.displayname}}</strong> 
+              &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                <img src="../../assets/email.jpg" width="20px;"></a>
+                &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+                  <img src="../../assets/ia.jpg" width="20px;"></a>
           </div>
-            <div class="userdetails" > 
-            <div class="username">
-              Name: <strong>{{person.displayname}}</strong>
-            </div>
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-              Email: 
-                  <a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-                  {{person.emails[0].emailaddress}}</a><br>
-              Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
+              Phone: {{getPhone(person.pkpersonid)}}<br>
               Department: {{person.hrdepartment.description}}<br>
-              {{person.officelocation.officelocationname}}<br>
-              {{getAssistants(person.pkpersonid)}}
+              Office: {{person.officelocation.officelocationname}}<br>
+              <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
               Timekeepers Number: {{person.timekeepernumber}}
-              
-              <!--School: {{getPersonSchool(person.schoolid)}}
-              
-                (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )
-              
-              -->
+                      
             </div>
           </div>
         </div>

@@ -16,7 +16,6 @@ import { APIService } from '../api.service';
 export class PeopleComponent implements OnInit {
 
   url: string;
-  people: Person[];
   selectedPerson: Person;
   
   constructor(
@@ -41,20 +40,20 @@ export class PeopleComponent implements OnInit {
 
   
 
-  getPhone(phonenumber: string): string {
-    //var phonenumber;
-    //console.log(person.phones[].phonenumber);
-    //while (personID != people.PKPersonId ) {
-    //  case 1: 
-    //    phonenumber = people.phones.phonenumber;
-    //  default: 
-    //    phonenumber = null;
-    //}
-    //if(!phonenumber) {
-    //  return null;
-    //}
-    //else 
-    return phonenumber = phonenumber.replace(/\D+/g, '')
+  getPhone(personid: number): string {
+    var primary = this.getPersonObject(personid);
+
+    var phonetypeid = 1;
+ 
+    var officePhone = primary.phones.find(obj => {
+      return obj.phonetypeid === phonetypeid;
+    });
+
+    if(!officePhone) {
+      return null;
+    }
+
+    return officePhone.phonenumber = officePhone.phonenumber.replace(/\D+/g, '')
     .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
 
@@ -83,12 +82,18 @@ export class PeopleComponent implements OnInit {
 
   }
 
+  writeAssistant(personid: number): string {
+    var asst = this.getAssistants(personid);
+
+    if(!asst){return null};
+
+    return asst = asst + "<br>";
+  }
+
   getAssistants(personid: number): string {
 
     var addHTML;
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid
-      });
+    var primary = this.getPersonObject(personid);
 
     if(primary.personrelationship.length == 0) {
       return addHTML = "";
@@ -100,6 +105,10 @@ export class PeopleComponent implements OnInit {
         return obj.pkpersonid === assistantID
       });
        
+    if(!assistant) {
+        return addHTML = "";
+      }
+
     addHTML =  "Assistant: " + assistant.displayname;
 
     return addHTML;
@@ -108,7 +117,13 @@ export class PeopleComponent implements OnInit {
     
   }
 
-  
+  getPersonObject(personid: number): object {
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid
+      });
+
+    return primary;
+  }
 
   onSelect(people: Person): void {
     this.selectedPerson.PKPersonId = people.PKPersonId;
