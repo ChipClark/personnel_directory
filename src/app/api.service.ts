@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpClientModule, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
@@ -81,15 +81,23 @@ export class APIService {
 
   getPhoto(photoUrl: string): boolean {
     var request = this.http.get(photoUrl).toPromise();
-    
-
     //console.log(photoUrl);
     //console.log(request.then);
-
     return false;
   }
 
-  
+  getAssistant(assitantID: number): Observable<Person[]> {
+    var assistantURL = "http://am-web05:3030/api/people/";
+    var asstID = assitantID.toString();
+    assistantURL.concat(assistantURL, asstID);
+    return this.http.get<Person[]>(assistantURL)
+      .pipe(
+        tap(people => this.log('fetched people')),
+        catchError(this.handleError('getPeople', []))
+
+        // 
+      );
+  }  
 
 
   /** GET Schools from the server */

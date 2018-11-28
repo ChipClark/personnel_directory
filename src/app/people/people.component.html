@@ -17,13 +17,15 @@
           </div>
           <div class="userinfo">
             Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-            Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
+            Email: 
+              <a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+              {{person.emails[0].emailaddress}}</a><br>
             Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
             Department: {{person.hrdepartment.description}}<br>
-            {{person.officelocation.officelocationcode}}<br>
-            Assistant: {{person.personrelationship.relatedpersonid}}<br>
+            Office: {{person.officelocation.officelocationname}}<br>
+            {{getAssistants(person.pkpersonid)}}
             Timekeepers Number: {{person.timekeepernumber}}
-            
+          
             <!--School: {{getPersonSchool(person.schoolid)}}
             
               (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )
@@ -34,7 +36,7 @@
       </div>
       
       <div class="rightColumn lightgray" *ngIf="even">
-          <div class="userphoto" > <!--[innerHTML]="getPhoto(person.addomainaccount)">-->
+          <div class="userphoto" > 
             <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
 
           </div>
@@ -44,11 +46,13 @@
             </div>
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-              Email: <div class="emaillink" [innerHTML]="getEmail(person.emails[0].emailaddress, person.displayname)"></div><br>
+              Email: 
+                  <a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                  {{person.emails[0].emailaddress}}</a><br>
               Phone: {{getPhone(person.phones[0].phonenumber)}}<br>
               Department: {{person.hrdepartment.description}}<br>
-              {{person.officelocation.officelocationcode}}<br>
-              Assistant: {{person.personrelationship.relatedpersonid}}<br>
+              {{person.officelocation.officelocationname}}<br>
+              {{getAssistants(person.pkpersonid)}}
               Timekeepers Number: {{person.timekeepernumber}}
               
               <!--School: {{getPersonSchool(person.schoolid)}}

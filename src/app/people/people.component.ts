@@ -83,6 +83,31 @@ export class PeopleComponent implements OnInit {
 
   }
 
+  getAssistants(personid: number): string {
+
+    var addHTML;
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid
+      });
+
+    if(primary.personrelationship.length == 0) {
+      return addHTML = "";
+    }
+
+    var assistantID = primary.personrelationship[0].relatedpersonid;
+
+    var assistant = this.people.find(obj => {
+        return obj.pkpersonid === assistantID
+      });
+       
+    addHTML =  "Assistant: " + assistant.displayname;
+
+    return addHTML;
+    
+        //  addHTML = "Assistant: " + asstPerson.DisplayName + "<br>";
+    
+  }
+
   
 
   onSelect(people: Person): void {
