@@ -5,9 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
-import { PeopleComponent } from './people/people.component';
 import { MessageService } from './message.service';
-import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -28,12 +26,14 @@ export class APIService {
  
   /** GET People from the server */
   getPeople (url): Observable<Person[]> {
-    console.log(url);
-    return this.http.get<Person[]>(url)
+    var Dump = this.http.get<Person[]>(url)
       .pipe(
-        tap(people => this.log('fetched people')),
+        tap(people => this.log(people[0].displayname)),
         catchError(this.handleError('getPeople', []))
       );
+      
+
+      return(Dump);
   }
 
   //getAllPhones (): Observable<Phones[]> {

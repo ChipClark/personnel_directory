@@ -1,8 +1,6 @@
 <div class="messagebar" *ngIf="messageService.messages.length">
 
         
-    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
-    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
         <button class="btn btn-secondary generalbtn"
             (click)="messageService.clear()">Clear</button>
         <div *ngFor='let message of messageService.messages'> {{message}} </div>

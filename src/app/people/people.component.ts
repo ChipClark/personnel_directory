@@ -2,11 +2,12 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
-import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
 import { Phones } from '../phones';
+import { ConfigService } from '../config.service';
+import { Config } from 'protractor';
 
 
 @Component({
@@ -42,7 +43,7 @@ export class PeopleComponent implements OnInit {
 
   public skip = 0;
   public limit= 20;
-
+  
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
   personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
@@ -63,14 +64,18 @@ export class PeopleComponent implements OnInit {
   }
 
   getPeople(): void {
-    console.log(this.personURL);
     this.staffService.getPeople(this.personURL)
         .subscribe(people => this.people = people);
+
+    console.log(this.people[0].displayname);
+    
   }
+  
+  
 
   getMorePeople(direction: string): void {
     if(direction == "prev"){
-      if(this.skip <= 20) {
+      if(this.skip >= 20) {
           this.skip = this.skip - this.limit;
       }
 

@@ -1,9 +1,9 @@
-<div class="person-list col-md-12" >
+<div class="person-list" >
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
     <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
-                class="people col-xl-12 col-lg-12 col-md-12 col-sm-12" 
+                class="people" 
                 >
 
       <div class="leftColumn col-xl-6 col-lg-7 col-md-9 col-sm-12 col-xs-12" *ngIf="odd" 
@@ -65,4 +65,8 @@
     </div>
 
   </perfect-scrollbar>
+  <div class="NextPrevBar">
+    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
+    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
+  </div>
 </div>
