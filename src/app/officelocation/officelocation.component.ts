@@ -14,6 +14,7 @@ import { PeopleComponent } from '../people/people.component';
 export class OfficelocationComponent implements OnInit {
 
   people: Person[];
+
   filterargs = {officelocationname: ''};
   items = [{officelocationname: 'Century City'}, {officelocationname: 'Los Angeles'},
       {officelocationname: 'Orange County'},{officelocationname: 'San Diego'},
@@ -22,27 +23,45 @@ export class OfficelocationComponent implements OnInit {
   constructor(private staffService: APIService, ) { }
 
   ngOnInit() {
-    this.getPeopleByLocation(1);
+    this.getPeopleByLocation(6);
   }
 
   getPeopleByLocation(id: number): void {
+ 
     var location; 
     switch(id) {
+      case 6:
+        location = "";
+        break;
       case 1: 
         location = "Century City";
+        break;
       case 2:
         location = "Los Angeles";
+        break;
       case 3:
         location = "Orange County";
+        break;
       case 4:
         location = "San Diego";
+        break;
       case 5:
         location = "San Francisco";
+        break;
       default: 
         location = "";
+        break;
     }
-    this.writeLocation(location);
-    this.staffService.getPeopleByLocation(id);
+    //console.log(this.people);
+
+    //this.writeLocation(location);
+    //var primary = this.people.find(obj => {
+    //  return obj.officelocationid === location
+    //  });
+    
+    //console.log(primary.officelocation);
+    //this.staffService.getPeople()
+    //    .subscribe(primary => this.people = primary);
   }
 
   writeLocation(location: string): string {

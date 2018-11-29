@@ -36,9 +36,5 @@ export class StaffDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
-    this.staffService.updatePerson(this.selectedPerson)
-      .subscribe(() => this.goBack());
-  }
 
 }

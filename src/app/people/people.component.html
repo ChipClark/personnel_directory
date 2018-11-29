@@ -1,15 +1,13 @@
-
-
 <div class="person-list col-md-12" >
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
-    <div *ngFor="let person of people | slice:0:20; let i = index;
+    <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
-                class="people col-lg-12 col-md-12 col-sm-12" 
+                class="people col-xl-12 col-lg-12 col-md-12 col-sm-12" 
                 >
 
-      <div class="leftColumn col-md-6 person-box" *ngIf="odd" [class.selected]="person === selectedPerson"
-      (click)="onSelect(Person)">
+      <div class="leftColumn col-xl-6 col-lg-7 col-md-9 col-sm-12 col-xs-12" *ngIf="odd" 
+            [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
           <div class="userphoto">
             <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
           </div>
@@ -28,33 +26,37 @@
             Department: {{person.hrdepartment.description}}<br>
             Office: {{person.officelocation.officelocationname}}<br>
             <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
-            Timekeepers Number: {{person.timekeepernumber}}
+            Timekeepers Number: {{person.timekeepernumber}}<br>
+            Office Number: {{person.officenumber}}
           
           </div>
         </div>
       </div>
       
-      <div class="rightColumn lightgray  col-md-6 person-box" *ngIf="even">
-        <div class="userphoto" > 
+      <div class="rightColumn lightgray col-xl-6 col-lg-7 col-md-9 col-sm-12 col-xs-12" *ngIf="even"
+          [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
+      <div class="userphoto" > 
           <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
 
         </div>
         <div class="userdetails" > 
-          <div class="username">
-              Name: <strong>{{person.displayname}}</strong> 
-              &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-                <img src="../../assets/email.jpg" width="20px;"></a>
-                &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-                  <img src="../../assets/ia.jpg" width="20px;"></a>
-          </div>
+            <div class="username">
+                Name: <strong>{{person.displayname}}</strong> 
+                &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                  <img src="../../assets/email.jpg" width="20px;"></a>
+                  &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+                      <img src="../../assets/ia.jpg" width="20px;"></a>
+            </div>
+  
             <div class="userinfo">
               Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
               Phone: {{getPhone(person.pkpersonid)}}<br>
               Department: {{person.hrdepartment.description}}<br>
               Office: {{person.officelocation.officelocationname}}<br>
               <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
-              Timekeepers Number: {{person.timekeepernumber}}
-                      
+              Timekeepers Number: {{person.timekeepernumber}}<br>
+              Office Number: {{person.officenumber}}
+            
             </div>
           </div>
         </div>
@@ -62,7 +64,5 @@
 
     </div>
 
-    
-    
   </perfect-scrollbar>
 </div>

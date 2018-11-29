@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaffDetailComponent } from './staff-detail/staff-detail.component';
 import { MessagesComponent } from './messages/messages.component';
-import { DashboardComponent } from './dashboard/dashboard.component'; 
 import { PersonSearchComponent }  from './person-search/person-search.component';
 import { ConfigComponent } from './config/config.component';
 import { PeopleComponent } from './people/people.component';
@@ -26,6 +25,7 @@ import { SchoolComponent } from './school/school.component';
 import { OfficelocationComponent } from './officelocation/officelocation.component';
 import { CityPipe } from './city.pipe';
 import { PhonesComponent } from './phones/phones.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -36,7 +36,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AppComponent,
     StaffDetailComponent,
     MessagesComponent,
-    DashboardComponent,
     PersonSearchComponent,
     ConfigComponent,
     PeopleComponent,
@@ -56,7 +55,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule, 
     AppRoutingModule,
     HttpClientModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NgxPaginationModule
   
   ],
   providers: [

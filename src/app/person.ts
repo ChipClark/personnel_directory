@@ -1,5 +1,6 @@
 import { Phones } from "./phones";
 import { PersonRelationship } from "./personrelationship";
+import { OfficeLocation } from "./officelocation";
 
 export class Person {
   pkpersonid: number;
@@ -56,4 +57,5 @@ export class Person {
   legaldepartmentid: number;
   phones: Phones[];
   personrelationship: PersonRelationship[];
+  officelocation: OfficeLocation[];
 }

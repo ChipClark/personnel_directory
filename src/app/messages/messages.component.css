@@ -7,11 +7,7 @@ h2 {
   body {
     margin: 2em;
   }
-  body, input[text], button {
-    color: crimson;
-    font-family: Cambria, Georgia;
-  }
-   
+ 
   button.clear {
     font-family: Arial;
     background-color: #eee;
@@ -32,4 +28,10 @@ h2 {
   button.clear {
     color: #888;
     margin-bottom: 12px;
+  }
+
+  .messagebar {
+    margin-top:10px;
+    display: block;
+
   }

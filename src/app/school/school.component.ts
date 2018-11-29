@@ -18,19 +18,8 @@ export class SchoolComponent implements OnInit {
   constructor(private staffService: APIService, ) { }
 
   ngOnInit() {
-    this.getSchools();
   }
 
-  getSchools(): void {
-    this.staffService.getSchools()
-        .subscribe(schools => this.school = schools);
-  }
-
-  //getPersonSchool (id: number):  {
-    
-  //}
   
-
-
 
 }

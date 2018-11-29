@@ -4,17 +4,49 @@ import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
 import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
 import { Phones } from '../phones';
+
 
 @Component({
   selector: 'app-people',
   templateUrl: './people.component.html',
   styleUrls: ['./people.component.css'],
 })
+
+@Injectable({
+  providedIn: 'root'
+})
  
 export class PeopleComponent implements OnInit {
+
+  private baseURL = 'http://am-web05:3030/api/people?';
+  private phoneURL = "http://am-web05:3030/api/phones";
+  private jobtitleURL = 'http://am-web05:3030/job-titles';
+  private individualURL = 'http://am-web05:3035/api/people';
+  private schoolDetails = 'http://am-web05:3030/api/schools';
+
+
+  // Filters
+  private All = 'filter={"where":{"employmentstatus":"A"},'
+  private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
+  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":3}';
+  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":5}';
+  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationid":4}';
+  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationid":1}';
+
+  //includes
+  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
+  private endRequest = '}';
+
+  public skip = 0;
+  public limit= 20;
+
+  private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
+  private order = '"order":"lastname ASC",'
+  personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+
 
   url: string;
   people: Person[];
@@ -23,7 +55,7 @@ export class PeopleComponent implements OnInit {
   
   constructor(
     private staffService: APIService,
-    private http: HttpClient,
+    private http: HttpClient
     ) { }
 
   ngOnInit() {
@@ -31,14 +63,35 @@ export class PeopleComponent implements OnInit {
   }
 
   getPeople(): void {
-    this.staffService.getPeople()
+    console.log(this.personURL);
+    this.staffService.getPeople(this.personURL)
         .subscribe(people => this.people = people);
   }
 
-  getPeopleByLocation(id: number): void {
-    this.staffService.getPeopleByLocation(id)
-        .subscribe(people => this.people = people);
+  getMorePeople(direction: string): void {
+    if(direction == "prev"){
+      if(this.skip <= 20) {
+          this.skip = this.skip - this.limit;
+      }
+
+    }
+    else {
+      if(this.skip >= 0 && this.skip < 200) {
+        this.skip = this.skip + this.limit;
+      } 
+    }
+
+    this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
+    this.personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+    
+    this.getPeople(); 
+
   }
+
+  //getPeopleByLocation(id: number): void {
+  //  this.staffService.getPeopleByLocation(id)
+  //      .subscribe(people => this.people = people);
+  //}
 
   
 
@@ -77,17 +130,10 @@ export class PeopleComponent implements OnInit {
 
 
   getPhoto(ADAddress: string): string {
-    var noPhoto;
-    var personPhoto, urlTest;
-    var imgString;
+    var noPhoto, personPhoto, urlTest, imgString;
 
     noPhoto = "http://amjabber/nophoto.gif";
-
     personPhoto = "http://amjabber/" + ADAddress + ".jpg";
-
-    //var request = this.http.get(personPhoto).subscribe();
-    //console.log(request);
-
     imgString = '<img src="' + personPhoto + '" width=112px; />';
     
     return imgString;
@@ -139,13 +185,9 @@ export class PeopleComponent implements OnInit {
   }
 
   onSelect(people: Person): void {
-    this.selectedPerson.pkpersonid = this.people.pkpersonid;
+    console.log("Clicked on person");
+    this.selectedPerson.pkpersonid = people.pkpersonid;
   }
 
   
-  delete(person: Person): void {
-    this.people = this.people.filter(h => h !== person);
-    this.staffService.deletePerson(person).subscribe();
-  }
-
 }

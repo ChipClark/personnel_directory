@@ -79,3 +79,8 @@ body, input[text], button {
 .lightgray {
     background-color: #f9f9f9;
 }
+
+.generalbtn {
+    display: inline-block;
+    padding-right: 5px;
+}

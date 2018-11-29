@@ -28,11 +28,7 @@ export class PhonesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-      this.getPhones();
   }
 
-  getPhones(): void {
-    this.staffService.getAllPhones().subscribe(phone => this.phone = phone);
-  }
 
 }

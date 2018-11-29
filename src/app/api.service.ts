@@ -5,8 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
-import { Phones } from './phones';
-import { Schools}  from './school';
+import { PeopleComponent } from './people/people.component';
 import { MessageService } from './message.service';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 
@@ -19,112 +18,42 @@ const httpOptions = {
 })
 
 export class APIService {
+
+  public personURL;
+
  
-  private baseURL = 'http://am-web05:3030/api/people?';
-  private phoneURL = "http://am-web05:3030/api/phones";
-  private jobtitleURL = 'http://am-web05:3030/job-titles';
-  private individualURL = 'http://am-web05:3035/api/people';
-  private schoolDetails = 'http://am-web05:3030/api/schools';
-
-
-  // Filters
-  private All = 'filter={"where":{"employmentstatus":"A"},'
-  private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
-  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":3}';
-  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":5}';
-  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationid":4}';
-  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationid":1}';
-
-  //includes
-  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
-  private endRequest = '}';
-
-  private personUrl = this.baseURL + this.All + this.generalIncludes + this.endRequest;  // URL to web api
-
   constructor(
     private http: HttpClient,
     private messageService: MessageService){ }
  
   /** GET People from the server */
-  getPeople (): Observable<Person[]> {
-    return this.http.get<Person[]>(this.personUrl)
+  getPeople (url): Observable<Person[]> {
+    console.log(url);
+    return this.http.get<Person[]>(url)
       .pipe(
         tap(people => this.log('fetched people')),
         catchError(this.handleError('getPeople', []))
-
-        // 
       );
   }
 
-  getAllPhones (): Observable<Phones[]> {
-    return this.http.get<Phones[]>(this.phoneURL)
-      .pipe(
-        tap(phone => this.log('fetched phone numbers')),
-        catchError(this.handleError('getAllPhones', []))
+  //getAllPhones (): Observable<Phones[]> {
+  //  return this.http.get<Phones[]>(this.phoneURL)
+  //    .pipe(
+  //      tap(phone => this.log('fetched phone numbers')),
+  //      catchError(this.handleError('getAllPhones', []))
+  //    );
+  //}
 
-        // 
-      );
-  }
-
-  getPeopleByLocation (id: number): Observable<Person[]> {
-    var location; 
-    switch(id) {
-      case 1: 
-        location = "CenturyCity";
-      case 2:
-        location = "LosAngeles";
-      case 3:
-        location = "OrangeCounty";
-      case 4:
-        location = "SanDiego";
-      case 5:
-        location = "SanFrancisco";
-      default: 
-        location = "";
-    }
-    this.baseURL.concat(this.baseURL, location, this.generalIncludes, '}')
-    return this.http.get<Person[]>(this.baseURL)
-      .pipe(
-        tap(people => this.log('fetched people')),
-        catchError(this.handleError('getPeople', []))
-
-        // 
-      );
-  }
 
   getPhoto(photoUrl: string): boolean {
     var request = this.http.get(photoUrl).toPromise();
-    //console.log(photoUrl);
-    //console.log(request.then);
     return false;
   }
 
 
-  /** GET Schools from the server */
-  getSchools (): Observable<Schools[]> {
-    return this.http.get<Schools[]>(this.schoolDetails)
-      .pipe(
-        tap(schools => this.log('fetched schools')),
-        catchError(this.handleError('getSchools', []))
-
-        // 
-      );
-  }
-
-  /** GET school by person.schoolid. Will 404 if id not found */
-  getPersonSchool (id: number): Observable<Schools> {
-    const url = `${this.schoolDetails}/${id}`;
-    return this.http.get<Schools>(url).pipe(
-      tap(_ => this.log(`fetched school id=${id}`)),
-      catchError(this.handleError<Schools>(`getPersonSchool id=${id}`))
-    );
-  }
-
-  /*  (phonenumber => phone.pkpersonid(person.pkpersonid).phonetypeid(1)  )   */
-
   /** GET person by id. Will 404 if id not found */
   getPersonID(id: number): Observable<Person> {
-    const url = `${this.personUrl}/${id}`;
+    const url = `${this.personURL}/${id}`;
     return this.http.get<Person>(url).pipe(
       tap(_ => this.log(`fetched person id=${id}`)),
       catchError(this.handleError<Person>(`getPersonID id=${id}`))
@@ -133,7 +62,7 @@ export class APIService {
   
   /** GET person by id. Return `undefined` when id not found */
   getPersonNo404<Data>(id: number): Observable<Person> {
-    const url = `${this.personUrl}/?id=${id}`;
+    const url = `${this.personURL}/?id=${id}`;
     return this.http.get<Person[]>(url)
       .pipe(
         map(people => people[0]), // returns a {0|1} element array
@@ -152,40 +81,12 @@ export class APIService {
       // if not search term, return empty person array.
       return of([]);
     }
-    return this.http.get<Person[]>(`${this.personUrl}/?name=${term}`).pipe(
+    return this.http.get<Person[]>(`${this.personURL}/?name=${term}`).pipe(
       tap(_ => this.log(`found people matching "${term}"`)),
       catchError(this.handleError<Person[]>('searchPeople', []))
     );
   }
  
-  //////// Save methods //////////
- 
-  /** POST: add a new person to the server */
-  addPerson (person: Person): Observable<Person> {
-    return this.http.post<Person>(this.personUrl, person, httpOptions).pipe(
-      tap((person: Person) => this.log(`added Person w/ id=${person.pkpersonid}`)),
-      catchError(this.handleError<Person>('addPerson'))
-    );
-  }
- 
-  /** DELETE: delete the Person from the server */
-  deletePerson (person: Person | number): Observable<Person> {
-    const id = typeof person === 'number' ? person : person.pkpersonid;
-    const url = `${this.personUrl}/${id}`;
- 
-    return this.http.delete<Person>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted person id=${id}`)),
-      catchError(this.handleError<Person>('deletePerson'))
-    );
-  }
- 
-  /** PUT: update the Person on the server */
-  updatePerson (person: Person): Observable<any> {
-    return this.http.put(this.personUrl, person, httpOptions).pipe(
-      tap(_ => this.log(`updated Person id=${person.pkpersonid}`)),
-      catchError(this.handleError<any>('updatePerson'))
-    );
-  }
  
   /**
    * Handle Http operation that failed.
