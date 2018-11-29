@@ -6,7 +6,8 @@ import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/comm
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
 import { Phones } from '../phones';
-import { all } from 'q';
+import { RouterLink } from '@angular/router';
+import { Button } from 'protractor';
 
 
 @Component({
@@ -38,6 +39,8 @@ export class PeopleComponent implements OnInit {
 
   public skip = 0;
   public limit= 20;
+  public LabelClass = "OP1";
+  private lastRecord;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
@@ -48,6 +51,7 @@ export class PeopleComponent implements OnInit {
   people: Person[];
   phone: Phones[];
   selectedPerson: Person;
+  router: RouterLink;
   
   constructor(
     private staffService: APIService,
@@ -58,12 +62,19 @@ export class PeopleComponent implements OnInit {
     this.getPeople();
   }
 
+  onSelect(people: Person): void {
+    console.log("Clicked on person");
+    //this.router.  ('/details/' + people.pkpersonid);
+    this.selectedPerson.pkpersonid = people.pkpersonid;
+  }
+
   getPeople(): void {
     this.buildURL();
     this.staffService.getPeople(this.personURL)
         .subscribe(people => this.people = people);
 
-    console.log(this.people[0].displayname);
+    this.lastRecord = this.people.length;
+    console.log(this.lastRecord);
     
   }
   
@@ -82,7 +93,7 @@ export class PeopleComponent implements OnInit {
 
     }
     else {
-      if(this.skip >= 0 && this.skip < 200) {
+      if(this.skip >= 0 && this.skip < this.lastRecord) {
         this.skip = this.skip + this.limit;
       } 
     }
@@ -91,26 +102,47 @@ export class PeopleComponent implements OnInit {
   }
 
   getPeopleByLocation(id: number): void {
+    var LabelElement;
+    LabelElement = document.getElementById(this.LabelClass);
+    LabelElement.className = "btn btn-secondary";
 
     switch(id) {
       case 6:
-         this.location = 'filter={"where":{"employmentstatus":"A"},';
-        break;
+          this.location = 'filter={"where":{"employmentstatus":"A"},';
+          LabelElement = document.getElementById("OP1");
+          LabelElement.className = "btn btn-secondary focus active";
+          this.LabelClass = "OP1";
+         break;
       case 1: 
-         this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":4},';
-        break;
+          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":4},';
+          LabelElement = document.getElementById("OP2");
+          LabelElement.className = "btn btn-secondary focus active";
+          this.LabelClass = "OP2";
+         break;
       case 2:
           this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":1},';
-        break;
+          LabelElement = document.getElementById("OP3");
+          LabelElement.className = "btn btn-secondary focus active";
+           this.LabelClass = "OP3";
+         break;
       case 3:
           this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":2},';
-        break;
+          LabelElement = document.getElementById("OP4");
+          LabelElement.className = "btn btn-secondary focus active";
+           this.LabelClass = "OP4";
+         break;
       case 4:
-         this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":3},';
-        break;
+          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":3},';
+          LabelElement = document.getElementById("OP5");
+          LabelElement.className = "btn btn-secondary focus active";
+          this.LabelClass = "OP5";
+         break;
       case 5:
           this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":5},';
-        break;
+          LabelElement = document.getElementById("OP6");
+          LabelElement.className = "btn btn-secondary focus active";
+          this.LabelClass = "OP6";
+         break;
       default: 
          this.location = "";
         break;
@@ -207,11 +239,6 @@ export class PeopleComponent implements OnInit {
     
         //  addHTML = "Assistant: " + asstPerson.displayname + "<br>";
     
-  }
-
-  onSelect(people: Person): void {
-    console.log("Clicked on person");
-    this.selectedPerson.pkpersonid = people.pkpersonid;
   }
 
   

@@ -1,13 +1,27 @@
-
 <div *ngIf="selectedPerson">
 
-    <h2>{{selectedPerson.FirstName}} {{selectedPerson.lastname}} Details</h2>
-    <div><span>id: </span>{{selectedPerson.id}}</div>
-    <div>
-      <label>name: {{selectedPerson.FirstName}}
-      </label>
-          &nbsp;{{selectedPerson.MiddleName}}&nbsp;{{selectedPerson.lastname}}<br />
 
+    <div class="userphoto">
+      <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
+    </div>
+    <div class="userdetails" > 
+    <div class="username">
+      Name: <strong>{{person.displayname}}</strong> 
+      &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+        <img src="../../assets/email.jpg" width="20px;"></a>
+        &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+            <img src="../../assets/ia.jpg" width="20px;"></a>
+    </div>
+
+    <div class="userinfo">
+        Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
+        Phone: {{getPhone(person.pkpersonid)}}<br>
+        {{person.hrdepartment.description}}<br>
+        Office: {{person.officelocation.officelocationname}}<br>
+        <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
+        Timekeepers Number: {{person.timekeepernumber}}<br>
+        {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
+  
     </div>
     <!--
         <button (click)="goBack()">go back</button>

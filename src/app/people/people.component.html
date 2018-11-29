@@ -1,27 +1,27 @@
 <h2>Personnel List</h2>
-<div class="btn-group-toggle" data-toggle="buttons">
-    <label class="btn btn-secondary active">
-        <input type="radio" name="options" id="option1" autocomplete="off" checked 
+<div class="btn-group-toggle locationbar" data-toggle="buttons">
+    <label class="btn btn-secondary focus active" id="OP1">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked=true 
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(6)">All
     </label>&nbsp;
-    <label class="btn btn-secondary">
-        <input type="radio" name="options" id="option2" autocomplete="off"
+    <label class="btn btn-secondary" id="OP2">
+        <input type="radio" name="options" id="option2" autocomplete="off" checked=false
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(1)">Century City
     </label>&nbsp;
-    <label class="btn btn-secondary">
-        <input type="radio" name="options" id="option3" autocomplete="off"
+    <label class="btn btn-secondary" id="OP3">
+        <input type="radio" name="options" id="option3" autocomplete="off" checked=false
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(2)">Los Angeles
     </label>&nbsp;
-    <label class="btn btn-secondary">
-        <input type="radio" name="options" id="option4" autocomplete="off"
+    <label class="btn btn-secondary" id="OP4">
+        <input type="radio" name="options" id="option4" autocomplete="off" checked=false
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(3)">Orange County
     </label>&nbsp;
-    <label class="btn btn-secondary">
-        <input type="radio" name="options" id="option5" autocomplete="off"
+    <label class="btn btn-secondary" id="OP5">
+        <input type="radio" name="options" id="option5" autocomplete="off" checked=false
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(4)">San Diego
     </label>&nbsp;
-    <label class="btn btn-secondary">
-        <input type="radio" name="options" id="option6" autocomplete="off"
+    <label class="btn btn-secondary" id="OP6">
+        <input type="radio" name="options" id="option6" autocomplete="off" checked=false
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(5)">San Francisco
     </label>
 </div>
@@ -30,12 +30,11 @@
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
     <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
-                trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" 
-                class="people" 
-                >
+                trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" >
 
-      <div class="leftColumn col-xl-6 col-lg-7 col-md-9 col-sm-12 col-xs-12" *ngIf="odd" 
-            [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
+      <div class="people col-xl-6 col-lg-6 col-md-9 col-sm-12 col-xs-12" *ngIf="odd" 
+            [class.selected]="person === selectedPerson" (click)="onSelect(Person)" >
+
           <div class="userphoto">
             <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
           </div>
@@ -49,19 +48,20 @@
           </div>
 
           <div class="userinfo">
-            Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
+            <strong>{{person.jobtitle.jobtitle}}</strong><br>
             Phone: {{getPhone(person.pkpersonid)}}<br>
-            Department: {{person.hrdepartment.description}}<br>
+            {{person.hrdepartment.description}}<br>
             Office: {{person.officelocation.officelocationname}}<br>
             <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
             Timekeepers Number: {{person.timekeepernumber}}<br>
-            Office Number: {{person.officenumber}}
+            {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
           
           </div>
         </div>
+        
       </div>
       
-      <div class="rightColumn lightgray col-xl-6 col-lg-7 col-md-9 col-sm-12 col-xs-12" *ngIf="even"
+      <div class="people lightgray col-xl-6 col-lg-6 col-md-9 col-sm-12 col-xs-12" *ngIf="even"
           [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
       <div class="userphoto" > 
           <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
@@ -77,13 +77,13 @@
             </div>
   
             <div class="userinfo">
-              Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
+              <strong>{{person.jobtitle.jobtitle}}</strong><br>
               Phone: {{getPhone(person.pkpersonid)}}<br>
-              Department: {{person.hrdepartment.description}}<br>
+              {{person.hrdepartment.description}}<br>
               Office: {{person.officelocation.officelocationname}}<br>
               <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
               Timekeepers Number: {{person.timekeepernumber}}<br>
-              Office Number: {{person.officenumber}}
+              {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
             
             </div>
           </div>

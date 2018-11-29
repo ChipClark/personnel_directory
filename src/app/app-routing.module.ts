@@ -7,7 +7,7 @@ import { StaffDetailComponent }  from './staff-detail/staff-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/people', pathMatch: 'full' },
-  { path: 'detail/:id', component: StaffDetailComponent },
+  { path: 'details/:id', component: StaffDetailComponent },
   { path: 'people', component: PeopleComponent }
 ];
 
@@ -15,4 +15,7 @@ const routes: Routes = [
   imports: [ RouterModule.forRoot(routes) ],
   exports: [ RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+
+  
+}

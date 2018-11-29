@@ -28,7 +28,7 @@ export class APIService {
   getPeople (url): Observable<Person[]> {
     return this.http.get<Person[]>(url)
       .pipe(
-        tap(people => this.log("people returned")),
+        tap(people => this.log("20 people returned")),
         catchError(this.handleError('getPeople', []))
       );
 
