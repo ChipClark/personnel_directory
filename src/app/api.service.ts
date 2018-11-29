@@ -26,14 +26,12 @@ export class APIService {
  
   /** GET People from the server */
   getPeople (url): Observable<Person[]> {
-    var Dump = this.http.get<Person[]>(url)
+    return this.http.get<Person[]>(url)
       .pipe(
-        tap(people => this.log(people[0].displayname)),
+        tap(people => this.log("people returned")),
         catchError(this.handleError('getPeople', []))
       );
-      
 
-      return(Dump);
   }
 
   //getAllPhones (): Observable<Phones[]> {

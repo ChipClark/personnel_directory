@@ -21,8 +21,6 @@ import { FooterComponent } from './footer/footer.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { SchoolComponent } from './school/school.component';
-import { OfficelocationComponent } from './officelocation/officelocation.component';
 import { CityPipe } from './city.pipe';
 import { PhonesComponent } from './phones/phones.component';
 import { NgxPaginationModule } from 'ngx-pagination'; 
@@ -45,8 +43,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NavigationComponent,
     HeaderComponent,
     FooterComponent,
-    SchoolComponent,
-    OfficelocationComponent,
     CityPipe,
     PhonesComponent
   ],

@@ -6,8 +6,7 @@ import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/comm
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
 import { Phones } from '../phones';
-import { ConfigService } from '../config.service';
-import { Config } from 'protractor';
+import { all } from 'q';
 
 
 @Component({
@@ -31,11 +30,7 @@ export class PeopleComponent implements OnInit {
 
   // Filters
   private All = 'filter={"where":{"employmentstatus":"A"},'
-  private LosAngeles = 'filter={"where":{"employmentstatus":"A", "officelocationid":2}';
-  private OrangeCounty = 'filter={"where":{"employmentstatus":"A", "officelocationid":3}';
-  private SanFrancisco = 'filter={"where":{"employmentstatus":"A", "officelocationid":5}';
-  private SanDiego = 'filter={"where":{"employmentstatus":"A", "officelocationid":4}';
-  private CenturyCity = 'filter={"where":{"employmentstatus":"A", "officelocationid":1}';
+  private location = this.All;
 
   //includes
   private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
@@ -46,7 +41,7 @@ export class PeopleComponent implements OnInit {
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
-  personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+  private personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
 
 
   url: string;
@@ -64,6 +59,7 @@ export class PeopleComponent implements OnInit {
   }
 
   getPeople(): void {
+    this.buildURL();
     this.staffService.getPeople(this.personURL)
         .subscribe(people => this.people = people);
 
@@ -71,6 +67,11 @@ export class PeopleComponent implements OnInit {
     
   }
   
+  buildURL () {
+    this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
+    this.personURL = this.baseURL + this.location + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+
+  }
   
 
   getMorePeople(direction: string): void {
@@ -86,18 +87,37 @@ export class PeopleComponent implements OnInit {
       } 
     }
 
-    this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
-    this.personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-    
     this.getPeople(); 
-
   }
 
-  //getPeopleByLocation(id: number): void {
-  //  this.staffService.getPeopleByLocation(id)
-  //      .subscribe(people => this.people = people);
-  //}
+  getPeopleByLocation(id: number): void {
 
+    switch(id) {
+      case 6:
+         this.location = 'filter={"where":{"employmentstatus":"A"},';
+        break;
+      case 1: 
+         this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":4},';
+        break;
+      case 2:
+          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":1},';
+        break;
+      case 3:
+          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":2},';
+        break;
+      case 4:
+         this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":3},';
+        break;
+      case 5:
+          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":5},';
+        break;
+      default: 
+         this.location = "";
+        break;
+    }
+    this.skip = 0;
+    this.getPeople(); 
+  }
   
 
   getPhone(personid: number): string {

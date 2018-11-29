@@ -1,4 +1,32 @@
+<h2>Personnel List</h2>
+<div class="btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+        <input type="radio" name="options" id="option1" autocomplete="off" checked 
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(6)">All
+    </label>&nbsp;
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option2" autocomplete="off"
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(1)">Century City
+    </label>&nbsp;
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option3" autocomplete="off"
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(2)">Los Angeles
+    </label>&nbsp;
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option4" autocomplete="off"
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(3)">Orange County
+    </label>&nbsp;
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option5" autocomplete="off"
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(4)">San Diego
+    </label>&nbsp;
+    <label class="btn btn-secondary">
+        <input type="radio" name="options" id="option6" autocomplete="off"
+            class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(5)">San Francisco
+    </label>
+</div>
 <div class="person-list" >
+
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
     <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
