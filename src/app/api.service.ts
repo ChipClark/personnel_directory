@@ -6,6 +6,8 @@ import { catchError, map, tap, concat } from 'rxjs/operators';
 
 import { Person } from './person';
 import { MessageService } from './message.service';
+import { PeopleComponent } from './people/people.component';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -17,7 +19,8 @@ const httpOptions = {
 
 export class APIService {
 
-  public personURL;
+  public headers;
+  people: Person[];
 
  
   constructor(
@@ -25,12 +28,15 @@ export class APIService {
     private messageService: MessageService){ }
  
   /** GET People from the server */
-  getPeople (url): Observable<Person[]> {
-    return this.http.get<Person[]>(url)
+  getDATA (url): Observable<Person[]> {
+    var urlDATA = this.http.get<Person[]>(url)
       .pipe(
         tap(people => this.log("20 people returned")),
-        catchError(this.handleError('getPeople', []))
+        catchError(this.handleError('getPeople', [])),
       );
+    
+    return urlDATA;
+
 
   }
 
@@ -42,7 +48,7 @@ export class APIService {
   //    );
   //}
 
-
+  /*  functions below no longer work as the get(url) has changed. */
   getPhoto(photoUrl: string): boolean {
     var request = this.http.get(photoUrl).toPromise();
     return false;

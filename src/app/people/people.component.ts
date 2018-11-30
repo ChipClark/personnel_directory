@@ -2,6 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
+import { School } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
@@ -40,7 +41,8 @@ export class PeopleComponent implements OnInit {
   public skip = 0;
   public limit= 20;
   public LabelClass = "OP1";
-  private lastRecord;
+  public lastRecord;
+  private headers;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
@@ -49,6 +51,7 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
+  school: School[];
   phone: Phones[];
   selectedPerson: Person;
   router: RouterLink;
@@ -70,11 +73,10 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): void {
     this.buildURL();
-    this.staffService.getPeople(this.personURL)
-        .subscribe(people => this.people = people);
+    this.staffService.getDATA(this.personURL)
+        .subscribe(people => {this.people = people; this.lastRecord = people.length});
 
-    this.lastRecord = this.people.length;
-    console.log(this.lastRecord);
+    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
     
   }
   
@@ -86,6 +88,8 @@ export class PeopleComponent implements OnInit {
   
 
   getMorePeople(direction: string): void {
+    this.lastRecord = 100; // temporary fix 
+
     if(direction == "prev"){
       if(this.skip >= 20) {
           this.skip = this.skip - this.limit;
@@ -185,6 +189,15 @@ export class PeopleComponent implements OnInit {
           .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
 
+  getEducation(id: string): string {
+    var personEducation;
+
+    //this.staffService.getDATA(this.schoolDetails)
+    //    .subscribe(school => this.school = school);
+
+
+    return personEducation;
+  }
 
   getPhoto(ADAddress: string): string {
     var noPhoto, personPhoto, urlTest, imgString;

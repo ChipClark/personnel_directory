@@ -48,13 +48,13 @@
           </div>
 
           <div class="userinfo">
-            <strong>{{person.jobtitle.jobtitle}}</strong><br>
+            <strong>{{person.jobtitle.jobtitle}}</strong> - {{person.hrdepartment.description}}<br>
             Phone: {{getPhone(person.pkpersonid)}}<br>
-            {{person.hrdepartment.description}}<br>
             Office: {{person.officelocation.officelocationname}}<br>
             <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
             Timekeepers Number: {{person.timekeepernumber}}<br>
             {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
+            <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
           
           </div>
         </div>
@@ -77,9 +77,8 @@
             </div>
   
             <div class="userinfo">
-              <strong>{{person.jobtitle.jobtitle}}</strong><br>
+              <strong>{{person.jobtitle.jobtitle}}</strong> - {{person.hrdepartment.description}}<br>
               Phone: {{getPhone(person.pkpersonid)}}<br>
-              {{person.hrdepartment.description}}<br>
               Office: {{person.officelocation.officelocationname}}<br>
               <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
               Timekeepers Number: {{person.timekeepernumber}}<br>
