@@ -2,7 +2,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Person } from '../person';
-import { School } from '../school';
+import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
@@ -23,7 +23,7 @@ import { Button } from 'protractor';
  
 export class PeopleComponent implements OnInit {
 
-  private baseURL = 'http://am-web05:3030/api/people?';
+  private baseURL = 'http://am-web05:3030/api/people';
   private phoneURL = "http://am-web05:3030/api/phones";
   private jobtitleURL = 'http://am-web05:3030/job-titles';
   private individualURL = 'http://am-web05:3035/api/people';
@@ -31,7 +31,7 @@ export class PeopleComponent implements OnInit {
 
 
   // Filters
-  private All = 'filter={"where":{"employmentstatus":"A"},'
+  private All = '?filter={"where":{"employmentstatus":"A"},'
   private location = this.All;
 
   //includes
@@ -51,7 +51,7 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
-  school: School[];
+  school: Schools[];
   phone: Phones[];
   selectedPerson: Person;
   router: RouterLink;
@@ -63,27 +63,41 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
+    this.getSchools();
   }
 
-  onSelect(people: Person): void {
-    console.log("Clicked on person");
+  onSelect(personid: number): void {
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid;
+      });
+      
+      console.log(primary.firstname);
     //this.router.  ('/details/' + people.pkpersonid);
-    this.selectedPerson.pkpersonid = people.pkpersonid;
+    //this.selectedPerson.pkpersonid = people.pkpersonid;
   }
 
   getPeople(): void {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
         .subscribe(people => {this.people = people; this.lastRecord = people.length});
+    //this.getPhoto();  // maybe a way to load images after the fact
+
+    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
+    
+  }
+
+  getSchools(): void {
+    this.staffService.getSchoolDATA(this.schoolDetails)
+        .subscribe(school => this.school = school);
 
     // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
     
   }
   
+  
   buildURL () {
     this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
     this.personURL = this.baseURL + this.location + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-
   }
   
 
@@ -112,37 +126,37 @@ export class PeopleComponent implements OnInit {
 
     switch(id) {
       case 6:
-          this.location = 'filter={"where":{"employmentstatus":"A"},';
+          this.location = '?filter={"where":{"employmentstatus":"A"},';
           LabelElement = document.getElementById("OP1");
           LabelElement.className = "btn btn-secondary focus active";
           this.LabelClass = "OP1";
          break;
       case 1: 
-          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":4},';
+          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":4},';
           LabelElement = document.getElementById("OP2");
           LabelElement.className = "btn btn-secondary focus active";
           this.LabelClass = "OP2";
          break;
       case 2:
-          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":1},';
+          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":1},';
           LabelElement = document.getElementById("OP3");
           LabelElement.className = "btn btn-secondary focus active";
            this.LabelClass = "OP3";
          break;
       case 3:
-          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":2},';
+          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":2},';
           LabelElement = document.getElementById("OP4");
           LabelElement.className = "btn btn-secondary focus active";
            this.LabelClass = "OP4";
          break;
       case 4:
-          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":3},';
+          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":3},';
           LabelElement = document.getElementById("OP5");
           LabelElement.className = "btn btn-secondary focus active";
           this.LabelClass = "OP5";
          break;
       case 5:
-          this.location = 'filter={"where":{"employmentstatus":"A","officelocationid":5},';
+          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":5},';
           LabelElement = document.getElementById("OP6");
           LabelElement.className = "btn btn-secondary focus active";
           this.LabelClass = "OP6";
@@ -160,7 +174,7 @@ export class PeopleComponent implements OnInit {
     var phonetypeid = 1;
     var phonenum;
     var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid
+      return obj.pkpersonid === personid;
       });
  
     var officePhone = primary.phones.find(obj => { 
@@ -189,24 +203,49 @@ export class PeopleComponent implements OnInit {
           .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
 
-  getEducation(id: string): string {
-    var personEducation;
+  getEducation(personid: number): string {
+    var addHTML = "";
+    var schoolID;
+    
+    var attorney = this.people.find(obj => {
+      return obj.pkpersonid === personid
+      });
 
-    //this.staffService.getDATA(this.schoolDetails)
-    //    .subscribe(school => this.school = school);
+    return addHTML;
 
-
-    return personEducation;
+   
   }
 
-  getPhoto(ADAddress: string): string {
-    var noPhoto, personPhoto, urlTest, imgString;
+  getPhoto(): void {
+    // this isn't working yet 
+    var i, personPhoto, noPhoto;
 
-    noPhoto = "http://amjabber/nophoto.gif";
-    personPhoto = "http://amjabber/" + ADAddress + ".jpg";
-    imgString = '<img src="' + personPhoto + '" width=112px; />';
-    
-    return imgString;
+    var lastRecord = this.people.length;
+
+    for (i = 0; i < lastRecord; i++){
+      var individual = this.people[i];
+
+      personPhoto = "http://amjabber/" + individual.addomainaccount + ".jpg";
+      noPhoto = "http://amjabber/nophoto.gif";
+      image.src = personPhoto;
+
+      //var image = document.getElementById(individual.displayname + "img");
+      
+      var image=new Image();
+      //image.addEventListener('load', imageFound);
+      //image.addEventListener('error', imageNotFound);
+      //image.src(personPhoto);
+    }
+          
+  }
+
+  
+  imageFound(): void {
+    console.log("image found");
+  }
+
+  imageNotFound(): void {
+    console.log("image NOT found");
   }
 
   getEmail(EMAIL: string, personName: string): string {

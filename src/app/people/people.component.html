@@ -25,57 +25,30 @@
             class="btn btn-secondary generalbtn" (click)="getPeopleByLocation(5)">San Francisco
     </label>
 </div>
-<div class="person-list" >
+<div class="person-list container" >
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
+    <div class="row">
     <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
-                trackBy: person?.pkpersonid"  [ngClass]="{ odd: odd, even: even }" >
-
-      <div class="people col-xl-6 col-lg-6 col-md-9 col-sm-12 col-xs-12" *ngIf="odd" 
-            [class.selected]="person === selectedPerson" (click)="onSelect(Person)" >
+                trackBy: person?.pkpersonid"  >
+      <div class="col darkSelect">         
+        <div class="people" 
+              [class.selected]="person.pkersonid === selectedPerson" (click)="onSelect(person.pkersonid)" >
 
           <div class="userphoto">
-            <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
-          </div>
-        <div class="userdetails" > 
-          <div class="username">
-              Name: <strong>{{person.displayname}}</strong> 
-              &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-                <img src="../../assets/email.jpg" width="20px;"></a>
-                &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-                    <img src="../../assets/ia.jpg" width="20px;"></a>
-          </div>
 
-          <div class="userinfo">
-            <strong>{{person.jobtitle.jobtitle}}</strong> - {{person.hrdepartment.description}}<br>
-            Phone: {{getPhone(person.pkpersonid)}}<br>
-            Office: {{person.officelocation.officelocationname}}<br>
-            <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
-            Timekeepers Number: {{person.timekeepernumber}}<br>
-            {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
-            <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
-          
+            <img src="http://amjabber/nophoto.gif" id='{{person.displayname + "img"}}' width="112px;" />
           </div>
-        </div>
-        
-      </div>
-      
-      <div class="people lightgray col-xl-6 col-lg-6 col-md-9 col-sm-12 col-xs-12" *ngIf="even"
-          [class.selected]="person === selectedPerson" (click)="onSelect(Person)">
-      <div class="userphoto" > 
-          <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
-
-        </div>
-        <div class="userdetails" > 
+          <div class="userdetails" > 
             <div class="username">
                 Name: <strong>{{person.displayname}}</strong> 
                 &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" width="20px;"></a>
                   &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-                      <img src="../../assets/ia.jpg" width="20px;"></a>
+                    <img src="../../assets/ia.jpg" width="20px;"></a>
             </div>
-  
+
             <div class="userinfo">
               <strong>{{person.jobtitle.jobtitle}}</strong> - {{person.hrdepartment.description}}<br>
               Phone: {{getPhone(person.pkpersonid)}}<br>
@@ -83,17 +56,19 @@
               <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
               Timekeepers Number: {{person.timekeepernumber}}<br>
               {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
-            
+              <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
+          
             </div>
           </div>
-        </div>
-  
-
+        </div>   
+      </div>
+    </div>
     </div>
 
   </perfect-scrollbar>
-  <div class="NextPrevBar">
+</div>
+<div class="NextPrevBar">
     <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
     <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
-  </div>
 </div>
+

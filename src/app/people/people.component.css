@@ -5,6 +5,7 @@
   .people {
     margin: 0 0 2em 0;
     padding: 2px;
+    min-width: 500px;
   }
 
   .people.selected:hover {
@@ -16,14 +17,14 @@
     color: white;
   }
   .people:hover {
-    color: #607D8B;
-    background-color: #DDD;
+    color: rgb(white);
+    background-color: #002a5f;
   }
   .people .text {
     position: relative;
     top: -3px;
   }
-  
+
   .locationbar {
     display: block;
     margin-bottom: 15px;

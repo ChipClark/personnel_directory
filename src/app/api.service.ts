@@ -7,6 +7,7 @@ import { catchError, map, tap, concat } from 'rxjs/operators';
 import { Person } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
+import { Schools } from './school';
 
 
 const httpOptions = {
@@ -36,8 +37,16 @@ export class APIService {
       );
     
     return urlDATA;
+  }
 
-
+  getSchoolDATA (url): Observable<Schools[]> {
+    var urlDATA = this.http.get<Schools[]>(url)
+      .pipe(
+        tap(people => this.log("20 people returned")),
+        catchError(this.handleError('getPeople', [])),
+      );
+    
+    return urlDATA;
   }
 
   //getAllPhones (): Observable<Phones[]> {
@@ -57,7 +66,7 @@ export class APIService {
 
   /** GET person by id. Will 404 if id not found */
   getPersonID(id: number): Observable<Person> {
-    const url = `${this.personURL}/${id}`;
+    const url = `${this.getDATA}/${id}`;
     return this.http.get<Person>(url).pipe(
       tap(_ => this.log(`fetched person id=${id}`)),
       catchError(this.handleError<Person>(`getPersonID id=${id}`))
@@ -66,7 +75,7 @@ export class APIService {
   
   /** GET person by id. Return `undefined` when id not found */
   getPersonNo404<Data>(id: number): Observable<Person> {
-    const url = `${this.personURL}/?id=${id}`;
+    const url = `${this.getDATA}/?id=${id}`;
     return this.http.get<Person[]>(url)
       .pipe(
         map(people => people[0]), // returns a {0|1} element array
@@ -85,7 +94,7 @@ export class APIService {
       // if not search term, return empty person array.
       return of([]);
     }
-    return this.http.get<Person[]>(`${this.personURL}/?name=${term}`).pipe(
+    return this.http.get<Person[]>(`${this.getDATA}/?name=${term}`).pipe(
       tap(_ => this.log(`found people matching "${term}"`)),
       catchError(this.handleError<Person[]>('searchPeople', []))
     );
