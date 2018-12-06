@@ -8,7 +8,10 @@ import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
 import { Phones } from '../phones';
 import { RouterLink } from '@angular/router';
-import { Button } from 'protractor';
+import { JobTitle } from '../jobs';
+import { LegalPractices } from '../practices';
+import { AttorneyPracticeAreas } from '../attorneypractices';
+import { HRDepartments } from '../hrdepartments';
 
 
 @Component({
@@ -23,38 +26,50 @@ import { Button } from 'protractor';
  
 export class PeopleComponent implements OnInit {
 
-  private baseURL = 'http://am-web05:3030/api/people';
+  private baseURL = 'http://am-web05:3030/api/people/';
   private phoneURL = "http://am-web05:3030/api/phones";
-  private jobtitleURL = 'http://am-web05:3030/job-titles';
-  private individualURL = 'http://am-web05:3035/api/people';
+  private jobURL = 'http://am-web05:3030/api/jobtitles';
   private schoolDetails = 'http://am-web05:3030/api/schools';
+  private practicesURL = 'http://am-web05:3030/api/practices';
+  private attorneypracticeURL = 'http://am-web05:3030/api/attorneypractices';
+  private practiceURL = 'http://am-web05:3030/api/practices';
 
 
   // Filters
-  private All = '?filter={"where":{"employmentstatus":"A"},'
-  private location = this.All;
+  private peopleFilter = '?filter={"where":{"employmentstatus":"A"'
+  private EndFilter = '},'
+  private All = this.peopleFilter + this.EndFilter;
+  private addFilter = this.All;
+  private location = "";
+  private hrdepartmentFilter = "";
+
 
   //includes
-  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment", "personrelationship", "education"]';
+  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices"]';
   private endRequest = '}';
 
   public skip = 0;
-  public limit= 20;
+  public limit = 20;
   public LabelClass = "OP1";
   public lastRecord;
   private headers;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
-  private personURL = this.baseURL + this.All + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+  private personURL = this.baseURL + this.addFilter + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
 
 
   url: string;
   people: Person[];
+  person: Person[];
   school: Schools[];
   phone: Phones[];
   selectedPerson: Person;
   router: RouterLink;
+  jobs: JobTitle[];
+  attorneyareas: AttorneyPracticeAreas[];
+  practiceareas: LegalPractices[];
+  roles: HRDepartments[];
   
   constructor(
     private staffService: APIService,
@@ -64,6 +79,9 @@ export class PeopleComponent implements OnInit {
   ngOnInit() {
     this.getPeople();
     this.getSchools();
+    this.getJobTitles();
+    this.getLegalPractices();
+    this.getAttorneyPractices();
   }
 
   onSelect(personid: number): void {
@@ -79,8 +97,12 @@ export class PeopleComponent implements OnInit {
   getPeople(): void {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
-        .subscribe(people => {this.people = people; this.lastRecord = people.length});
-    //this.getPhoto();  // maybe a way to load images after the fact
+        .subscribe(people => {this.people = people});
+
+    // this.staffService.getDATA(this.personURL)
+    //    .subscribe(people => {this.people = people.body; console.log(people.headers)});
+
+        //console.log(this.lastRecord);  this.lastRecord = people
 
     // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
     
@@ -90,14 +112,18 @@ export class PeopleComponent implements OnInit {
     this.staffService.getSchoolDATA(this.schoolDetails)
         .subscribe(school => this.school = school);
 
-    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
-    
+    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count') 
   }
   
   
   buildURL () {
     this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
-    this.personURL = this.baseURL + this.location + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+    this.buildAddFilter();
+    this.personURL = this.baseURL + this.addFilter + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+  }
+
+  buildAddFilter () {
+    this.addFilter = this.peopleFilter + this.location + this.hrdepartmentFilter + this.EndFilter;
   }
   
 
@@ -122,49 +148,96 @@ export class PeopleComponent implements OnInit {
   getPeopleByLocation(id: number): void {
     var LabelElement;
     LabelElement = document.getElementById(this.LabelClass);
-    LabelElement.className = "btn btn-secondary";
+    console.log(this.LabelClass)
+    LabelElement.className = "btn btn-outline btn-outline-secondary";
 
     switch(id) {
       case 6:
-          this.location = '?filter={"where":{"employmentstatus":"A"},';
+          this.location = '';
           LabelElement = document.getElementById("OP1");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
           this.LabelClass = "OP1";
          break;
       case 1: 
-          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":4},';
+          this.location = ',"officelocationid":4';
           LabelElement = document.getElementById("OP2");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
           this.LabelClass = "OP2";
          break;
       case 2:
-          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":1},';
+          this.location = ',"officelocationid":1';
           LabelElement = document.getElementById("OP3");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
            this.LabelClass = "OP3";
          break;
       case 3:
-          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":2},';
+          this.location = ',"officelocationid":2';
           LabelElement = document.getElementById("OP4");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
            this.LabelClass = "OP4";
          break;
       case 4:
-          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":3},';
+          this.location = ',"officelocationid":3';
           LabelElement = document.getElementById("OP5");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
           this.LabelClass = "OP5";
          break;
       case 5:
-          this.location = '?filter={"where":{"employmentstatus":"A","officelocationid":5},';
+          this.location = ',"officelocationid":5';
           LabelElement = document.getElementById("OP6");
-          LabelElement.className = "btn btn-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary focus active";
           this.LabelClass = "OP6";
          break;
       default: 
          this.location = "";
         break;
     }
+    this.skip = 0;
+    this.getPeople(); 
+  }
+
+  getPeopleByRole(id: number): void {
+    return;
+    var LabelElement;
+    LabelElement = document.getElementById(this.LabelClass);
+    LabelElement.className = "small-font btn btn-outline btn-outline-secondary";
+
+    switch(id) {
+      case 6:
+          this.hrdepartmentFilter = '';
+          LabelElement = document.getElementById("Role1");
+          this.LabelClass = "Role1";
+         break;
+      case 1: 
+          this.hrdepartmentFilter = ',"hrdepartment":1';
+          LabelElement = document.getElementById("Role2");
+          this.LabelClass = "Role2";
+         break;
+      case 2:
+          this.hrdepartmentFilter = ',"hrdepartment":1';
+          LabelElement = document.getElementById("Role3");
+           this.LabelClass = "Role3";
+         break;
+      case 3:
+          this.hrdepartmentFilter = ',"hrdepartment":2';
+          LabelElement = document.getElementById("Role4");
+           this.LabelClass = "Role4";
+         break;
+      case 4:
+          this.hrdepartmentFilter = ',"hrdepartment":3';
+          LabelElement = document.getElementById("Role5");
+          this.LabelClass = "Role5";
+         break;
+      case 5:
+          this.hrdepartmentFilter = ',"hrdepartment":5';
+          LabelElement = document.getElementById("Role6");
+          this.LabelClass = "Role6";
+         break;
+      default: 
+         this.location = "";
+        break;
+    }
+    LabelElement.className = "small-font btn btn-outline-secondary focus active";
     this.skip = 0;
     this.getPeople(); 
   }
@@ -182,25 +255,76 @@ export class PeopleComponent implements OnInit {
     });
 
     if(!officePhone) {
-
       return null; 
-
-      phonetypeid = 3;
-      var secondaryPhone = primary.phones.find(obj => { 
-        return obj.phonetypeid === phonetypeid;
-      });
-
-      phonenum = secondaryPhone.phonenumber;
-      var sln = phonenum.length;
-      phonenum = phonenum.slice(sln-4, sln);
-      var officeID = primary.officelocationid.toString();
-      phonenum = "x" + officeID + phonenum;
-      return phonenum;
     }
 
     phonenum = officePhone.phonenumber;
     return phonenum = phonenum.replace(/\D+/g, '')
           .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+  }
+
+  getPersonTitles(personid: number, persontitle,[]: string): string {
+    // to be added: , attorneyPracticeID: number when fixed in API server
+    var addHTML = "<br>";
+    var primary = this.people.find(obj => {
+      return obj.pkpersonid === personid;
+      });
+
+    if(!persontitle) addHTML = "No title";
+    else {
+      addHTML = "<strong>" + persontitle.jobtitle + "</strong>";
+    }
+
+    if(primary.isattorney == true){
+
+      
+
+      addHTML = addHTML + " " + "nothing" + ": practice";
+
+    }
+    return addHTML;
+  }
+
+  getPhoto(): void {
+    // this isn't working yet  - photos getting put into database ...
+    // no need for extensive logic 
+    var personPhoto, noPhoto, photoString;
+    
+    var personlist = this.people;
+
+    var primary = personlist.find(obj => {
+      return obj.pkpersonid === 1;
+      });
+
+      photoString = `<img src="http://amjabber/nophoto.gif" id='{{person.pkperson.id}}' width="112px;" />`
+    
+      var image=new Image();
+      //console.log("in getPhoto()");
+      //personPhoto = "http://amjabber/" + primary.addomainaccount + ".jpg";
+      image.onload = function () {
+        //photoString = '<img src="' + personPhoto + '" id=' + personid + 'width="112px;" />';
+      }
+      image.onerror = function () {
+        //photoString = '<img src="' + personPhoto + '" id=' + personid + 'width="112px;" />';
+      }
+      image.src = personPhoto;
+
+      //image.id = personid.toString();
+
+      return photoString;
+  }
+
+  getJobTitles(): void {
+    this.staffService.getJOBS(this.jobURL)
+        .subscribe(jobs => {this.jobs = this.jobs});
+  }
+  getLegalPractices(): void {
+    this.staffService.getPractices(this.practicesURL)
+        .subscribe(practiceareas => {this.practiceareas = this.practiceareas});
+  }
+  getAttorneyPractices(): void {
+    this.staffService.getAttorneyPractices(this.attorneypracticeURL)
+        .subscribe(attorneyareas => {this.attorneyareas = this.attorneyareas});
   }
 
   getEducation(personid: number): string {
@@ -212,40 +336,6 @@ export class PeopleComponent implements OnInit {
       });
 
     return addHTML;
-
-   
-  }
-
-  getPhoto(): void {
-    // this isn't working yet 
-    var i, personPhoto, noPhoto;
-
-    var lastRecord = this.people.length;
-
-    for (i = 0; i < lastRecord; i++){
-      var individual = this.people[i];
-
-      personPhoto = "http://amjabber/" + individual.addomainaccount + ".jpg";
-      noPhoto = "http://amjabber/nophoto.gif";
-      image.src = personPhoto;
-
-      //var image = document.getElementById(individual.displayname + "img");
-      
-      var image=new Image();
-      //image.addEventListener('load', imageFound);
-      //image.addEventListener('error', imageNotFound);
-      //image.src(personPhoto);
-    }
-          
-  }
-
-  
-  imageFound(): void {
-    console.log("image found");
-  }
-
-  imageNotFound(): void {
-    console.log("image NOT found");
   }
 
   getEmail(EMAIL: string, personName: string): string {

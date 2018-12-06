@@ -8,6 +8,9 @@ import { Person } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
 import { Schools } from './school';
+import { JobTitle } from './jobs';
+import { LegalPractices } from './practices';
+import { AttorneyPracticeAreas } from './attorneypractices';
 
 
 const httpOptions = {
@@ -20,9 +23,11 @@ const httpOptions = {
 
 export class APIService {
 
+  public skip = 0;
+  public limit = 4;
   public headers;
   people: Person[];
-
+  
  
   constructor(
     private http: HttpClient,
@@ -32,21 +37,24 @@ export class APIService {
   getDATA (url): Observable<Person[]> {
     var urlDATA = this.http.get<Person[]>(url)
       .pipe(
-        tap(people => this.log("20 people returned")),
+        tap(people => this.log(this.limit + " people returned")),
         catchError(this.handleError('getPeople', [])),
       );
     
     return urlDATA;
   }
 
+  getJOBS (url): Observable<JobTitle[]> {
+    return this.http.get<JobTitle[]>(url);
+  }
+  getPractices (url): Observable<LegalPractices[]> {
+    return this.http.get<LegalPractices[]>(url);
+  }
+  getAttorneyPractices (url): Observable<AttorneyPracticeAreas[]> {
+    return this.http.get<AttorneyPracticeAreas[]>(url);
+  }
   getSchoolDATA (url): Observable<Schools[]> {
-    var urlDATA = this.http.get<Schools[]>(url)
-      .pipe(
-        tap(people => this.log("20 people returned")),
-        catchError(this.handleError('getPeople', [])),
-      );
-    
-    return urlDATA;
+    return this.http.get<Schools[]>(url);
   }
 
   //getAllPhones (): Observable<Phones[]> {
@@ -65,14 +73,15 @@ export class APIService {
 
 
   /** GET person by id. Will 404 if id not found */
-  getPersonID(id: number): Observable<Person> {
-    const url = `${this.getDATA}/${id}`;
-    return this.http.get<Person>(url).pipe(
-      tap(_ => this.log(`fetched person id=${id}`)),
-      catchError(this.handleError<Person>(`getPersonID id=${id}`))
+  getPersonID(personURL: string): Observable<Person> {
+    var MyPerson = this.http.get<Person>(personURL).pipe(
+      tap(_ => this.log(`fetched Person`)),
+      catchError(this.handleError<Person>(`Person`))
     );
+
+    return MyPerson;
   }
-  
+    
   /** GET person by id. Return `undefined` when id not found */
   getPersonNo404<Data>(id: number): Observable<Person> {
     const url = `${this.getDATA}/?id=${id}`;

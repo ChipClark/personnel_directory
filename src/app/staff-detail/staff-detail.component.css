@@ -11,20 +11,63 @@ label {
     font-size: 1em;
     padding-left: .4em;
   }
-  button {
-    margin-top: 20px;
-    font-family: Arial;
-    background-color: #eee;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer; cursor: hand;
+
+
+  .people {
+    margin: 0 0 2em 0;
+    padding: 2px;
+    min-width: 500px;
   }
-  button:hover {
-    background-color: #cfd8dc;
+
+  .people.selected:hover {
+    background-color: #BBD8DC !important;
+    color: white;
   }
-  button:disabled {
-    background-color: #eee;
-    color: #ccc;
-    cursor: auto;
+  .people a.selected:hover {
+    background-color: #BBD8DC !important;
+    color: white;
+  }
+  .people:hover {
+    color: rgb(white);
+    background-color: #002a5f;
+  }
+  .people .text {
+    position: relative;
+    top: -3px;
+  }
+
+  .locationbar {
+    display: block;
+    margin-bottom: 15px;
+
+  }
+
+  .person-list {
+    display: block;
+    margin-top: 10px;
+
+  }
+
+  .userphoto {
+    display: inline-block;
+    vertical-align: top;
+    padding-right:10px;
+  }
+
+  .userdetails {
+    display: inline-block;
+  }
+
+  .leftColumn .rightcolumn {
+    display: inline-block;
+  }
+
+  .emaillink { 
+    display: inline;
+  }
+
+  .NextPrevBar {
+    float: right;
+    display: block;
+    margin-top:10px;
   }

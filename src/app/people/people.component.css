@@ -28,7 +28,16 @@
   .locationbar {
     display: block;
     margin-bottom: 15px;
+  }
 
+  .rolebar {
+    display: block;
+    font-size: 6pt;
+    margin-bottom: 10px;
+  }
+
+  .small-font {
+    font-size: 6pt;
   }
 
   .person-list {

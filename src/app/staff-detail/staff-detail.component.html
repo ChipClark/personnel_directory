@@ -1,33 +1,31 @@
-<div *ngIf="selectedPerson">
+    <div class="container">
+        <div class="col-12 darkSelect">         
+          <div class="userphoto">
+            <img src="http://amjabber/nophoto.gif" id='{{person.pkpersonid}}' width="112px;" />
+          </div>
+          <div class="userdetails" > 
+            <div class="username">
+                <strong>{{displayname}}</strong> ID: {{pkpersonid}}
+                &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                  <img src="../../assets/email.jpg" width="20px;" ></a>
+                  &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+                    <img src="../../assets/ia.jpg" width="20px;"></a>
+            </div>
 
-
-    <div class="userphoto">
-      <img src="http://amjabber/{{person.addomainaccount}}.jpg"  onError="http://amjabber/nophoto.gif" width="112px;" />
+            <div class="userinfo">
+                <div id="jobtitle" [innerHTML]="getPersonTitles(person.pkpersonid, person.jobtitle, person.practices)" ></div>  
+                <!-- to be added: person.attorneypractices.attorneypracticeid when this is fixed in API server -->
+              Phone: {{getPhone(person.pkpersonid)}}<br>
+              Office: {{person.officelocation.officelocationname}}<br>
+              <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
+              TK Number: {{person.timekeepernumber}}<br>
+              {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
+              <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
+          
+            </div>
+          </div>
+        </div>   
     </div>
-    <div class="userdetails" > 
-    <div class="username">
-      Name: <strong>{{person.displayname}}</strong> 
-      &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-        <img src="../../assets/email.jpg" width="20px;"></a>
-        &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-            <img src="../../assets/ia.jpg" width="20px;"></a>
-    </div>
 
-    <div class="userinfo">
-        Job Title: <strong>{{person.jobtitle.jobtitle}}</strong><br>
-        Phone: {{getPhone(person.pkpersonid)}}<br>
-        {{person.hrdepartment.description}}<br>
-        Office: {{person.officelocation.officelocationname}}<br>
-        <div id="assistant" [innerHTML]="writeAssistant(person.pkpersonid)" ></div>
-        Timekeepers Number: {{person.timekeepernumber}}<br>
-        {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
-  
-    </div>
-    <!--
-        <button (click)="goBack()">go back</button>
-        <button (click)="save()">save</button>
-    -->
 
-  
-</div>
 
