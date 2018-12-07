@@ -1,17 +1,18 @@
 // people.compenents.ts
 
 import { Component, OnInit } from '@angular/core';
-import { Person, iData } from '../person';
-import { Schools } from '../school';
+import { Person, iData, APIHeader } from '../person';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { APIService } from '../api.service';
-import { Phones } from '../phones';
 import { RouterLink } from '@angular/router';
-import { JobTitle } from '../jobs';
-import { LegalPractices } from '../practices';
-import { AttorneyPracticeAreas } from '../attorneypractices';
-import { HRDepartments } from '../hrdepartments';
+
+// datatables 
+import { Schools } from '../datatables/school';
+import { Phones } from '../datatables/phones';
+import { JobTitle, JobTypes } from '../datatables/jobs';
+import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
+import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 
 
 @Component({
@@ -23,6 +24,23 @@ import { HRDepartments } from '../hrdepartments';
 @Injectable({
   providedIn: 'root'
 })
+
+//export class SendService {
+  // see: https://stackoverflow.com/questions/44205950/angular-passing-a-variable-from-a-component-to-a-service 
+//  private skip = 20;
+//  private limit = 20;
+//  private lastRecord;
+
+//  getSkipValue(): number{
+//    return this.skip;
+//  }
+//  getLimitValue(): number {
+//    return this.limit;
+//  }
+//  getLastValue(): number {
+//    return this.lastRecord;
+//  }
+//}
  
 export class PeopleComponent implements OnInit {
 
@@ -48,11 +66,11 @@ export class PeopleComponent implements OnInit {
   private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices"]';
   private endRequest = '}';
 
-  public skip = 0;
-  public limit = 20;
   public LabelClass = "OP1";
-  public lastRecord;
-  private headers;
+  
+  private skip = 0;
+  private limit = 20;
+  private lastRecord;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
@@ -61,6 +79,8 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
+  idata: iData[];
+  apiheader: APIHeader;
   school: Schools[];
   phone: Phones[];
   selectedPerson: Person;
@@ -69,7 +89,8 @@ export class PeopleComponent implements OnInit {
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   roles: HRDepartments[];
-  idata: iData[];
+  legalDepts: LegalDepartments[];
+  subDepts: LegalSubDepartments[];
   
   constructor(
     private staffService: APIService,
@@ -77,12 +98,19 @@ export class PeopleComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    //this.getValues();
     this.getPeople();
     this.getSchools();
     this.getJobTitles();
     this.getLegalPractices();
     this.getAttorneyPractices();
   }
+
+  //getValues() {
+  //  this.skip = this.SendService.getSkipValue();
+  //  this.limit = this.SendService.getLimitValue();
+//
+  //}
 
   onSelect(personid: number): void {
     var primary = this.people.find(obj => {
@@ -98,14 +126,19 @@ export class PeopleComponent implements OnInit {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
         .subscribe(
-          people => this.people = people.data,
-          idata => this.idata = idata.count
+          people => this.people = people
         );
-          
+    
+    
+    //this.people = this.idata.persondata;
+    //this.lastRecord = this.idata.header.totalcount;
+        
+        
+    //console.log(this.lastRecord);
 
-    console.log(idata.count);
-
-    // This works - but the above is used to learn more about subscribe
+    
+    //      people => this.people = people.persondata,
+    //      apiheader => this.apiheader = apiheader// This works - but the above is used to learn more about subscribe
     //this.staffService.getDATA(this.personURL)
     //    .subscribe(people => {this.people = people.data; this.lastRecord = people.count});
 
@@ -135,8 +168,10 @@ export class PeopleComponent implements OnInit {
   }
   
 
+  //getMorePeople(direction: string, lastRecord): void {
   getMorePeople(direction: string): void {
-    this.lastRecord = 100; // temporary fix 
+      //this.lastRecord = this.people.totalcount
+    //this.lastRecord = 100; // temporary fix 
 
     if(direction == "prev"){
       if(this.skip >= 20) {
@@ -391,5 +426,6 @@ export class PeopleComponent implements OnInit {
     
   }
 
+  
   
 }

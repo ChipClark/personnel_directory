@@ -1,31 +1,32 @@
 <h2>Personnel List</h2>
-<div class="btn-group-toggle locationbar" data-toggle="locationbuttons">
-    <label class="btn btn-outline-secondary focus active" id="OP1">
-        <input type="radio" checked=true name="options" id="option1"  
-            class="generalbtn" (click)="getPeopleByLocation(6)" aria-pressed="true">All
-    </label>&nbsp;
-    <label class="btn btn-outline-secondary blur" id="OP2">
-        <input type="radio" checked=false name="options" id="option2"
-            class="generalbtn" (click)="getPeopleByLocation(1)" aria-pressed="false">Century City
-    </label>&nbsp;
-    <label class="btn btn-outline-secondary blur" id="OP3">
-        <input type="radio" checked=false name="options" id="option3"
-            class="generalbtn" (click)="getPeopleByLocation(2)" aria-pressed="false">Los Angeles
-    </label>&nbsp;
-    <label class="btn btn-outline-secondary blur" id="OP4">
-        <input type="radio" checked="false" name="options" id="option4"
-            class="generalbtn" (click)="getPeopleByLocation(3)" aria-pressed="false">Orange County
-    </label>&nbsp;
-    <label class="btn btn-outline-secondary blur" id="OP5">
-        <input type="radio" checked=false name="options" id="option5"
-            class="generalbtn" (click)="getPeopleByLocation(4)" aria-pressed="false">San Diego
-    </label>&nbsp;
-    <label class="btn btn-outline-secondary blur" id="OP6">
-        <input type="radio" checked=false name="options" id="option6"
+    <div class="btn-group-toggle locationbar" data-toggle="locationbuttons">
+        <label class="btn btn-outline-secondary focus active" id="OP1">
+           <input type="radio" checked=true name="options" id="option1"  
+                class="generalbtn" (click)="getPeopleByLocation(6)" aria-pressed="true">All
+        </label>&nbsp;
+        <label class="btn btn-outline-secondary blur" id="OP2">
+            <input type="radio" checked=false name="options" id="option2"
+                class="generalbtn" (click)="getPeopleByLocation(1)" aria-pressed="false">Century City
+        </label>&nbsp;
+        <label class="btn btn-outline-secondary blur" id="OP3">
+            <input type="radio" checked=false name="options" id="option3"
+                class="generalbtn" (click)="getPeopleByLocation(2)" aria-pressed="false">Los Angeles
+        </label>&nbsp;
+        <label class="btn btn-outline-secondary blur" id="OP4">
+            <input type="radio" checked="false" name="options" id="option4"
+                class="generalbtn" (click)="getPeopleByLocation(3)" aria-pressed="false">Orange County
+        </label>&nbsp;
+        <label class="btn btn-outline-secondary blur" id="OP5">
+            <input type="radio" checked=false name="options" id="option5"
+                class="generalbtn" (click)="getPeopleByLocation(4)" aria-pressed="false">San Diego
+        </label>&nbsp;
+        <label class="btn btn-outline-secondary blur" id="OP6">
+            <input type="radio" checked=false name="options" id="option6"
             class="generalbtn" (click)="getPeopleByLocation(5)" aria-pressed="false">San Francisco
-    </label>
-</div>
-<div class="btn-group-toggle rolebar" data-toggle="rolebuttons">
+        </label>
+    </div>
+<!--    hold off on adding roles just yet 
+    <div class="btn-group-toggle rolebar" data-toggle="rolebuttons">
         <label class="small-font btn btn-outline-secondary focus active" id="Role1">
             <input type="radio" checked=true name="options" id="option1"  
                 class="generalbtn small-font" (click)="getPeopleByRole(1)" aria-pressed="true">All
@@ -66,7 +67,8 @@
             <input type="radio" checked=false name="options" id="option10"
                 class="generalbtn small-font " (click)="getPeopleByRole(10)" aria-pressed="false">Recruiting
         </label>
-</div>
+    </div>
+-->
 <div class="person-list container" >
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
@@ -111,7 +113,9 @@
   </perfect-scrollbar>
 </div>
 <div class="NextPrevBar">
-    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
-    <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
+    
+        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
+    
+        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
 </div>
 

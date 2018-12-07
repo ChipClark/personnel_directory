@@ -1,10 +1,14 @@
-import { Phones } from "./phones";
-import { PersonRelationship } from "./personrelationship";
-import { OfficeLocation } from "./officelocation";
+import { Phones } from "./datatables/phones";
+import { PersonRelationship } from "./datatables/personrelationship";
+import { OfficeLocation } from "./datatables/officelocation";
+
+export class APIHeader {
+  totalcount: number;
+}
 
 export class iData {
-  data: Person[];
-  count: number;
+  persondata: Person[];
+  header: APIHeader[];
 }
 
 export class Person {
@@ -63,4 +67,6 @@ export class Person {
   phones: Phones[];
   personrelationship: PersonRelationship[];
   officelocation: OfficeLocation[];
+  totalcount: number;
+  
 }

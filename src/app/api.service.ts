@@ -7,10 +7,9 @@ import { catchError, map, tap, concat } from 'rxjs/operators';
 import { Person, iData } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
-import { Schools } from './school';
-import { JobTitle } from './jobs';
-import { LegalPractices } from './practices';
-import { AttorneyPracticeAreas } from './attorneypractices';
+import { Schools } from './datatables/school';
+import { JobTitle } from './datatables/jobs';
+import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
 
 
 const httpOptions = {
@@ -23,9 +22,9 @@ const httpOptions = {
 
 export class APIService {
 
-  public skip = 0;
-  public limit = 4;
-  public headers;
+  private skip;
+  private limit = 20;
+  private headers;
   people: Person[];
   idata: iData[];
   
@@ -45,15 +44,14 @@ export class APIService {
   }
   */
 
-  getDATA (url): Observable<iData[]> {
-    return this.http.get<iData[]>(url)
+  getDATA (url): Observable<Person[]> {
+    return this.http.get<Person[]>(url)
       .pipe(
-        tap(idata => this.log(this.limit + " people returned")),
+        tap(people => this.log(this.limit + " people returned")),
         catchError(this.handleError('getPeople', [])),
       );
   }
-
-
+  
   getJOBS (url): Observable<JobTitle[]> {
     return this.http.get<JobTitle[]>(url);
   }

@@ -2,16 +2,16 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Person }         from '../person';
+import { Person, iData }         from '../person';
 import { APIService }  from '../api.service';
-import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Phones } from '../phones';
-import { JobTitle } from '../jobs';
-import { LegalPractices } from '../practices';
-import { AttorneyPracticeAreas } from '../attorneypractices';
 
+// datatables
+import { Schools } from '../datatables/school';
+import { Phones } from '../datatables/phones';
+import { JobTitle } from '../datatables/jobs';
+import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
 
 @Component({
   selector: 'app-staff-detail',
@@ -30,6 +30,7 @@ export class StaffDetailComponent implements OnInit {
   url: string;
   people: Person[];
   person: Person[];
+  idata: iData[];
   school: Schools[];
   phone: Phones[];
   router: RouterLink;
