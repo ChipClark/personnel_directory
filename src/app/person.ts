@@ -2,6 +2,11 @@ import { Phones } from "./phones";
 import { PersonRelationship } from "./personrelationship";
 import { OfficeLocation } from "./officelocation";
 
+export class iData {
+  data: Person[];
+  count: number;
+}
+
 export class Person {
   pkpersonid: number;
   personguid: string;

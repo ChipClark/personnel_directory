@@ -1,7 +1,7 @@
 // people.compenents.ts
 
 import { Component, OnInit } from '@angular/core';
-import { Person } from '../person';
+import { Person, iData } from '../person';
 import { Schools } from '../school';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -61,7 +61,6 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
-  person: Person[];
   school: Schools[];
   phone: Phones[];
   selectedPerson: Person;
@@ -70,6 +69,7 @@ export class PeopleComponent implements OnInit {
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   roles: HRDepartments[];
+  idata: iData[];
   
   constructor(
     private staffService: APIService,
@@ -97,12 +97,20 @@ export class PeopleComponent implements OnInit {
   getPeople(): void {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
-        .subscribe(people => {this.people = people});
+        .subscribe(
+          people => this.people = people.data,
+          idata => this.idata = idata.count
+        );
+          
+
+    console.log(idata.count);
+
+    // This works - but the above is used to learn more about subscribe
+    //this.staffService.getDATA(this.personURL)
+    //    .subscribe(people => {this.people = people.data; this.lastRecord = people.count});
 
     // this.staffService.getDATA(this.personURL)
     //    .subscribe(people => {this.people = people.body; console.log(people.headers)});
-
-        //console.log(this.lastRecord);  this.lastRecord = people
 
     // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
     

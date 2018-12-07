@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpHandler, HttpRequest } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
-import { Person } from './person';
+import { Person, iData } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
 import { Schools } from './school';
@@ -27,22 +27,32 @@ export class APIService {
   public limit = 4;
   public headers;
   people: Person[];
+  idata: iData[];
   
  
   constructor(
     private http: HttpClient,
     private messageService: MessageService){ }
  
-  /** GET People from the server */
-  getDATA (url): Observable<Person[]> {
-    var urlDATA = this.http.get<Person[]>(url)
+  /* GET People from the server */
+  /*  - replace call below with one below that.  
+  getDATA (url): Observable<HttpResponse<Person[]>> {
+    return this.http.get<Person[]>(url, { observe: 'response'})
       .pipe(
         tap(people => this.log(this.limit + " people returned")),
         catchError(this.handleError('getPeople', [])),
       );
-    
-    return urlDATA;
   }
+  */
+
+  getDATA (url): Observable<iData[]> {
+    return this.http.get<iData[]>(url)
+      .pipe(
+        tap(idata => this.log(this.limit + " people returned")),
+        catchError(this.handleError('getPeople', [])),
+      );
+  }
+
 
   getJOBS (url): Observable<JobTitle[]> {
     return this.http.get<JobTitle[]>(url);
