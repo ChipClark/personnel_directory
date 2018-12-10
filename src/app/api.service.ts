@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpHandler, HttpRequest } from 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
-import { Person, iData } from './person';
+import { Person } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
 import { Schools } from './datatables/school';
@@ -24,9 +24,9 @@ export class APIService {
 
   private skip;
   private limit = 20;
+  private lastRecord;
   private headers;
   people: Person[];
-  idata: iData[];
   
  
   constructor(
@@ -47,6 +47,7 @@ export class APIService {
   getDATA (url): Observable<Person[]> {
     return this.http.get<Person[]>(url)
       .pipe(
+        
         tap(people => this.log(this.limit + " people returned")),
         catchError(this.handleError('getPeople', [])),
       );

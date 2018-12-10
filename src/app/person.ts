@@ -2,15 +2,6 @@ import { Phones } from "./datatables/phones";
 import { PersonRelationship } from "./datatables/personrelationship";
 import { OfficeLocation } from "./datatables/officelocation";
 
-export class APIHeader {
-  totalcount: number;
-}
-
-export class iData {
-  persondata: Person[];
-  header: APIHeader[];
-}
-
 export class Person {
   pkpersonid: number;
   personguid: string;
@@ -22,7 +13,7 @@ export class Person {
   initials: string;
   prefix: string;
   suffix: string;
-  timekeepernumber: number;
+  timekeepernumber: string;
   ultiproemployeeid: string;
   interactionid: string;
   edocssystemid: string;

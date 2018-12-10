@@ -102,6 +102,7 @@
               TK Number: {{person.timekeepernumber}}<br>
               {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
               <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
+              {{person.totalcount}}
           
             </div>
           </div>
@@ -114,8 +115,8 @@
 </div>
 <div class="NextPrevBar">
     
-        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev')" >Prev</button>&nbsp;
+        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev', people[0].totalcount )" >Prev</button>&nbsp;
     
-        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next')" >Next</button>&nbsp;
+        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next', people[0].totalcount )" >Next</button>&nbsp;
 </div>
 

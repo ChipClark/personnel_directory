@@ -1,9 +1,11 @@
 // people.compenents.ts
 
 import { Component, OnInit } from '@angular/core';
-import { Person, iData, APIHeader } from '../person';
+import { Person } from '../person';
+import { iData, APIHeader } from '../JUNK';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { APIService } from '../api.service';
 import { RouterLink } from '@angular/router';
 
@@ -68,9 +70,9 @@ export class PeopleComponent implements OnInit {
 
   public LabelClass = "OP1";
   
-  private skip = 0;
-  private limit = 20;
-  private lastRecord;
+  public skip = 0;
+  public limit = 20;
+  public lastRecord;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
@@ -124,11 +126,9 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): void {
     this.buildURL();
-    this.staffService.getDATA(this.personURL)
-        .subscribe(
-          people => this.people = people
+    let JUNK$ = this.staffService.getDATA(this.personURL)
+        .subscribe(people => this.people = people
         );
-    
     
     //this.people = this.idata.persondata;
     //this.lastRecord = this.idata.header.totalcount;
@@ -169,8 +169,7 @@ export class PeopleComponent implements OnInit {
   
 
   //getMorePeople(direction: string, lastRecord): void {
-  getMorePeople(direction: string): void {
-      //this.lastRecord = this.people.totalcount
+  getMorePeople(direction: string, recordcount: number): void {
     //this.lastRecord = 100; // temporary fix 
 
     if(direction == "prev"){
@@ -180,18 +179,21 @@ export class PeopleComponent implements OnInit {
 
     }
     else {
-      if(this.skip >= 0 && this.skip < this.lastRecord) {
-        this.skip = this.skip + this.limit;
-      } 
+      var tempCount = recordcount - (this.limit + this.skip);
+      if(this.skip >= 0 && this.skip < recordcount) {
+        if(tempCount > 0) {
+          this.skip = this.skip + this.limit;
+        }
+      }
+      console.log(this.skip);
     }
-
     this.getPeople(); 
   }
 
   getPeopleByLocation(id: number): void {
     var LabelElement;
     LabelElement = document.getElementById(this.LabelClass);
-    console.log(this.LabelClass)
+    //console.log(this.LabelClass)
     LabelElement.className = "btn btn-outline btn-outline-secondary";
 
     switch(id) {
