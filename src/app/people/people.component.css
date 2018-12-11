@@ -18,7 +18,7 @@
   }
   .people:hover {
     color: rgb(white);
-    background-color: #002a5f;
+    background-color: #efefef;
   }
   .people .text {
     position: relative;
@@ -44,6 +44,11 @@
     display: block;
     margin-top: 10px;
 
+  }
+
+  .username {
+    font-size:14pt;
+    line-height:120%;
   }
 
   .userphoto {

@@ -84,7 +84,7 @@ export class APIService {
   /** GET person by id. Will 404 if id not found */
   getPersonID(personURL: string): Observable<Person> {
     var MyPerson = this.http.get<Person>(personURL).pipe(
-      tap(_ => this.log(`fetched Person`)),
+      tap(obj => this.log(`fetched ` + obj.displayname)),
       catchError(this.handleError<Person>(`Person`))
     );
 

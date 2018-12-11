@@ -1,6 +1,7 @@
 // people.compenents.ts
 
 import { Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
 import { Person } from '../person';
 import { iData, APIHeader } from '../JUNK';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
@@ -15,6 +16,7 @@ import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
+import { cpus } from 'os';
 
 
 @Component({
@@ -46,13 +48,15 @@ import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatab
  
 export class PeopleComponent implements OnInit {
 
+  private safeSCRIPT;
+
   private baseURL = 'http://am-web05:3030/api/people/';
   private phoneURL = "http://am-web05:3030/api/phones";
   private jobURL = 'http://am-web05:3030/api/jobtitles';
   private schoolDetails = 'http://am-web05:3030/api/schools';
-  private practicesURL = 'http://am-web05:3030/api/practices';
+  private practiceareasURL = 'http://am-web05:3030/api/practices';
   private attorneypracticeURL = 'http://am-web05:3030/api/attorneypractices';
-  private practiceURL = 'http://am-web05:3030/api/practices';
+  private legalSubDeptsURL = 'http://am-web05:3030/api/legalsubdepartments';
 
 
   // Filters
@@ -65,7 +69,7 @@ export class PeopleComponent implements OnInit {
 
 
   //includes
-  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices"]';
+  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]';
   private endRequest = '}';
 
   public LabelClass = "OP1";
@@ -92,11 +96,12 @@ export class PeopleComponent implements OnInit {
   practiceareas: LegalPractices[];
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
-  subDepts: LegalSubDepartments[];
+  legalSubDepts: LegalSubDepartments[];
   
   constructor(
     private staffService: APIService,
-    private http: HttpClient
+    private http: HttpClient,
+    protected sanitizer: DomSanitizer
     ) { }
 
   ngOnInit() {
@@ -106,13 +111,8 @@ export class PeopleComponent implements OnInit {
     this.getJobTitles();
     this.getLegalPractices();
     this.getAttorneyPractices();
+    this.getLegalSubPractices();
   }
-
-  //getValues() {
-  //  this.skip = this.SendService.getSkipValue();
-  //  this.limit = this.SendService.getLimitValue();
-//
-  //}
 
   onSelect(personid: number): void {
     var primary = this.people.find(obj => {
@@ -148,14 +148,6 @@ export class PeopleComponent implements OnInit {
     // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
     
   }
-
-  getSchools(): void {
-    this.staffService.getSchoolDATA(this.schoolDetails)
-        .subscribe(school => this.school = school);
-
-    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count') 
-  }
-  
   
   buildURL () {
     this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
@@ -170,22 +162,18 @@ export class PeopleComponent implements OnInit {
 
   //getMorePeople(direction: string, lastRecord): void {
   getMorePeople(direction: string, recordcount: number): void {
-    //this.lastRecord = 100; // temporary fix 
-
     if(direction == "prev"){
       if(this.skip >= 20) {
           this.skip = this.skip - this.limit;
       }
-
     }
     else {
-      var tempCount = recordcount - (this.limit + this.skip);
+      var tempCount = recordcount - (this.limit + this.skip);  // this ensures we don't exceed the totalcount (recordcount)
       if(this.skip >= 0 && this.skip < recordcount) {
         if(tempCount > 0) {
           this.skip = this.skip + this.limit;
         }
       }
-      console.log(this.skip);
     }
     this.getPeople(); 
   }
@@ -286,7 +274,6 @@ export class PeopleComponent implements OnInit {
     this.skip = 0;
     this.getPeople(); 
   }
-  
 
   getPhone(personid: number): string {
     var phonetypeid = 1;
@@ -308,23 +295,26 @@ export class PeopleComponent implements OnInit {
           .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   }
 
-  getPersonTitles(personid: number, persontitle,[]: string): string {
-    // to be added: , attorneyPracticeID: number when fixed in API server
-    var addHTML = "<br>";
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid;
-      });
+  getPersonTitles(currentperson: any): string {
+    var currentJobTitle = currentperson.jobtitle.jobtitle;
+    
+    var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
-    if(!persontitle) addHTML = "No title";
-    else {
-      addHTML = "<strong>" + persontitle.jobtitle + "</strong>";
-    }
-
-    if(primary.isattorney == true){
-
-      
-
-      addHTML = addHTML + " " + "nothing" + ": practice";
+    if(currentperson.practices.length > 0) {
+      addHTML = addHTML + "<br>";
+      var currentPractices = currentperson.practices;
+      var i;
+      for(i = 0; i < currentperson.practices.length; i++){
+        if(i > 0  ) {
+          addHTML = addHTML + ",";
+          if( i == 2 || i == 4 ) {
+            addHTML = addHTML + "<br>";
+          }
+        }
+        addHTML = addHTML + " " + currentperson.practices[i].practicename;
+        
+      }
+      addHTML = addHTML + "<br>";
 
     }
     return addHTML;
@@ -359,17 +349,25 @@ export class PeopleComponent implements OnInit {
       return photoString;
   }
 
+  getSchools(): void {
+    this.staffService.getSchoolDATA(this.schoolDetails)
+        .subscribe(school => this.school = school);
+  }
   getJobTitles(): void {
     this.staffService.getJOBS(this.jobURL)
         .subscribe(jobs => {this.jobs = this.jobs});
   }
   getLegalPractices(): void {
-    this.staffService.getPractices(this.practicesURL)
+    this.staffService.getPractices(this.practiceareasURL)
         .subscribe(practiceareas => {this.practiceareas = this.practiceareas});
   }
   getAttorneyPractices(): void {
     this.staffService.getAttorneyPractices(this.attorneypracticeURL)
         .subscribe(attorneyareas => {this.attorneyareas = this.attorneyareas});
+  }
+  getLegalSubPractices(): void {
+    this.staffService.getAttorneyPractices(this.legalSubDeptsURL)
+        .subscribe(legalSubDepts => {this.legalSubDepts = this.legalSubDepts});
   }
 
   getEducation(personid: number): string {
@@ -387,30 +385,33 @@ export class PeopleComponent implements OnInit {
     var emailString = '<a href=mailto:' + EMAIL + ' id=' + personName + ' >' + EMAIL + '</a>'; 
   
   return emailString;
-
   }
 
-  writeAssistant(personid: number): string {
-    var asst = this.getAssistants(personid);
+  getPrefName(prefName: string): string {
+    if(!prefName) return "";
+    prefName = '"' + prefName + '"';    
+    return prefName;
+  }
 
+  sanitizeScript(sanitizer: DomSanitizer){
+    
+  }
+
+  writeAssistant(currentperson: any): SafeHtml  {
+    var asst = this.getAssistants(currentperson);
+    
     if(!asst){return null};
 
-    return asst = asst + "<br>";
+    this.safeSCRIPT = '<a routerLink="/detail/' + personid + '">' + asst + '</a><br>';
+    return this.sanitizer.bypassSecurityTrustHtml(this.safeSCRIPT);
   }
 
-  getAssistants(personid: number): string {
+  getAssistants(currentperson: any): string {
+    var addHTML = "";
 
-    var addHTML;
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid
-      });
-
-
-    if(primary.personrelationship.length == 0) {
-      return addHTML = "";
-    }
-
-    var assistantID = primary.personrelationship[0].relatedpersonid;
+    if(currentperson.personrelationship.length == 0) return addHTML;
+    
+    var assistantID = currentperson.personrelationship.personrelationshipid;
 
     var assistant = this.people.find(obj => {
         return obj.pkpersonid === assistantID

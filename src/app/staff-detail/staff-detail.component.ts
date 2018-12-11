@@ -2,7 +2,7 @@ import { Component, OnInit, Input  } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Person, iData }         from '../person';
+import { Person}         from '../person';
 import { APIService }  from '../api.service';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -21,7 +21,7 @@ import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicesta
 
 export class StaffDetailComponent implements OnInit {
 
-  60
+  private testperson = 60;
 
   private baseURL = 'http://am-web05:3030/api/people/';
   private All = '?filter={"where":{"employmentstatus":"A"},'
@@ -30,7 +30,6 @@ export class StaffDetailComponent implements OnInit {
   url: string;
   people: Person[];
   person: Person[];
-  idata: iData[];
   school: Schools[];
   phone: Phones[];
   router: RouterLink;
@@ -47,13 +46,17 @@ export class StaffDetailComponent implements OnInit {
   ) {}
  
   ngOnInit(): void {
-    this.getPerson(60);
+    this.getPerson(this.testperson);
   }
  
   getPerson(id: number): void {
-    this.url = this.baseURL + id;
+    this.url = this.baseURL + id + this.All + this.generalIncludes;
     var MyPerson = this.staffService.getPersonID(this.url) 
-      .subscribe(people => this.person = this.person);
+      .subscribe(people => {
+        this.person = this.person,
+        console.log(people)
+      
+    });
   }
 
  
