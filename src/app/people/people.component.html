@@ -1,74 +1,74 @@
 <h2>Personnel List</h2>
     <div class="btn-group-toggle locationbar" data-toggle="locationbuttons">
-        <label class="btn btn-outline-secondary focus active" id="OP1">
+        <label class="btn btn-outline-secondary focus active" id="city6">
            <input type="radio" checked=true name="options" id="option1"  
-                class="generalbtn" (click)="getPeopleByLocation(6)" aria-pressed="true">All
+                class="generalbtn" (click)="getPeopleByLocation('city6')" aria-pressed="true">All
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="OP2">
+        <label class="btn btn-outline-secondary blur" id="city1">
             <input type="radio" checked=false name="options" id="option2"
-                class="generalbtn" (click)="getPeopleByLocation(1)" aria-pressed="false">Century City
+                class="generalbtn" (click)="getPeopleByLocation('city1')" aria-pressed="false">Century City
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="OP3">
+        <label class="btn btn-outline-secondary blur" id="city2">
             <input type="radio" checked=false name="options" id="option3"
-                class="generalbtn" (click)="getPeopleByLocation(2)" aria-pressed="false">Los Angeles
+                class="generalbtn" (click)="getPeopleByLocation('city2')" aria-pressed="false">Los Angeles
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="OP4">
+        <label class="btn btn-outline-secondary blur" id="city3">
             <input type="radio" checked="false" name="options" id="option4"
-                class="generalbtn" (click)="getPeopleByLocation(3)" aria-pressed="false">Orange County
+                class="generalbtn" (click)="getPeopleByLocation('city3')" aria-pressed="false">Orange County
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="OP5">
+        <label class="btn btn-outline-secondary blur" id="city4">
             <input type="radio" checked=false name="options" id="option5"
-                class="generalbtn" (click)="getPeopleByLocation(4)" aria-pressed="false">San Diego
+                class="generalbtn" (click)="getPeopleByLocation('city4')" aria-pressed="false">San Diego
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="OP6">
+        <label class="btn btn-outline-secondary blur" id="city5">
             <input type="radio" checked=false name="options" id="option6"
-            class="generalbtn" (click)="getPeopleByLocation(5)" aria-pressed="false">San Francisco
+            class="generalbtn" (click)="getPeopleByLocation('city5')" aria-pressed="false">San Francisco
         </label>
     </div>
-<!--    hold off on adding roles just yet 
+<!--    hold off on adding roles just yet -->
     <div class="btn-group-toggle rolebar" data-toggle="rolebuttons">
         <label class="small-font btn btn-outline-secondary focus active" id="Role1">
-            <input type="radio" checked=true name="options" id="option1"  
-                class="generalbtn small-font" (click)="getPeopleByRole(1)" aria-pressed="true">All
+            <input type="radio" checked=true name="options" id="roleoption1"  
+                class="generalbtn small-font" (click)="getPeopleByRole('Role1')" aria-pressed="true">All
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role2">
-            <input type="radio" checked=false name="options" id="option2"
-               class="generalbtn small-font" (click)="getPeopleByRole(2)" aria-pressed="false">Partners
+            <input type="radio" checked=false name="options" id="roleoption2"
+               class="generalbtn small-font" (click)="getPeopleByRole('Role2')" aria-pressed="false">Partners
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role3">
-            <input type="radio" checked=false name="options" id="option3"
-                class="generalbtn small-font" (click)="getPeopleByRole(3)" aria-pressed="false">Associates
+            <input type="radio" checked=false name="options" id="roleoption3"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role3')" aria-pressed="false">Associates
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role4">
-            <input type="radio" checked=false name="options" id="option4"
-                class="generalbtn small-font" (click)="getPeopleByRole(4)" aria-pressed="false">Secretaries
+            <input type="radio" checked=false name="options" id="roleoption4"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role4')" aria-pressed="false">Secretaries
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role5">
-            <input type="radio" checked="false" name="options" id="option5"
-                class="generalbtn small-font" (click)="getPeopleByRole(5)" aria-pressed="false">Administration
+            <input type="radio" checked="false" name="options" id="roleoption5"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role5')" aria-pressed="false">Administration
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role6">
-            <input type="radio" checked=false name="options" id="option6"
-                class="generalbtn small-font" (click)="getPeopleByRole(6)" aria-pressed="false">Finance
+            <input type="radio" checked=false name="options" id="roleoption6"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role6')" aria-pressed="false">Finance
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role7">
-            <input type="radio" checked=false name="options" id="option7"
-                class="generalbtn small-font" (click)="getPeopleByRole(7)" aria-pressed="false">Technology
+            <input type="radio" checked=false name="options" id="roleoption7"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role7')" aria-pressed="false">Technology
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role8">
-            <input type="radio" checked=false name="options" id="option8"
-                class="generalbtn" (click)="getPeopleByRole(8)" aria-pressed="false">Marketing
+            <input type="radio" checked=false name="options" id="roleoption8"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role8')" aria-pressed="false">Marketing
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role9">
-            <input type="radio" checked=false name="options" id="option9"
-                class="generalbtn small-font" (click)="getPeopleByRole(9)" aria-pressed="false">Human Resources
+            <input type="radio" checked=false name="options" id="roleoption9"
+                class="generalbtn small-font" (click)="getPeopleByRole('Role9')" aria-pressed="false">Human Resources
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role10">
-            <input type="radio" checked=false name="options" id="option10"
-                class="generalbtn small-font " (click)="getPeopleByRole(10)" aria-pressed="false">Recruiting
+            <input type="radio" checked=false name="options" id="roleoption10"
+                class="generalbtn small-font " (click)="getPeopleByRole('Role10')" aria-pressed="false">Word Processing
         </label>
     </div>
--->
+<!---->
 <div class="person-list container" >
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
@@ -84,11 +84,12 @@
           </div>
           <div class="userdetails" > 
             <div class="username">
-                <strong>{{person.displayname}}</strong> &nbsp;&nbsp; {{getPrefName(person.preferredfirstname)}}
+                    <strong>{{person.displayname}}</strong> &nbsp;&nbsp; {{getPrefName(person.preferredfirstname)}}
                 &nbsp;&nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" width="20px;" ></a>
                   &nbsp;&nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
                     <img src="../../assets/ia.jpg" width="20px;"></a>
+                  &nbsp;&nbsp;<a routerLink="/detail/{{person.pkpersonid}}">more</a>
             </div>
 
             <div class="userinfo">
@@ -96,11 +97,10 @@
                 <div id="jobtitle" [innerHTML]="getPersonTitles(person)" ></div>  
 
                 <!-- to be added: person.attorneypractices.attorneypracticeid when this is fixed in API server -->
+              {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}<br>
               <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
-              Office: {{person.officelocation.officelocationname}}<br>
               <div id="assistant" [innerHTML]="writeAssistant(person)" ></div>
               TK Number: {{person.timekeepernumber}}<br>
-              {{person.officelocation.officelocationcode}} Office Number: {{person.officenumber}}
               <div id="education" [innerHTML]="getEducation(person.pkersonid)"></div>
           
             </div>

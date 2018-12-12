@@ -72,7 +72,8 @@ export class PeopleComponent implements OnInit {
   private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]';
   private endRequest = '}';
 
-  public LabelClass = "OP1";
+  public cityLabelID = "city6";
+  public roleLabelID = "Role1";
   
   public skip = 0;
   public limit = 20;
@@ -106,13 +107,7 @@ export class PeopleComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    //this.getValues();
     this.getPeople();
-    //this.getSchools();
-    //this.getJobTitles();
-    //this.getLegalPractices();
-    //this.getAttorneyPractices();
-    //this.getLegalSubPractices();
   }
 
   onSelect(personid: number): void {
@@ -161,48 +156,48 @@ export class PeopleComponent implements OnInit {
     this.getPeople(); 
   }
 
-  getPeopleByLocation(id: number): void {
+  getPeopleByLocation(id: string): void {
     var LabelElement;
-    LabelElement = document.getElementById(this.LabelClass);
-    //console.log(this.LabelClass)
-    LabelElement.className = "btn btn-outline btn-outline-secondary";
+    console.log()
+    LabelElement = document.getElementById(this.cityLabelID);
+    LabelElement.className = "btn btn-outline-secondary";
 
     switch(id) {
-      case 6:
+      case "city6":
           this.location = '';
-          LabelElement = document.getElementById("OP1");
+          LabelElement = document.getElementById("city6");
           LabelElement.className = "btn btn-outline-secondary focus active";
-          this.LabelClass = "OP1";
+          this.cityLabelID = "city6";
          break;
-      case 1: 
+      case "city1": 
           this.location = ',"officelocationid":4';
-          LabelElement = document.getElementById("OP2");
+          LabelElement = document.getElementById("city1");
           LabelElement.className = "btn btn-outline-secondary focus active";
-          this.LabelClass = "OP2";
+          this.cityLabelID = "city1";
          break;
-      case 2:
+      case "city2":
           this.location = ',"officelocationid":1';
-          LabelElement = document.getElementById("OP3");
+          LabelElement = document.getElementById("city2");
           LabelElement.className = "btn btn-outline-secondary focus active";
-           this.LabelClass = "OP3";
+           this.cityLabelID = "city2";
          break;
-      case 3:
+      case "city3":
           this.location = ',"officelocationid":2';
-          LabelElement = document.getElementById("OP4");
+          LabelElement = document.getElementById("city3");
           LabelElement.className = "btn btn-outline-secondary focus active";
-           this.LabelClass = "OP4";
+           this.cityLabelID = "city3";
          break;
-      case 4:
+      case "city4":
           this.location = ',"officelocationid":3';
-          LabelElement = document.getElementById("OP5");
+          LabelElement = document.getElementById("city4");
           LabelElement.className = "btn btn-outline-secondary focus active";
-          this.LabelClass = "OP5";
+          this.cityLabelID = "city4";
          break;
-      case 5:
+      case "city5":
           this.location = ',"officelocationid":5';
-          LabelElement = document.getElementById("OP6");
+          LabelElement = document.getElementById("city5");
           LabelElement.className = "btn btn-outline-secondary focus active";
-          this.LabelClass = "OP6";
+          this.cityLabelID = "city5";
          break;
       default: 
          this.location = "";
@@ -212,48 +207,76 @@ export class PeopleComponent implements OnInit {
     this.getPeople(); 
   }
 
-  getPeopleByRole(id: number): void {
-    return;
+  getPeopleByRole(id: string): void {
     var LabelElement;
-    LabelElement = document.getElementById(this.LabelClass);
-    LabelElement.className = "small-font btn btn-outline btn-outline-secondary";
+    LabelElement = document.getElementById(this.roleLabelID);
+    LabelElement.className = "small-font btn btn-outline-secondary";
 
     switch(id) {
-      case 6:
+      case "Role1":
           this.hrdepartmentFilter = '';
           LabelElement = document.getElementById("Role1");
-          this.LabelClass = "Role1";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role1";
          break;
-      case 1: 
-          this.hrdepartmentFilter = ',"hrdepartment":1';
+      case "Role2": 
+          this.hrdepartmentFilter = ',"hrdepartment":13';
           LabelElement = document.getElementById("Role2");
-          this.LabelClass = "Role2";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role2";
          break;
-      case 2:
+      case "Role3":
           this.hrdepartmentFilter = ',"hrdepartment":1';
           LabelElement = document.getElementById("Role3");
-           this.LabelClass = "Role3";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role3";
          break;
-      case 3:
-          this.hrdepartmentFilter = ',"hrdepartment":2';
+      case "Role4":
+          this.hrdepartmentFilter = ',"hrdepartment":11';
           LabelElement = document.getElementById("Role4");
-           this.LabelClass = "Role4";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role4";
          break;
-      case 4:
-          this.hrdepartmentFilter = ',"hrdepartment":3';
+      case "Role5":
+          this.hrdepartmentFilter = ',"hrdepartment":9';
           LabelElement = document.getElementById("Role5");
-          this.LabelClass = "Role5";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role5";
          break;
-      case 5:
-          this.hrdepartmentFilter = ',"hrdepartment":5';
+      case "Role6":
+          this.hrdepartmentFilter = ',"hrdepartment":8';
           LabelElement = document.getElementById("Role6");
-          this.LabelClass = "Role6";
+          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          this.roleLabelID = "Role6";
          break;
-      default: 
+      case "Role7":
+         this.hrdepartmentFilter = ',"hrdepartment":7';
+         LabelElement = document.getElementById("Role7");
+         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         this.roleLabelID = "Role7";
+        break;
+      case "Role8":
+         this.hrdepartmentFilter = ',"hrdepartment":6';
+         LabelElement = document.getElementById("Role8");
+         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         this.roleLabelID = "Role8";
+        break;
+      case "Role9":
+         this.hrdepartmentFilter = ',"hrdepartment":3';
+         LabelElement = document.getElementById("Role9");
+         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         this.roleLabelID = "Role9";
+        break;
+      case "Role10":
+         this.hrdepartmentFilter = ',"hrdepartment":12';
+         LabelElement = document.getElementById("Role10");
+         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         this.roleLabelID = "Role10";
+        break;
+     default: 
          this.location = "";
         break;
     }
-    LabelElement.className = "small-font btn btn-outline-secondary focus active";
     this.skip = 0;
     this.getPeople(); 
   }
@@ -267,14 +290,14 @@ export class PeopleComponent implements OnInit {
       addHTML = addHTML + "<br>";
       var currentPractices = currentperson.practices;
       var i;
-      for(i = 0; i < currentperson.practices.length; i++){
+      for(i = 0; i < currentPractices.length; i++){
         if(i > 0  ) {
           addHTML = addHTML + ",";
           if( i == 2 || i == 4 ) {
             addHTML = addHTML + "<br>";
           }
         }
-        addHTML = addHTML + " " + currentperson.practices[i].practicename;
+        addHTML = addHTML + " " + currentPractices[i].practicename;
         
       }
       addHTML = addHTML + "<br>";
@@ -312,34 +335,11 @@ export class PeopleComponent implements OnInit {
       return photoString;
   }
 
-  getSchools(): void {
-    this.staffService.getSchoolDATA(this.schoolDetails)
-        .subscribe(school => this.school = school);
-  }
-  getJobTitles(): void {
-    this.staffService.getJOBS(this.jobURL)
-        .subscribe(jobs => {this.jobs = this.jobs});
-  }
-  getLegalPractices(): void {
-    this.staffService.getPractices(this.practiceareasURL)
-        .subscribe(practiceareas => {this.practiceareas = this.practiceareas});
-  }
-  getAttorneyPractices(): void {
-    this.staffService.getAttorneyPractices(this.attorneypracticeURL)
-        .subscribe(attorneyareas => {this.attorneyareas = this.attorneyareas});
-  }
-  getLegalSubPractices(): void {
-    this.staffService.getAttorneyPractices(this.legalSubDeptsURL)
-        .subscribe(legalSubDepts => {this.legalSubDepts = this.legalSubDepts});
-  }
-
-  getEducation(personid: number): string {
+  getEducation(currentperson: any): string {
     var addHTML = "";
     var schoolID;
     
-    var attorney = this.people.find(obj => {
-      return obj.pkpersonid === personid
-      });
+    //currentperson.education.graduationyear
 
     return addHTML;
   }
@@ -379,52 +379,21 @@ export class PeopleComponent implements OnInit {
     if(currentperson.personrelationship.length == 0 ) return null;
 
     var asstID = currentperson.personrelationship[0].relatedpersonid;
-
-    var assistant = this.people.find(obj => {
-      return obj.pkpersonid = currentperson.personrelationship[0].relatedpersonid;
-    });
-    //console.log(assistant.pkpersonid);
-    //console.log(assistant);
-    return null;
-  }
-
-  getAssistants(personid: number): string {
+    var assistants: Person;
     var asst;
-    if(!asst){return null};
 
-    asst = '<a routerLink="/detail/' + asst + '">' + asst + '</a><br>';
-    //return this.sanitizer.bypassSecurityTrustHtml(asst);
-
-    var addHTML = "";
-
-    var parentPerson = this.people.find(obj => { 
-      return obj.pkpersonid === personid;
-    });
-
-    var currentrelationship = this.relationships.find(obj => { 
-      return obj.personrelationshipid === personid;
-    });
-
-    console.log(currentrelationship);
-    //if(currentperson.personrelationship.length == 0) return addHTML;
-
-    return addHTML =  "Assistant: ";
-
-    
-    //console.log(currentperson.personrelationship);
-    //var assistant = this.people.find(obj => {
-    //  return obj.pkpersonid = parentPerson.personrelationship[0].relatedpersonid;
-    //});
-
-    //if(!assistant) {
-    //    return addHTML = "";
-    //  }
-    //addHTML =  "Assistant: " + assistant.displayname;
-
-    return addHTML;
-    
-        //  addHTML = "Assistant: " + asstPerson.displayname + "<br>";
-    
+    for(let i = 0; i < currentperson.personrelationship.length; i++){
+      var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
+      asst  = '<a routerLink="' + detailURL
+      + '" href="' + detailURL  + '" >Assistant</a><br>';
+  
+      for(let j = 0; j < this.people.length; j++) {
+        if(currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
+          assistants = this.people[j];
+        }
+      }
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
   sanitizeScript(sanitizer: DomSanitizer){}
