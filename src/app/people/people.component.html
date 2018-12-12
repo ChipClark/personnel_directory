@@ -72,7 +72,7 @@
 <div class="person-list container" >
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
-    <div class="row">
+  <div class="row">
     <div *ngFor="let person of people; let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
@@ -80,7 +80,7 @@
         <div class="people" >
               <!--[class.selected]="person.pkersonid === selectedPerson" (click)="onSelect(person.pkersonid)" >-->
           <div class="userphoto">
-            <img src="http://amjabber/nophoto.gif" id='{{person.pkpersonid}}' width="112px;" />
+            <img src="http://amjabber/nophoto.gif" id="{{person.displayname}}" width="112px;" />
           </div>
           <div class="userdetails" > 
             <div class="username">
@@ -96,7 +96,7 @@
                 <div id="jobtitle" [innerHTML]="getPersonTitles(person)" ></div>  
 
                 <!-- to be added: person.attorneypractices.attorneypracticeid when this is fixed in API server -->
-              ID: {{person.pkpersonid}} Phone: {{getPhone(person.pkpersonid)}}<br>
+              <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
               Office: {{person.officelocation.officelocationname}}<br>
               <div id="assistant" [innerHTML]="writeAssistant(person)" ></div>
               TK Number: {{person.timekeepernumber}}<br>
@@ -108,7 +108,7 @@
         </div>  
       </div>
     </div>
-    </div>
+  </div>
 
   </perfect-scrollbar>
 </div>

@@ -1,7 +1,7 @@
 // people.compenents.ts
 
 import { Component, OnInit } from '@angular/core';
-import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 import { Person } from '../person';
 import { iData, APIHeader } from '../JUNK';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
@@ -17,6 +17,8 @@ import { JobTitle, JobTypes } from '../datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { cpus } from 'os';
+import { PersonRelationship } from '../datatables/personrelationship';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
 
 @Component({
@@ -47,8 +49,6 @@ import { cpus } from 'os';
 //}
  
 export class PeopleComponent implements OnInit {
-
-  private safeSCRIPT;
 
   private baseURL = 'http://am-web05:3030/api/people/';
   private phoneURL = "http://am-web05:3030/api/phones";
@@ -87,6 +87,7 @@ export class PeopleComponent implements OnInit {
   people: Person[];
   idata: iData[];
   apiheader: APIHeader;
+  relationships: PersonRelationship[];
   school: Schools[];
   phone: Phones[];
   selectedPerson: Person;
@@ -107,11 +108,11 @@ export class PeopleComponent implements OnInit {
   ngOnInit() {
     //this.getValues();
     this.getPeople();
-    this.getSchools();
-    this.getJobTitles();
-    this.getLegalPractices();
-    this.getAttorneyPractices();
-    this.getLegalSubPractices();
+    //this.getSchools();
+    //this.getJobTitles();
+    //this.getLegalPractices();
+    //this.getAttorneyPractices();
+    //this.getLegalSubPractices();
   }
 
   onSelect(personid: number): void {
@@ -129,24 +130,6 @@ export class PeopleComponent implements OnInit {
     let JUNK$ = this.staffService.getDATA(this.personURL)
         .subscribe(people => this.people = people
         );
-    
-    //this.people = this.idata.persondata;
-    //this.lastRecord = this.idata.header.totalcount;
-        
-        
-    //console.log(this.lastRecord);
-
-    
-    //      people => this.people = people.persondata,
-    //      apiheader => this.apiheader = apiheader// This works - but the above is used to learn more about subscribe
-    //this.staffService.getDATA(this.personURL)
-    //    .subscribe(people => {this.people = people.data; this.lastRecord = people.count});
-
-    // this.staffService.getDATA(this.personURL)
-    //    .subscribe(people => {this.people = people.body; console.log(people.headers)});
-
-    // this.lastrecord isn't working yet - needs research    .get('X-Total-Count')
-    
   }
   
   buildURL () {
@@ -275,26 +258,6 @@ export class PeopleComponent implements OnInit {
     this.getPeople(); 
   }
 
-  getPhone(personid: number): string {
-    var phonetypeid = 1;
-    var phonenum;
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid;
-      });
- 
-    var officePhone = primary.phones.find(obj => { 
-      return obj.phonetypeid === phonetypeid;
-    });
-
-    if(!officePhone) {
-      return null; 
-    }
-
-    phonenum = officePhone.phonenumber;
-    return phonenum = phonenum.replace(/\D+/g, '')
-          .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-  }
-
   getPersonTitles(currentperson: any): string {
     var currentJobTitle = currentperson.jobtitle.jobtitle;
     
@@ -393,41 +356,78 @@ export class PeopleComponent implements OnInit {
     return prefName;
   }
 
-  sanitizeScript(sanitizer: DomSanitizer){
-    
+  getPhone(currentperson: any): SafeHtml | SafeValue {
+    var phonetypeid = 1;
+    var officePhone = currentperson.phones.find(obj => { 
+      return obj.phonetypeid === phonetypeid;
+    });
+
+    if(!officePhone) {
+      var nophone = 'Phone: <br>'
+      return nophone; 
+    }
+
+    var phonenum = officePhone.phonenumber;
+    phonenum = phonenum.replace(/\D+/g, '')
+          .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+
+    phonenum = 'Phone: <a href="tel:+' + officePhone.phonenumber + '">' + phonenum + '</a><br>'
+    return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
 
   writeAssistant(currentperson: any): SafeHtml  {
-    var asst = this.getAssistants(currentperson);
-    
-    if(!asst){return null};
+    if(currentperson.personrelationship.length == 0 ) return null;
 
-    this.safeSCRIPT = '<a routerLink="/detail/' + personid + '">' + asst + '</a><br>';
-    return this.sanitizer.bypassSecurityTrustHtml(this.safeSCRIPT);
-  }
-
-  getAssistants(currentperson: any): string {
-    var addHTML = "";
-
-    if(currentperson.personrelationship.length == 0) return addHTML;
-    
-    var assistantID = currentperson.personrelationship.personrelationshipid;
+    var asstID = currentperson.personrelationship[0].relatedpersonid;
 
     var assistant = this.people.find(obj => {
-        return obj.pkpersonid === assistantID
-      });
-       
-    if(!assistant) {
-        return addHTML = "";
-      }
+      return obj.pkpersonid = currentperson.personrelationship[0].relatedpersonid;
+    });
+    //console.log(assistant.pkpersonid);
+    //console.log(assistant);
+    return null;
+  }
 
-    addHTML =  "Assistant: " + assistant.displayname;
+  getAssistants(personid: number): string {
+    var asst;
+    if(!asst){return null};
+
+    asst = '<a routerLink="/detail/' + asst + '">' + asst + '</a><br>';
+    //return this.sanitizer.bypassSecurityTrustHtml(asst);
+
+    var addHTML = "";
+
+    var parentPerson = this.people.find(obj => { 
+      return obj.pkpersonid === personid;
+    });
+
+    var currentrelationship = this.relationships.find(obj => { 
+      return obj.personrelationshipid === personid;
+    });
+
+    console.log(currentrelationship);
+    //if(currentperson.personrelationship.length == 0) return addHTML;
+
+    return addHTML =  "Assistant: ";
+
+    
+    //console.log(currentperson.personrelationship);
+    //var assistant = this.people.find(obj => {
+    //  return obj.pkpersonid = parentPerson.personrelationship[0].relatedpersonid;
+    //});
+
+    //if(!assistant) {
+    //    return addHTML = "";
+    //  }
+    //addHTML =  "Assistant: " + assistant.displayname;
 
     return addHTML;
     
         //  addHTML = "Assistant: " + asstPerson.displayname + "<br>";
     
   }
+
+  sanitizeScript(sanitizer: DomSanitizer){}
 
   
   
