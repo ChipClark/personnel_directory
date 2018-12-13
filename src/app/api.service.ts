@@ -53,28 +53,6 @@ export class APIService {
       );
   }
   
-  getJOBS (url): Observable<JobTitle[]> {
-    return this.http.get<JobTitle[]>(url);
-  }
-  getPractices (url): Observable<LegalPractices[]> {
-    return this.http.get<LegalPractices[]>(url);
-  }
-  getAttorneyPractices (url): Observable<AttorneyPracticeAreas[]> {
-    return this.http.get<AttorneyPracticeAreas[]>(url);
-  }
-  getSchoolDATA (url): Observable<Schools[]> {
-    return this.http.get<Schools[]>(url);
-  }
-
-  //getAllPhones (): Observable<Phones[]> {
-  //  return this.http.get<Phones[]>(this.phoneURL)
-  //    .pipe(
-  //      tap(phone => this.log('fetched phone numbers')),
-  //      catchError(this.handleError('getAllPhones', []))
-  //    );
-  //}
-
-  /*  functions below no longer work as the get(url) has changed. */
   getPhoto(photoUrl: string): boolean {
     var request = this.http.get(photoUrl).toPromise();
     return false;
