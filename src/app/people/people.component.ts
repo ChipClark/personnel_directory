@@ -74,6 +74,7 @@ export class PeopleComponent implements OnInit {
 
   public cityLabelID = "city6";
   public roleLabelID = "Role1";
+  public alphaLabelID = "alphaAll";
   
   public skip = 0;
   public limit = 20;
@@ -160,43 +161,43 @@ export class PeopleComponent implements OnInit {
     var LabelElement;
     console.log()
     LabelElement = document.getElementById(this.cityLabelID);
-    LabelElement.className = "btn btn-outline-secondary";
+    LabelElement.className = "med-font btn btn-outline-secondary";
 
     switch(id) {
       case "city6":
           this.location = '';
           LabelElement = document.getElementById("city6");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city6";
          break;
       case "city1": 
           this.location = ',"officelocationid":4';
           LabelElement = document.getElementById("city1");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city1";
          break;
       case "city2":
           this.location = ',"officelocationid":1';
           LabelElement = document.getElementById("city2");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
            this.cityLabelID = "city2";
          break;
       case "city3":
           this.location = ',"officelocationid":2';
           LabelElement = document.getElementById("city3");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
            this.cityLabelID = "city3";
          break;
       case "city4":
           this.location = ',"officelocationid":3';
           LabelElement = document.getElementById("city4");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city4";
          break;
       case "city5":
           this.location = ',"officelocationid":5';
           LabelElement = document.getElementById("city5");
-          LabelElement.className = "btn btn-outline-secondary focus active";
+          LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city5";
          break;
       default: 
@@ -216,61 +217,61 @@ export class PeopleComponent implements OnInit {
       case "Role1":
           this.hrdepartmentFilter = '';
           LabelElement = document.getElementById("Role1");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role1";
          break;
       case "Role2": 
           this.hrdepartmentFilter = ',"hrdepartment":13';
           LabelElement = document.getElementById("Role2");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role2";
          break;
       case "Role3":
           this.hrdepartmentFilter = ',"hrdepartment":1';
           LabelElement = document.getElementById("Role3");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role3";
          break;
       case "Role4":
           this.hrdepartmentFilter = ',"hrdepartment":11';
           LabelElement = document.getElementById("Role4");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role4";
          break;
       case "Role5":
           this.hrdepartmentFilter = ',"hrdepartment":9';
           LabelElement = document.getElementById("Role5");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role5";
          break;
       case "Role6":
           this.hrdepartmentFilter = ',"hrdepartment":8';
           LabelElement = document.getElementById("Role6");
-          LabelElement.className = "small-font btn btn-outline-secondary focus active";
+          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role6";
          break;
       case "Role7":
          this.hrdepartmentFilter = ',"hrdepartment":7';
          LabelElement = document.getElementById("Role7");
-         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role7";
         break;
       case "Role8":
          this.hrdepartmentFilter = ',"hrdepartment":6';
          LabelElement = document.getElementById("Role8");
-         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role8";
         break;
       case "Role9":
          this.hrdepartmentFilter = ',"hrdepartment":3';
          LabelElement = document.getElementById("Role9");
-         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role9";
         break;
       case "Role10":
          this.hrdepartmentFilter = ',"hrdepartment":12';
          LabelElement = document.getElementById("Role10");
-         LabelElement.className = "small-font btn btn-outline-secondary focus active";
+         LabelElement.className = "small-font btn btn-outline-secondary  active";
          this.roleLabelID = "Role10";
         break;
      default: 
@@ -398,6 +399,61 @@ export class PeopleComponent implements OnInit {
 
   sanitizeScript(sanitizer: DomSanitizer){}
 
+
+  getPeopleByAlpha(alpha: string): void {
+    var LabelElement;
+    LabelElement = document.getElementById(this.alphaLabelID);
+    LabelElement.className = "normal-font btn btn-outline-secondary";
+
+    // research how to pull people by first letter of last name
+    
+    switch(alpha) {
+      case "a":
+          this.location = '';
+          LabelElement = document.getElementById("alphaA");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.alphaLabelID = "alphaA";
+         break;
+      case "b": 
+          this.location = ',"alpha":4';  // what to add to the API call to pull the right details
+          LabelElement = document.getElementById("alphaB");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.alphaLabelID = "alphaB";
+         break;
+      case "c":
+          this.location = ',"alpha":1';
+          LabelElement = document.getElementById("alphaC");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.alphaLabelID = "alphaC";
+         break;
+      case "d":
+          this.location = ',"alpha":2';
+          LabelElement = document.getElementById("alphaD");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+           this.alphaLabelID = "alphaD";
+         break;
+      case "e":
+          this.location = ',"alpha":3';
+          LabelElement = document.getElementById("alphaE");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.alphaLabelID = "alphaE";
+         break;
+      case "f":
+          this.location = ',"alpha":5';
+          LabelElement = document.getElementById("alphaF");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.cityLabelID = "alphaF";
+         break;
+      default: 
+          this.location = '';
+          LabelElement = document.getElementById("alphaAll");
+          LabelElement.className = "btn btn-outline-secondary normal-font active";
+          this.cityLabelID = "alphaAll";
+        break;
+    }
+    this.skip = 0;
+    this.getPeople(); 
+  }
   
   
 }

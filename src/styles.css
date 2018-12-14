@@ -79,3 +79,30 @@ body, input[text], button {
     display: inline-block;
     padding-right: 5px;
 }
+
+.normal-font {
+    font-size: 12pt;
+}
+
+.med-font {
+    font-size: 10pt;
+}
+
+.small-font {
+    font-size: 8pt;
+  }
+
+.xsmall-font {
+    font-size: 4pt;
+}
+
+.btn {
+    padding: 0;
+    border: none;
+    /*font: inherit;*/
+    color: inherit;
+    background-color: transparent;
+    /* show a hand cursor on hover; some argue that we
+    should keep the default arrow cursor for buttons */
+    cursor: pointer;
+  }

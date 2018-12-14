@@ -1,33 +1,32 @@
 <h2>Personnel List</h2>
     <div class="btn-group-toggle locationbar" data-toggle="locationbuttons">
-        <label class="btn btn-outline-secondary focus active" id="city6">
+        <label class="btn btn-outline-secondary med-font active" id="city6">
            <input type="radio" checked=true name="options" id="option1"  
                 class="generalbtn" (click)="getPeopleByLocation('city6')" aria-pressed="true">All
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="city1">
+        <label class="btn btn-outline-secondary med-font blur" id="city1">
             <input type="radio" checked=false name="options" id="option2"
                 class="generalbtn" (click)="getPeopleByLocation('city1')" aria-pressed="false">Century City
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="city2">
+        <label class="btn btn-outline-secondary med-font blur" id="city2">
             <input type="radio" checked=false name="options" id="option3"
                 class="generalbtn" (click)="getPeopleByLocation('city2')" aria-pressed="false">Los Angeles
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="city3">
+        <label class="btn btn-outline-secondary med-font blur" id="city3">
             <input type="radio" checked="false" name="options" id="option4"
                 class="generalbtn" (click)="getPeopleByLocation('city3')" aria-pressed="false">Orange County
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="city4">
+        <label class="btn btn-outline-secondary med-font blur" id="city4">
             <input type="radio" checked=false name="options" id="option5"
                 class="generalbtn" (click)="getPeopleByLocation('city4')" aria-pressed="false">San Diego
         </label>&nbsp;
-        <label class="btn btn-outline-secondary blur" id="city5">
+        <label class="btn btn-outline-secondary med-font blur" id="city5">
             <input type="radio" checked=false name="options" id="option6"
             class="generalbtn" (click)="getPeopleByLocation('city5')" aria-pressed="false">San Francisco
         </label>
     </div>
-<!--    hold off on adding roles just yet -->
-    <div class="btn-group-toggle rolebar" data-toggle="rolebuttons">
-        <label class="small-font btn btn-outline-secondary focus active" id="Role1">
+    <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
+        <label class="small-font btn btn-outline-secondary active" id="Role1">
             <input type="radio" checked=true name="options" id="roleoption1"  
                 class="generalbtn small-font" (click)="getPeopleByRole('Role1')" aria-pressed="true">All
         </label>&nbsp;
@@ -68,7 +67,52 @@
                 class="generalbtn small-font " (click)="getPeopleByRole('Role10')" aria-pressed="false">Word Processing
         </label>
     </div>
-<!---->
+
+
+    <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
+            <label class="normal-font btn btn-outline-secondary active" id="Role1">
+                <input type="radio" checked=true name="options" id="alphaoption1"  
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('alphaAll')" aria-pressed="true">All
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="Role2">
+                <input type="radio" checked=false name="options" id="alphaoption2"
+                   class="generalbtn normal-font" (click)="getPeopleByAlpha('a')" aria-pressed="false">A
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="Role3">
+                <input type="radio" checked=false name="options" id="alphaoption3"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('b')" aria-pressed="false">B
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="Role4">
+                <input type="radio" checked=false name="options" id="alphaoption4"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('c')" aria-pressed="false">C
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaD">
+                <input type="radio" checked="false" name="options" id="alphaoption5"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('alphaD')" aria-pressed="false">D
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaE">
+                <input type="radio" checked=false name="options" id="alphaoption6"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('e')" aria-pressed="false">E
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaF">
+                <input type="radio" checked=false name="options" id="alphaoption7"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('f')" aria-pressed="false">F
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaG">
+                <input type="radio" checked=false name="options" id="alphaoption8"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('g')" aria-pressed="false">G
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaH">
+                <input type="radio" checked=false name="options" id="alphaoption9"
+                    class="generalbtn normal-font" (click)="getPeopleByAlpha('H')" aria-pressed="false">H
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaI">
+                <input type="radio" checked=false name="options" id="alphaoption10"
+                    class="generalbtn normal-font " (click)="getPeopleByAlpha('i')" aria-pressed="false">I
+            </label>
+        </div>
+
+
 <div class="person-list container" >
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
@@ -80,6 +124,8 @@
         <div class="people" >
               <!--[class.selected]="person.pkersonid === selectedPerson" (click)="onSelect(person.pkersonid)" >-->
           <div class="userphoto">
+
+            <!-- use {{person.photos.photolocation}}  when it comes available in the API add "photos" to the filter list -->
             <img src="http://amjabber/nophoto.gif" id="{{person.displayname}}" width="112px;" />
           </div>
           <div class="userdetails" > 
