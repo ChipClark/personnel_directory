@@ -114,7 +114,7 @@
 </div>
 <div class="NextPrevBar">
     
-        <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == 0" (click)="--pageNumber;paginate()" >Prev</button>&nbsp;
+        <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == 1" (click)="--pageNumber;paginate()" >Prev</button>&nbsp;
     
         <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == lastPage" (click)="++pageNumber;paginate()" >Next</button>&nbsp;
 </div>

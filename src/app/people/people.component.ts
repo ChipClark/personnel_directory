@@ -135,7 +135,7 @@ export class PeopleComponent implements OnInit {
   }
 
   paginate(): void {
-    --this.limit;
+    --this.pageNumber;
     this.activePeople = this.people.slice(this.limit * this.pageNumber, (this.pageNumber + 1) * this.limit);
   }
 
