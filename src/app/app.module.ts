@@ -12,7 +12,6 @@ import { PersonSearchComponent }  from './person-search/person-search.component'
 import { ConfigComponent } from './config/config.component';
 import { PeopleComponent } from './people/people.component';
 import { DepartmentsComponent } from './departments/departments.component';
-import { JobtitlesComponent } from './jobtitles/jobtitles.component';
 
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderComponent } from './header/header.component';
@@ -21,7 +20,6 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { CityPipe } from './city.pipe';
-import { PhonesComponent } from './phones/phones.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -37,12 +35,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ConfigComponent,
     PeopleComponent,
     DepartmentsComponent,
-    JobtitlesComponent,
     NavigationComponent,
     HeaderComponent,
     FooterComponent,
-    CityPipe,
-    PhonesComponent,
+    CityPipe
   ],
   imports: [
     BrowserModule, 

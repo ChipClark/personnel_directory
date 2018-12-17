@@ -160,8 +160,8 @@
 </div>
 <div class="NextPrevBar">
     
-        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('prev', people[0].totalcount )" >Prev</button>&nbsp;
+    <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == 0" (click)="--pageNumber;paginate()" >Prev</button>&nbsp;
     
-        <button class="btn btn-secondary generalbtn" (click)="getMorePeople('next', people[0].totalcount )" >Next</button>&nbsp;
+    <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == lastPage" (click)="++pageNumber;paginate()" >Next</button>&nbsp;
 </div>
 

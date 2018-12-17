@@ -16,7 +16,6 @@ import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
-import { cpus } from 'os';
 import { PersonRelationship } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 
@@ -50,13 +49,13 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
  
 export class PeopleComponent implements OnInit {
 
-  private baseURL = 'http://am-web05:3030/api/people/';
-  private phoneURL = "http://am-web05:3030/api/phones";
-  private jobURL = 'http://am-web05:3030/api/jobtitles';
-  private schoolDetails = 'http://am-web05:3030/api/schools';
-  private practiceareasURL = 'http://am-web05:3030/api/practices';
-  private attorneypracticeURL = 'http://am-web05:3030/api/attorneypractices';
-  private legalSubDeptsURL = 'http://am-web05:3030/api/legalsubdepartments';
+  private baseURL = 'http://am-web05:3030/api/v1/people/';
+  private phoneURL = "http://am-web05:3030/api/v1/phones";
+  private jobURL = 'http://am-web05:3030/api/v1/jobtitles';
+  private schoolDetails = 'http://am-web05:3030/api/v1/schools';
+  private practiceareasURL = 'http://am-web05:3030/api/v1/practices';
+  private attorneypracticeURL = 'http://am-web05:3030/api/v1/attorneypractices';
+  private legalSubDeptsURL = 'http://am-web05:3030/api/v1/legalsubdepartments';
 
 
   // Filters
@@ -77,8 +76,10 @@ export class PeopleComponent implements OnInit {
   public alphaLabelID = "alphaAll";
   
   public skip = 0;
+  public pageNumber = 0;
   public limit = 20;
   public lastRecord;
+  public lastPage;
   
   private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   private order = '"order":"lastname ASC",'
@@ -100,6 +101,7 @@ export class PeopleComponent implements OnInit {
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalSubDepts: LegalSubDepartments[];
+  activePeople: Person[];
   
   constructor(
     private staffService: APIService,
@@ -124,32 +126,42 @@ export class PeopleComponent implements OnInit {
   getPeople(): void {
     this.buildURL();
     let JUNK$ = this.staffService.getDATA(this.personURL)
-        .subscribe(people => this.people = people
-        );
+      .subscribe(people => { 
+        this.people = people;
+        this.lastRecord = people.length;
+        this.lastPage = Math.ceil(this.lastRecord / this.limit);
+        this.paginate();
+      }
+    );
   }
   
-  buildURL () {
+  paginate(): void {
+    --this.limit;
+    this.activePeople = this.people.slice(this.limit * this.pageNumber, (this.pageNumber + 1) * this.limit);
+  }
+  
+  buildURL() {
     this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
     this.buildAddFilter();
     this.personURL = this.baseURL + this.addFilter + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
 
-  buildAddFilter () {
+  buildAddFilter() {
     this.addFilter = this.peopleFilter + this.location + this.hrdepartmentFilter + this.EndFilter;
   }
   
 
   //getMorePeople(direction: string, lastRecord): void {
   getMorePeople(direction: string, recordcount: number): void {
-    if(direction == "prev"){
-      if(this.skip >= 20) {
+    if (direction == "prev") {
+      if (this.skip >= 20) {
           this.skip = this.skip - this.limit;
       }
     }
     else {
       var tempCount = recordcount - (this.limit + this.skip);  // this ensures we don't exceed the totalcount (recordcount)
-      if(this.skip >= 0 && this.skip < recordcount) {
-        if(tempCount > 0) {
+      if (this.skip >= 0 && this.skip < recordcount) {
+        if (tempCount > 0) {
           this.skip = this.skip + this.limit;
         }
       }
@@ -163,7 +175,7 @@ export class PeopleComponent implements OnInit {
     LabelElement = document.getElementById(this.cityLabelID);
     LabelElement.className = "med-font btn btn-outline-secondary";
 
-    switch(id) {
+    switch (id) {
       case "city6":
           this.location = '';
           LabelElement = document.getElementById("city6");
@@ -287,14 +299,14 @@ export class PeopleComponent implements OnInit {
     
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
-    if(currentperson.practices.length > 0) {
+    if (currentperson.practices.length > 0) {
       addHTML = addHTML + "<br>";
       var currentPractices = currentperson.practices;
       var i;
-      for(i = 0; i < currentPractices.length; i++){
-        if(i > 0  ) {
+      for (i = 0; i < currentPractices.length; i++){
+        if (i > 0) {
           addHTML = addHTML + ",";
-          if( i == 2 || i == 4 ) {
+          if ( i == 2 || i == 4 ) {
             addHTML = addHTML + "<br>";
           }
         }
@@ -320,7 +332,7 @@ export class PeopleComponent implements OnInit {
 
       photoString = `<img src="http://amjabber/nophoto.gif" id='{{person.pkperson.id}}' width="112px;" />`
     
-      var image=new Image();
+      var image = new Image();
       //console.log("in getPhoto()");
       //personPhoto = "http://amjabber/" + primary.addomainaccount + ".jpg";
       image.onload = function () {
@@ -352,7 +364,7 @@ export class PeopleComponent implements OnInit {
   }
 
   getPrefName(prefName: string): string {
-    if(!prefName) return "";
+    if (!prefName) return "";
     prefName = '"' + prefName + '"';    
     return prefName;
   }
@@ -363,7 +375,7 @@ export class PeopleComponent implements OnInit {
       return obj.phonetypeid === phonetypeid;
     });
 
-    if(!officePhone) {
+    if (!officePhone) {
       var nophone = 'Phone: <br>'
       return nophone; 
     }
@@ -376,20 +388,20 @@ export class PeopleComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
 
-  writeAssistant(currentperson: any): SafeHtml  {
-    if(currentperson.personrelationship.length == 0 ) return null;
+  writeAssistant(currentperson: any): SafeHtml {
+    if (currentperson.personrelationship.length == 0) return null;
 
     var asstID = currentperson.personrelationship[0].relatedpersonid;
     var assistants: Person;
     var asst;
-
-    for(let i = 0; i < currentperson.personrelationship.length; i++){
+ 
+    for (let i = 0; i < currentperson.personrelationship.length; i++){
       var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
       asst  = '<a routerLink="' + detailURL
       + '" href="' + detailURL  + '" >Assistant</a><br>';
   
-      for(let j = 0; j < this.people.length; j++) {
-        if(currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
+      for (let j = 0; j < this.people.length; j++) {
+        if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
           assistants = this.people[j];
         }
       }
@@ -397,7 +409,7 @@ export class PeopleComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
-  sanitizeScript(sanitizer: DomSanitizer){}
+  sanitizeScript(sanitizer: DomSanitizer) {}
 
 
   getPeopleByAlpha(alpha: string): void {
