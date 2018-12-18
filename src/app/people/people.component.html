@@ -2,113 +2,113 @@
     <div class="btn-group-toggle locationbar" data-toggle="locationbuttons">
         <label class="btn btn-outline-secondary med-font active" id="city6">
            <input type="radio" checked=true name="options" id="option1"  
-                class="generalbtn" (click)="getPeopleByLocation('city6')" aria-pressed="true">All
+                class="generalbtn" (click)="ByLocation('city6')" aria-pressed="true">All
         </label>&nbsp;
         <label class="btn btn-outline-secondary med-font blur" id="city1">
             <input type="radio" checked=false name="options" id="option2"
-                class="generalbtn" (click)="getPeopleByLocation('city1')" aria-pressed="false">Century City
+                class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">Century City
         </label>&nbsp;
         <label class="btn btn-outline-secondary med-font blur" id="city2">
             <input type="radio" checked=false name="options" id="option3"
-                class="generalbtn" (click)="getPeopleByLocation('city2')" aria-pressed="false">Los Angeles
+                class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">Los Angeles
         </label>&nbsp;
         <label class="btn btn-outline-secondary med-font blur" id="city3">
             <input type="radio" checked="false" name="options" id="option4"
-                class="generalbtn" (click)="getPeopleByLocation('city3')" aria-pressed="false">Orange County
+                class="generalbtn" (click)="ByLocation('city3')" aria-pressed="false">Orange County
         </label>&nbsp;
         <label class="btn btn-outline-secondary med-font blur" id="city4">
             <input type="radio" checked=false name="options" id="option5"
-                class="generalbtn" (click)="getPeopleByLocation('city4')" aria-pressed="false">San Diego
+                class="generalbtn" (click)="ByLocation('city4')" aria-pressed="false">San Diego
         </label>&nbsp;
         <label class="btn btn-outline-secondary med-font blur" id="city5">
             <input type="radio" checked=false name="options" id="option6"
-            class="generalbtn" (click)="getPeopleByLocation('city5')" aria-pressed="false">San Francisco
+            class="generalbtn" (click)="ByLocation('city5')" aria-pressed="false">San Francisco
         </label>
     </div>
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
         <label class="small-font btn btn-outline-secondary active" id="Role1">
             <input type="radio" checked=true name="options" id="roleoption1"  
-                class="generalbtn small-font" (click)="getPeopleByRole('Role1')" aria-pressed="true">All
+                class="generalbtn small-font" (click)="ByRole('Role1')" aria-pressed="true">All
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role2">
             <input type="radio" checked=false name="options" id="roleoption2"
-               class="generalbtn small-font" (click)="getPeopleByRole('Role2')" aria-pressed="false">Partners
+               class="generalbtn small-font" (click)="ByRole('Role2')" aria-pressed="false">Partners
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role3">
             <input type="radio" checked=false name="options" id="roleoption3"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role3')" aria-pressed="false">Associates
+                class="generalbtn small-font" (click)="ByRole('Role3')" aria-pressed="false">Associates
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role4">
             <input type="radio" checked=false name="options" id="roleoption4"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role4')" aria-pressed="false">Secretaries
+                class="generalbtn small-font" (click)="ByRole('Role4')" aria-pressed="false">Secretaries
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role5">
             <input type="radio" checked="false" name="options" id="roleoption5"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role5')" aria-pressed="false">Administration
+                class="generalbtn small-font" (click)="ByRole('Role5')" aria-pressed="false">Administration
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role6">
             <input type="radio" checked=false name="options" id="roleoption6"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role6')" aria-pressed="false">Finance
+                class="generalbtn small-font" (click)="ByRole('Role6')" aria-pressed="false">Finance
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role7">
             <input type="radio" checked=false name="options" id="roleoption7"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role7')" aria-pressed="false">Technology
+                class="generalbtn small-font" (click)="ByRole('Role7')" aria-pressed="false">Technology
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role8">
             <input type="radio" checked=false name="options" id="roleoption8"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role8')" aria-pressed="false">Marketing
+                class="generalbtn small-font" (click)="ByRole('Role8')" aria-pressed="false">Marketing
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role9">
             <input type="radio" checked=false name="options" id="roleoption9"
-                class="generalbtn small-font" (click)="getPeopleByRole('Role9')" aria-pressed="false">Human Resources
+                class="generalbtn small-font" (click)="ByRole('Role9')" aria-pressed="false">Human Resources
         </label>&nbsp;
         <label class="small-font btn btn-outline-secondary blur" id="Role10">
             <input type="radio" checked=false name="options" id="roleoption10"
-                class="generalbtn small-font " (click)="getPeopleByRole('Role10')" aria-pressed="false">Word Processing
+                class="generalbtn small-font " (click)="ByRole('Role10')" aria-pressed="false">Word Processing
         </label>
     </div>
 
 
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
-            <label class="normal-font btn btn-outline-secondary active" id="Role1">
+            <label class="normal-font btn btn-outline-secondary active" id="alphaAll">
                 <input type="radio" checked=true name="options" id="alphaoption1"  
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('alphaAll')" aria-pressed="true">All
+                    class="generalbtn normal-font" (click)="ByAlpha('alphaAll')" aria-pressed="true">All
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role2">
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaA">
                 <input type="radio" checked=false name="options" id="alphaoption2"
-                   class="generalbtn normal-font" (click)="getPeopleByAlpha('a')" aria-pressed="false">A
+                   class="generalbtn normal-font" (click)="ByAlpha('a')" aria-pressed="false">A
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role3">
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaB">
                 <input type="radio" checked=false name="options" id="alphaoption3"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('b')" aria-pressed="false">B
+                    class="generalbtn normal-font" (click)="ByAlpha('b')" aria-pressed="false">B
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role4">
+            <label class="normal-font btn btn-outline-secondary blur" id="alphaC">
                 <input type="radio" checked=false name="options" id="alphaoption4"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('c')" aria-pressed="false">C
+                    class="generalbtn normal-font" (click)="ByAlpha('c')" aria-pressed="false">C
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaD">
                 <input type="radio" checked="false" name="options" id="alphaoption5"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('alphaD')" aria-pressed="false">D
+                    class="generalbtn normal-font" (click)="ByAlpha('d')" aria-pressed="false">D
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaE">
                 <input type="radio" checked=false name="options" id="alphaoption6"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('e')" aria-pressed="false">E
+                    class="generalbtn normal-font" (click)="ByAlpha('e')" aria-pressed="false">E
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaF">
                 <input type="radio" checked=false name="options" id="alphaoption7"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('f')" aria-pressed="false">F
+                    class="generalbtn normal-font" (click)="ByAlpha('f')" aria-pressed="false">F
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaG">
                 <input type="radio" checked=false name="options" id="alphaoption8"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('g')" aria-pressed="false">G
+                    class="generalbtn normal-font" (click)="ByAlpha('g')" aria-pressed="false">G
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaH">
                 <input type="radio" checked=false name="options" id="alphaoption9"
-                    class="generalbtn normal-font" (click)="getPeopleByAlpha('H')" aria-pressed="false">H
+                    class="generalbtn normal-font" (click)="ByAlpha('H')" aria-pressed="false">H
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaI">
                 <input type="radio" checked=false name="options" id="alphaoption10"
-                    class="generalbtn normal-font " (click)="getPeopleByAlpha('i')" aria-pressed="false">I
+                    class="generalbtn normal-font " (click)="ByAlpha('i')" aria-pressed="false">I
             </label>
         </div>
 

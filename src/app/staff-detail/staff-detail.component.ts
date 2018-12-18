@@ -6,6 +6,7 @@ import { Person}         from '../person';
 import { APIService }  from '../api.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
+import { PeopleComponent } from '../people/people.component';
 
 @Component({
   selector: 'app-staff-detail',
@@ -17,10 +18,6 @@ export class StaffDetailComponent implements OnInit {
 
   private id;
 
-  private baseURL = 'http://am-web05:3030/api/people/';
-  private All = '?filter={"where":{"employmentstatus":"A"},'
-  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]}';
-  
   url: string;
   people: Person[];
   person: Person;
@@ -33,6 +30,7 @@ export class StaffDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private httpClient: HttpClient,
     private staffService: APIService,
+    private personService: PeopleComponent,
     private location: Location,
     protected sanitizer: DomSanitizer
   ) {}
@@ -45,7 +43,8 @@ export class StaffDetailComponent implements OnInit {
   }
  
   getPerson(id: number): void {
-    this.url = this.baseURL + this.id + this.All + this.generalIncludes;
+    this.url = this.personService.baseURL + this.id + this.personService.All + this.personService.generalIncludes + this.personService.endRequest;;
+    console.log(this.url);
     this.staffService.getPersonID(this.url) 
       .subscribe(
         people => {
@@ -54,39 +53,16 @@ export class StaffDetailComponent implements OnInit {
   }
 
   getPersonTitles(currentperson: any): string {
-    console.log(currentperson);
-    var dump = "should be a title <br>";
-    return dump;
-    var currentJobTitle = currentperson.jobtitle.jobtitle;
-    
-    var addHTML = "<strong>" + currentJobTitle + "</strong>";
-
-    if(currentperson.practices.length > 0) {
-      addHTML = addHTML + "<br>";
-      var currentPractices = currentperson.practices;
-      var i;
-      for(i = 0; i < currentPractices.length; i++){
-        if(i > 0  ) {
-          addHTML = addHTML + ",";
-          if( i == 2 || i == 4 ) {
-            addHTML = addHTML + "<br>";
-          }
-        }
-        addHTML = addHTML + " " + currentPractices[i].practicename;
-        
-      }
-      addHTML = addHTML + "<br>";
-
-    }
-    return addHTML;
+    return this.personService.getPersonTitles(currentperson); 
   }
+
   getPhone(currentperson: any): SafeHtml | SafeValue {
     var phonetypeid = 1;
     var officePhone = currentperson.phones.find(obj => { 
       return obj.phonetypeid === phonetypeid;
     });
 
-    if(!officePhone) {
+    if (!officePhone) {
       var nophone = 'Phone: <br>'
       return nophone; 
     }

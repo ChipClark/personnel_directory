@@ -49,41 +49,34 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
  
 export class PeopleComponent implements OnInit {
 
-  private baseURL = 'http://am-web05:3030/api/v1/people/';
-  private phoneURL = "http://am-web05:3030/api/v1/phones";
-  private jobURL = 'http://am-web05:3030/api/v1/jobtitles';
-  private schoolDetails = 'http://am-web05:3030/api/v1/schools';
-  private practiceareasURL = 'http://am-web05:3030/api/v1/practices';
-  private attorneypracticeURL = 'http://am-web05:3030/api/v1/attorneypractices';
-  private legalSubDeptsURL = 'http://am-web05:3030/api/v1/legalsubdepartments';
-
-
+  public baseURL = 'http://am-web05:3030/api/v1/people/';
+  
   // Filters
-  private peopleFilter = '?filter={"where":{"employmentstatus":"A"'
-  private EndFilter = '},'
-  private All = this.peopleFilter + this.EndFilter;
-  private addFilter = this.All;
-  private location = "";
-  private hrdepartmentFilter = "";
+  public peopleFilter = '?filter={"where":{"employmentstatus":"A"'
+  public EndFilter = '},'
+  public All = this.peopleFilter + this.EndFilter;
+  public addFilter = this.All;
 
 
   //includes
-  private generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]';
-  private endRequest = '}';
+  public generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]';
+  public endRequest = '}';
 
+  public location = "";
   public cityLabelID = "city6";
   public roleLabelID = "Role1";
   public alphaLabelID = "alphaAll";
+  public hrdepartmentFilter = "";
   
   public skip = 0;
-  public pageNumber = 0;
+  public pageNumber = 1;
   public limit = 20;
   public lastRecord;
   public lastPage;
   
-  private pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
-  private order = '"order":"lastname ASC",'
-  private personURL = this.baseURL + this.addFilter + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+  public pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
+  public order = '"order":"lastname ASC",'
+  private personURL = this.baseURL + this.addFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
 
 
   url: string;
@@ -141,9 +134,8 @@ export class PeopleComponent implements OnInit {
   }
   
   buildURL() {
-    this.pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
     this.buildAddFilter();
-    this.personURL = this.baseURL + this.addFilter + this.pagination + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+    this.personURL = this.baseURL + this.addFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
 
   buildAddFilter() {
@@ -166,131 +158,6 @@ export class PeopleComponent implements OnInit {
         }
       }
     }
-    this.getPeople(); 
-  }
-
-  getPeopleByLocation(id: string): void {
-    var LabelElement;
-    console.log()
-    LabelElement = document.getElementById(this.cityLabelID);
-    LabelElement.className = "med-font btn btn-outline-secondary";
-
-    switch (id) {
-      case "city6":
-          this.location = '';
-          LabelElement = document.getElementById("city6");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-          this.cityLabelID = "city6";
-         break;
-      case "city1": 
-          this.location = ',"officelocationid":4';
-          LabelElement = document.getElementById("city1");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-          this.cityLabelID = "city1";
-         break;
-      case "city2":
-          this.location = ',"officelocationid":1';
-          LabelElement = document.getElementById("city2");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-           this.cityLabelID = "city2";
-         break;
-      case "city3":
-          this.location = ',"officelocationid":2';
-          LabelElement = document.getElementById("city3");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-           this.cityLabelID = "city3";
-         break;
-      case "city4":
-          this.location = ',"officelocationid":3';
-          LabelElement = document.getElementById("city4");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-          this.cityLabelID = "city4";
-         break;
-      case "city5":
-          this.location = ',"officelocationid":5';
-          LabelElement = document.getElementById("city5");
-          LabelElement.className = "btn btn-outline-secondary med-font active";
-          this.cityLabelID = "city5";
-         break;
-      default: 
-         this.location = "";
-        break;
-    }
-    this.skip = 0;
-    this.getPeople(); 
-  }
-
-  getPeopleByRole(id: string): void {
-    var LabelElement;
-    LabelElement = document.getElementById(this.roleLabelID);
-    LabelElement.className = "small-font btn btn-outline-secondary";
-
-    switch(id) {
-      case "Role1":
-          this.hrdepartmentFilter = '';
-          LabelElement = document.getElementById("Role1");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role1";
-         break;
-      case "Role2": 
-          this.hrdepartmentFilter = ',"hrdepartment":13';
-          LabelElement = document.getElementById("Role2");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role2";
-         break;
-      case "Role3":
-          this.hrdepartmentFilter = ',"hrdepartment":1';
-          LabelElement = document.getElementById("Role3");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role3";
-         break;
-      case "Role4":
-          this.hrdepartmentFilter = ',"hrdepartment":11';
-          LabelElement = document.getElementById("Role4");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role4";
-         break;
-      case "Role5":
-          this.hrdepartmentFilter = ',"hrdepartment":9';
-          LabelElement = document.getElementById("Role5");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role5";
-         break;
-      case "Role6":
-          this.hrdepartmentFilter = ',"hrdepartment":8';
-          LabelElement = document.getElementById("Role6");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
-          this.roleLabelID = "Role6";
-         break;
-      case "Role7":
-         this.hrdepartmentFilter = ',"hrdepartment":7';
-         LabelElement = document.getElementById("Role7");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
-         this.roleLabelID = "Role7";
-        break;
-      case "Role8":
-         this.hrdepartmentFilter = ',"hrdepartment":6';
-         LabelElement = document.getElementById("Role8");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
-         this.roleLabelID = "Role8";
-        break;
-      case "Role9":
-         this.hrdepartmentFilter = ',"hrdepartment":3';
-         LabelElement = document.getElementById("Role9");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
-         this.roleLabelID = "Role9";
-        break;
-      case "Role10":
-         this.hrdepartmentFilter = ',"hrdepartment":12';
-         LabelElement = document.getElementById("Role10");
-         LabelElement.className = "small-font btn btn-outline-secondary  active";
-         this.roleLabelID = "Role10";
-        break;
-     default: 
-         this.location = "";
-        break;
-    }
-    this.skip = 0;
     this.getPeople(); 
   }
 
@@ -394,11 +261,15 @@ export class PeopleComponent implements OnInit {
     var asstID = currentperson.personrelationship[0].relatedpersonid;
     var assistants: Person;
     var asst;
+
+    assistants = this.people.find(obj => { 
+      return obj.pkpersonid === currentperson.personrelationship[0].relatedpersonid;
+    });
  
     for (let i = 0; i < currentperson.personrelationship.length; i++){
       var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
-      asst  = '<a routerLink="' + detailURL
-      + '" href="' + detailURL  + '" >Assistant</a><br>';
+      asst  = 'Assistant: <a routerLink="' + detailURL
+      + '" href="' + detailURL  + '" >' + assistants.displayname + '</a><br>';
   
       for (let j = 0; j < this.people.length; j++) {
         if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
@@ -412,22 +283,75 @@ export class PeopleComponent implements OnInit {
   sanitizeScript(sanitizer: DomSanitizer) {}
 
 
-  getPeopleByAlpha(alpha: string): void {
+  
+  
+  ByLocation(id: string): void {
+    var LabelElement;
+    console.log()
+    LabelElement = document.getElementById(this.cityLabelID);
+    LabelElement.className = "med-font btn btn-outline-secondary";
+
+    switch (id) {
+      case "city6":
+          this.location = '';
+          LabelElement = document.getElementById("city6");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+          this.cityLabelID = "city6";
+         break;
+      case "city1": 
+          this.location = ',"officelocationid":4';
+          LabelElement = document.getElementById("city1");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+          this.cityLabelID = "city1";
+         break;
+      case "city2":
+          this.location = ',"officelocationid":1';
+          LabelElement = document.getElementById("city2");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+           this.cityLabelID = "city2";
+         break;
+      case "city3":
+          this.location = ',"officelocationid":2';
+          LabelElement = document.getElementById("city3");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+           this.cityLabelID = "city3";
+         break;
+      case "city4":
+          this.location = ',"officelocationid":3';
+          LabelElement = document.getElementById("city4");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+          this.cityLabelID = "city4";
+         break;
+      case "city5":
+          this.location = ',"officelocationid":5';
+          LabelElement = document.getElementById("city5");
+          LabelElement.className = "btn btn-outline-secondary med-font active";
+          this.cityLabelID = "city5";
+         break;
+      default: 
+         this.location = "";
+        break;
+    }
+    this.skip = 0;
+    this.getPeople(); 
+  }
+
+  ByAlpha(alpha: string): void {
     var LabelElement;
     LabelElement = document.getElementById(this.alphaLabelID);
     LabelElement.className = "normal-font btn btn-outline-secondary";
 
     // research how to pull people by first letter of last name
     
-    switch(alpha) {
+    switch (alpha) {
       case "a":
-          this.location = '';
+          this.location = 'lastname":a*';
           LabelElement = document.getElementById("alphaA");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaA";
          break;
       case "b": 
-          this.location = ',"alpha":4';  // what to add to the API call to pull the right details
+          this.location = ',"lastname":b*';  // what to add to the API call to pull the right details
           LabelElement = document.getElementById("alphaB");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaB";
@@ -454,18 +378,90 @@ export class PeopleComponent implements OnInit {
           this.location = ',"alpha":5';
           LabelElement = document.getElementById("alphaF");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
-          this.cityLabelID = "alphaF";
+          this.alphaLabelID = "alphaF";
          break;
       default: 
           this.location = '';
           LabelElement = document.getElementById("alphaAll");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
-          this.cityLabelID = "alphaAll";
+          this.alphaLabelID = "alphaAll";
         break;
     }
     this.skip = 0;
     this.getPeople(); 
   }
-  
-  
+
+  ByRole(role: string): void {
+    var LabelElement;
+    LabelElement = document.getElementById(this.roleLabelID);
+    LabelElement.className = "small-font btn btn-outline-secondary";
+
+    switch (role) {
+        case "Role1":
+          this.hrdepartmentFilter = '';
+          LabelElement = document.getElementById("Role1");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role1";
+         break;
+        case "Role2": 
+          this.hrdepartmentFilter = ',"hrdepartmentid":13';
+          LabelElement = document.getElementById("Role2");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role2";
+         break;
+      case "Role3":
+          this.hrdepartmentFilter = ',"hrdepartmentid":1';
+          LabelElement = document.getElementById("Role3");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role3";
+         break;
+      case "Role4":
+          this.hrdepartmentFilter = ',"hrdepartmentid":11';
+          LabelElement = document.getElementById("Role4");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role4";
+         break;
+      case "Role5":
+          this.hrdepartmentFilter = ',"hrdepartmentid":9';
+          LabelElement = document.getElementById("Role5");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role5";
+         break;
+      case "Role6":
+          this.hrdepartmentFilter = ',"hrdepartmentid":8';
+          LabelElement = document.getElementById("Role6");
+          LabelElement.className = "small-font btn btn-outline-secondary active";
+          this.roleLabelID = "Role6";
+         break;
+      case "Role7":
+         this.hrdepartmentFilter = ',"hrdepartmentid":7';
+         LabelElement = document.getElementById("Role7");
+         LabelElement.className = "small-font btn btn-outline-secondary active";
+         this.roleLabelID = "Role7";
+        break;
+      case "Role8":
+         this.hrdepartmentFilter = ',"hrdepartmentid":6';
+         LabelElement = document.getElementById("Role8");
+         LabelElement.className = "small-font btn btn-outline-secondary active";
+         this.roleLabelID = "Role8";
+        break;
+      case "Role9":
+         this.hrdepartmentFilter = ',"hrdepartmentid":3';
+         LabelElement = document.getElementById("Role9");
+         LabelElement.className = "small-font btn btn-outline-secondary active";
+         this.roleLabelID = "Role9";
+        break;
+      case "Role10":
+      this.hrdepartmentFilter = ',"hrdepartmentid":12';
+         LabelElement = document.getElementById("Role10");
+         LabelElement.className = "small-font btn btn-outline-secondary  active";
+         this.roleLabelID = "Role10";
+        break;
+     default: 
+         this.location = "";
+        break;
+    }
+    this.skip = 0;
+    this.getPeople(); 
+}
 }
