@@ -171,13 +171,20 @@ export class PeopleComponent implements OnInit {
       var currentPractices = currentperson.practices;
       var i;
       for (i = 0; i < currentPractices.length; i++){
-        if (i > 0) {
+        //if (i == 0) {
+        //  addHTML = addHTML + " " + currentPractices[i].practicename;
+        //}
+
+        if (i > 0 && i < 4 ) {
           addHTML = addHTML + ",";
-          if ( i == 2 || i == 4 ) {
+          if ( i == 2 || i == 4  ) {
             addHTML = addHTML + "<br>";
           }
+          addHTML = addHTML + " " + currentPractices[i].practicename;
         }
-        addHTML = addHTML + " " + currentPractices[i].practicename;
+        else if (i == 4){
+          addHTML = addHTML + " more" ;
+        }
         
       }
       addHTML = addHTML + "<br>";
@@ -268,26 +275,33 @@ export class PeopleComponent implements OnInit {
  
     for (let i = 0; i < currentperson.personrelationship.length; i++){
       var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
-      asst  = 'Assistant: <a routerLink="' + detailURL
-      + '" href="' + detailURL  + '" >' + assistants.displayname + '</a><br>';
-  
+
+      asst = 'Assistant: <a routerLink="' + detailURL
+              + '" href="' + detailURL  + '" >';
+
       for (let j = 0; j < this.people.length; j++) {
         if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
           assistants = this.people[j];
+
+          if (!assistants.displayname) {
+            asst = asst + 'No name found';
+          }
+          else {
+            asst  = asst + assistants.displayname;
+          }
+    
         }
       }
     }
+    asst = asst + '</a><br />';
     return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
   sanitizeScript(sanitizer: DomSanitizer) {}
 
-
-  
   
   ByLocation(id: string): void {
     var LabelElement;
-    console.log()
     LabelElement = document.getElementById(this.cityLabelID);
     LabelElement.className = "med-font btn btn-outline-secondary";
 

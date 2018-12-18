@@ -31,7 +31,6 @@ export class StaffDetailComponent implements OnInit {
     private httpClient: HttpClient,
     private staffService: APIService,
     private personService: PeopleComponent,
-    private location: Location,
     protected sanitizer: DomSanitizer
   ) {}
  
@@ -76,7 +75,7 @@ export class StaffDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    console.log(this.route.parent.url);
   }
 
   sanitizeScript(sanitizer: DomSanitizer){}
