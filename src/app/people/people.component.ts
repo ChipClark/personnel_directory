@@ -18,6 +18,7 @@ import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicesta
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { PersonRelationship } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { ACTIVE_INDEX } from '@angular/core/src/render3/interfaces/container';
 
 
 @Component({
@@ -30,23 +31,6 @@ import { connectableObservableDescriptor } from 'rxjs/internal/observable/Connec
   providedIn: 'root'
 })
 
-//export class SendService {
-  // see: https://stackoverflow.com/questions/44205950/angular-passing-a-variable-from-a-component-to-a-service 
-//  private skip = 20;
-//  private limit = 20;
-//  private lastRecord;
-
-//  getSkipValue(): number{
-//    return this.skip;
-//  }
-//  getLimitValue(): number {
-//    return this.limit;
-//  }
-//  getLastValue(): number {
-//    return this.lastRecord;
-//  }
-//}
- 
 export class PeopleComponent implements OnInit {
 
   public baseURL = 'http://am-web05:3030/api/v1/people/';
@@ -68,19 +52,19 @@ export class PeopleComponent implements OnInit {
   public alphaLabelID = "alphaAll";
   public hrdepartmentFilter = "";
   
-  public skip = 0;
-  public pageNumber = 1;
-  public limit = 20;
+  public pageNumber = 0;
+  public limit = 10;
+  public records;
   public lastRecord;
   public lastPage;
   
-  public pagination = '"limit":' + this.limit + ',"skip":' + this.skip + ',';
   public order = '"order":"lastname ASC",'
   private personURL = this.baseURL + this.addFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
 
 
   url: string;
   people: Person[];
+  activePeople: Person[];
   idata: iData[];
   apiheader: APIHeader;
   relationships: PersonRelationship[];
@@ -94,7 +78,6 @@ export class PeopleComponent implements OnInit {
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalSubDepts: LegalSubDepartments[];
-  activePeople: Person[];
   
   constructor(
     private staffService: APIService,
@@ -106,22 +89,14 @@ export class PeopleComponent implements OnInit {
     this.getPeople();
   }
 
-  onSelect(personid: number): void {
-    var primary = this.people.find(obj => {
-      return obj.pkpersonid === personid;
-      });
-      
-      console.log(primary.firstname);
-    //this.router.  ('/details/' + people.pkpersonid);
-    //this.selectedPerson.pkpersonid = people.pkpersonid;
-  }
-
   getPeople(): void {
     this.buildURL();
-    let JUNK$ = this.staffService.getDATA(this.personURL)
+    this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
         this.people = people;
-        this.lastRecord = people.length;
+        this.activePeople = people;
+        this.records = this.people.length;
+        this.lastRecord = this.people.length;
         this.lastPage = Math.ceil(this.lastRecord / this.limit);
         this.paginate();
       }
@@ -130,7 +105,9 @@ export class PeopleComponent implements OnInit {
   
   paginate(): void {
     --this.limit;
-    this.activePeople = this.people.slice(this.limit * this.pageNumber, (this.pageNumber + 1) * this.limit);
+    console.log("limit = " + this.limit);
+    this.activePeople = this.people.slice(this.pageNumber, this.limit + 1);
+    console.log(this.people[this.limit + 1].displayname);
   }
   
   buildURL() {
@@ -143,54 +120,41 @@ export class PeopleComponent implements OnInit {
   }
   
 
-  //getMorePeople(direction: string, lastRecord): void {
-  getMorePeople(direction: string, recordcount: number): void {
-    if (direction == "prev") {
-      if (this.skip >= 20) {
-          this.skip = this.skip - this.limit;
-      }
-    }
-    else {
-      var tempCount = recordcount - (this.limit + this.skip);  // this ensures we don't exceed the totalcount (recordcount)
-      if (this.skip >= 0 && this.skip < recordcount) {
-        if (tempCount > 0) {
-          this.skip = this.skip + this.limit;
-        }
-      }
-    }
-    this.getPeople(); 
-  }
-
-  getPersonTitles(currentperson: any): string {
+  getPersonTitles(currentperson: any): SafeHtml {
     var currentJobTitle = currentperson.jobtitle.jobtitle;
     
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
+    var moreTag = ', <a routerLink="/detail/' + currentperson.pkpersonid + '>more</a>';
+    var temptitle, tempstring;
 
     if (currentperson.practices.length > 0) {
-      addHTML = addHTML + "<br>";
+      addHTML = addHTML + '<div class="practice-titles">';
       var currentPractices = currentperson.practices;
       var i;
       for (i = 0; i < currentPractices.length; i++){
-        //if (i == 0) {
-        //  addHTML = addHTML + " " + currentPractices[i].practicename;
-        //}
-
-        if (i > 0 && i < 4 ) {
-          addHTML = addHTML + ",";
-          if ( i == 2 || i == 4  ) {
-            addHTML = addHTML + "<br>";
+        temptitle = currentPractices[i].practicename;
+        if (i == 0 ) {
+          addHTML = addHTML + temptitle;
+          tempstring = temptitle;
+          continue;
+        }
+        if (i > 0 && i < 3 ) {
+          if ((tempstring.length + temptitle.length) > 49) {
+            addHTML = addHTML + ',<br>' + temptitle;
+            tempstring = temptitle; 
           }
-          addHTML = addHTML + " " + currentPractices[i].practicename;
+          else {
+            addHTML = addHTML + ", " + temptitle;
+            tempstring = tempstring + ", " + temptitle;
+          }
+          continue;
         }
-        else if (i == 4){
-          addHTML = addHTML + " more" ;
-        }
-        
+        addHTML = addHTML + tempstring + moreTag;
       }
-      addHTML = addHTML + "<br>";
+      addHTML = addHTML + "</div>";
 
     }
-    return addHTML;
+    return this.sanitizer.bypassSecurityTrustHtml(addHTML);
   }
 
   getPhoto(): void {
@@ -299,6 +263,10 @@ export class PeopleComponent implements OnInit {
 
   sanitizeScript(sanitizer: DomSanitizer) {}
 
+  mapPeople(): void {
+
+  }
+
   
   ByLocation(id: string): void {
     var LabelElement;
@@ -346,7 +314,6 @@ export class PeopleComponent implements OnInit {
          this.location = "";
         break;
     }
-    this.skip = 0;
     this.getPeople(); 
   }
 
@@ -401,7 +368,6 @@ export class PeopleComponent implements OnInit {
           this.alphaLabelID = "alphaAll";
         break;
     }
-    this.skip = 0;
     this.getPeople(); 
   }
 
@@ -475,7 +441,6 @@ export class PeopleComponent implements OnInit {
          this.location = "";
         break;
     }
-    this.skip = 0;
     this.getPeople(); 
 }
 }

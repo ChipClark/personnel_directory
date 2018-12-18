@@ -117,7 +117,8 @@
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
   <div class="row">
-    <div *ngFor="let person of people; let i = index;
+    <div *ngFor="let person of people | paginate: { itemsPerPage: 10, currentPage: pageNumber, totalItems: records };
+                let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
       <div class="col">         
@@ -158,10 +159,7 @@
 
   </perfect-scrollbar>
 </div>
-<div class="NextPrevBar">
-    
-    <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == 0" (click)="--pageNumber;paginate()" >Prev</button>&nbsp;
-    
-    <button class="btn btn-secondary generalbtn" [class.disabled]="pageNumber == lastPage" (click)="++pageNumber;paginate()" >Next</button>&nbsp;
+<div class="PaginationBar">
+    <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
 </div>
 

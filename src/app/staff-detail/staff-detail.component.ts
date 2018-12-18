@@ -51,8 +51,40 @@ export class StaffDetailComponent implements OnInit {
       });
   }
 
-  getPersonTitles(currentperson: any): string {
-    return this.personService.getPersonTitles(currentperson); 
+  getPersonTitles(currentperson: any): SafeHtml {
+      var currentJobTitle = currentperson.jobtitle.jobtitle;
+      
+      var addHTML = "<strong>" + currentJobTitle + "</strong>";
+      var temptitle, tempstring;
+  
+      if (currentperson.practices.length > 0) {
+        addHTML = addHTML + '<div class="practice-titles">';
+        var currentPractices = currentperson.practices;
+        var i;
+        for (i = 0; i < currentPractices.length; i++){
+          temptitle = currentPractices[i].practicename;
+          if (i == 0 ) {
+            addHTML = addHTML + temptitle;
+            tempstring = temptitle;
+            continue;
+          }
+          if (i > 0 ) {
+            if ((tempstring.length + temptitle.length) > 49) {
+              addHTML = addHTML + ',<br>' + temptitle;
+              tempstring = temptitle; 
+            }
+            else {
+              addHTML = addHTML + ", " + temptitle;
+              tempstring = tempstring + ", " + temptitle;
+            }
+            continue;
+          }
+          addHTML = addHTML + tempstring;
+        }
+        addHTML = addHTML + "</div>";
+  
+      }
+      return this.sanitizer.bypassSecurityTrustHtml(addHTML);
   }
 
   getPhone(currentperson: any): SafeHtml | SafeValue {
@@ -75,7 +107,7 @@ export class StaffDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    console.log(this.route.parent.url);
+    
   }
 
   sanitizeScript(sanitizer: DomSanitizer){}
