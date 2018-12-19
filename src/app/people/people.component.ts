@@ -131,7 +131,7 @@ export class PeopleComponent implements OnInit {
           continue;
         }
         if (i > 0 && i < 3 ) {
-          if ((tempstring.length + temptitle.length) > 49) {
+          if ((tempstring.length + temptitle.length) > 45) {
             addHTML = addHTML + ',<br>' + temptitle;
             tempstring = temptitle; 
           }
@@ -141,7 +141,12 @@ export class PeopleComponent implements OnInit {
           }
           continue;
         }
-        addHTML = addHTML + tempstring + moreTag;
+        if ((tempstring.length + temptitle.length + moreTag.length) > 45) {
+            addHTML = addHTML + ',<br>' + temptitle + moreTag;
+        }
+        else {
+          addHTML = addHTML + ", " + tempstring + moreTag;
+        }
       }
       addHTML = addHTML + "</div>";
 
