@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { Schools } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
-import { LegalPractices, AttorneyPracticeAreas } from '../datatables/practicestables';
+import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { PersonRelationship } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -36,17 +36,21 @@ export class PeopleComponent implements OnInit {
   public baseURL = 'http://am-web05:3030/api/v1/people/';
   
   // Filters
-  public peopleFilter = '?filter={"where":{"employmentstatus":"A"'
-  public EndFilter = '},'
-  public All = this.peopleFilter + this.EndFilter;
+  public activepeopleFilter = '?filter={"where":{"employmentstatus":"A"},'
+  public All = this.activepeopleFilter;
   public addFilter = this.All;
 
 
   //includes
-  public generalIncludes = '"include":["emails","phones","jobtitle","officelocation","hrdepartment","personrelationship","education","schools","degreetypes","attorneypractices","practices","legalsubdepartments"]';
+  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","personrelationship"';
+  private practiceFilter = '"attorneypractices","practices","legalsubdepartments"';
+  private educationFilter = '"education","schools","degreetypes"';
+  public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
   public endRequest = '}';
+  
+  private order = '"order":"lastname ASC",'
+  private personURL;  // URL to web api
 
-  public location = "";
   public cityLabelID = "city6";
   public roleLabelID = "Role1";
   public alphaLabelID = "alphaAll";
@@ -58,23 +62,20 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   
-  public order = '"order":"lastname ASC",'
-  private personURL = this.baseURL + this.addFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-
+  
 
   url: string;
   people: Person[];
+  sortPeople: Person[];
   activePeople: Person[];
-  idata: iData[];
-  apiheader: APIHeader;
   relationships: PersonRelationship[];
   school: Schools[];
   phone: Phones[];
-  selectedPerson: Person;
   router: RouterLink;
   jobs: JobTitle[];
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
+  subpracticeareas: LegalSubPractices[];
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalSubDepts: LegalSubDepartments[];
@@ -95,6 +96,7 @@ export class PeopleComponent implements OnInit {
       .subscribe(people => { 
         this.people = people;
         this.activePeople = people;
+        this.sortPeople = people;
         this.records = this.people.length;
         this.lastRecord = this.people.length;
         this.lastPage = Math.ceil(this.lastRecord / this.limit);
@@ -103,21 +105,32 @@ export class PeopleComponent implements OnInit {
   }
   
   buildURL() {
-    this.buildAddFilter();
-    this.personURL = this.baseURL + this.addFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+    this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
 
-  buildAddFilter() {
-    this.addFilter = this.peopleFilter + this.location + this.EndFilter;
-  }
-  
-
-  getPersonTitles(currentperson: any): SafeHtml {
+    getTitles(currentperson: any): SafeHtml {
     var currentJobTitle = currentperson.jobtitle.jobtitle;
     
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
+    var attorneyPracName = "No legalfriendlyname in MDD"
     var moreTag = ', <a routerLink="/detail/' + currentperson.pkpersonid + '>more</a>';
     var temptitle, tempstring;
+
+    if (currentperson.isattorney == true) {
+      addHTML = addHTML + '<br>'
+
+      if (!currentperson.legalsubdepartments) { 
+      }
+      else {
+        attorneyPracName = currentperson.legalsubdepartments.legalsubdepartmentname + ': ' + currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+      }
+      
+      addHTML = addHTML + attorneyPracName;
+    }
+
+    
+
+    return addHTML;
 
     if (currentperson.practices.length > 0) {
       addHTML = addHTML + '<div class="practice-titles">';
@@ -183,15 +196,6 @@ export class PeopleComponent implements OnInit {
       return photoString;
   }
 
-  getEducation(currentperson: any): string {
-    var addHTML = "";
-    var schoolID;
-    
-    //currentperson.education.graduationyear
-
-    return addHTML;
-  }
-
   getEmail(EMAIL: string, personName: string): string {
     var emailString = '<a href=mailto:' + EMAIL + ' id=' + personName + ' >' + EMAIL + '</a>'; 
   
@@ -223,7 +227,7 @@ export class PeopleComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
 
-  writeAssistant(currentperson: any): SafeHtml {
+  getAssistant(currentperson: any): SafeHtml {
     if (currentperson.personrelationship.length == 0) return null;
 
     var asstID = currentperson.personrelationship[0].relatedpersonid;
@@ -259,11 +263,6 @@ export class PeopleComponent implements OnInit {
   }
 
   sanitizeScript(sanitizer: DomSanitizer) {}
-
-  mapPeople(): void {
-
-  }
-
   
   ByLocation(id: string): void {
     var LabelElement, locationID;
@@ -361,17 +360,16 @@ export class PeopleComponent implements OnInit {
           this.alphaLabelID = "alphaF";
          break;
       default: 
-          this.location = '';
           LabelElement = document.getElementById("alphaAll");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaAll";
         break;
     }
     if (alpha == null) {
-      this.activePeople = this.people;
+      this.activePeople = this.sortPeople;
     }
     else {
-      this.activePeople = this.people.filter(obj => {    
+      this.activePeople = this.sortPeople.filter(obj => {    
         return obj.lastname[0] === alpha});
     } 
   }
@@ -443,14 +441,13 @@ export class PeopleComponent implements OnInit {
          this.roleLabelID = "Role10";
         break;
      default: 
-         this.location = null;
         break;
     }
     if (hrdept == null) {
-      this.activePeople = this.people;
+      this.activePeople = this.sortPeople;
     }
     else {
-      this.activePeople = this.people.filter(obj => {    
+      this.activePeople = this.sortPeople.filter(obj => {    
         return obj.hrdepartmentid === hrdept});
     }
 
