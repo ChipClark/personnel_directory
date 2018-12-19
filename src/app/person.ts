@@ -1,6 +1,7 @@
 import { Phones } from "./datatables/phones";
 import { PersonRelationship } from "./datatables/personrelationship";
 import { OfficeLocation } from "./datatables/officelocation";
+import { HRDepartments, LegalDepartments, LegalSubDepartments } from "./datatables/departmenttables";
 
 export class Person {
   pkpersonid: number;
@@ -31,6 +32,7 @@ export class Person {
   county: string;
   country: string;
   officelocationid: number;
+  hrdepartmentid: number;
   jobtitleid: number;
   officenumber: string;
   employmentstatus: string;
@@ -58,6 +60,9 @@ export class Person {
   phones: Phones[];
   personrelationship: PersonRelationship[];
   officelocation: OfficeLocation[];
+  hrdepartment: HRDepartments[];
+  legaldepts: LegalDepartments[];
+  legalsubs: LegalSubDepartments[];
   totalcount: number;
   
 }

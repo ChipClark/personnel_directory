@@ -25,6 +25,7 @@
             class="generalbtn" (click)="ByLocation('city5')" aria-pressed="false">San Francisco
         </label>
     </div>
+
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
         <label class="small-font btn btn-outline-secondary active" id="Role1">
             <input type="radio" checked=true name="options" id="roleoption1"  
@@ -68,11 +69,10 @@
         </label>
     </div>
 
-
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
             <label class="normal-font btn btn-outline-secondary active" id="alphaAll">
                 <input type="radio" checked=true name="options" id="alphaoption1"  
-                    class="generalbtn normal-font" (click)="ByAlpha('alphaAll')" aria-pressed="true">All
+                    class="generalbtn normal-font" (click)="ByAlpha()" aria-pressed="true">All
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="alphaA">
                 <input type="radio" checked=false name="options" id="alphaoption2"
@@ -117,10 +117,12 @@
 
   <perfect-scrollbar class="person-scrollbar" [config]="config"> 
   <div class="row">
-    <div *ngFor="let person of people | paginate: { itemsPerPage: 10, currentPage: pageNumber, totalItems: records };
+    <div *ngFor="let person of activePeople | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
+
+                <!-- was part of paginate: , totalItems: records  -->
       <div class="col">         
         <div class="people" >
               <!--[class.selected]="person.pkersonid === selectedPerson" (click)="onSelect(person.pkersonid)" >-->

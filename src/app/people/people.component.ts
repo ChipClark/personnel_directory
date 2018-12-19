@@ -98,16 +98,8 @@ export class PeopleComponent implements OnInit {
         this.records = this.people.length;
         this.lastRecord = this.people.length;
         this.lastPage = Math.ceil(this.lastRecord / this.limit);
-        this.paginate();
       }
     );
-  }
-  
-  paginate(): void {
-    --this.limit;
-    console.log("limit = " + this.limit);
-    this.activePeople = this.people.slice(this.pageNumber, this.limit + 1);
-    console.log(this.people[this.limit + 1].displayname);
   }
   
   buildURL() {
@@ -116,7 +108,7 @@ export class PeopleComponent implements OnInit {
   }
 
   buildAddFilter() {
-    this.addFilter = this.peopleFilter + this.location + this.hrdepartmentFilter + this.EndFilter;
+    this.addFilter = this.peopleFilter + this.location + this.EndFilter;
   }
   
 
@@ -269,52 +261,60 @@ export class PeopleComponent implements OnInit {
 
   
   ByLocation(id: string): void {
-    var LabelElement;
+    var LabelElement, locationID;
     LabelElement = document.getElementById(this.cityLabelID);
     LabelElement.className = "med-font btn btn-outline-secondary";
 
     switch (id) {
       case "city6":
-          this.location = '';
+          locationID = null;
           LabelElement = document.getElementById("city6");
           LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city6";
          break;
       case "city1": 
-          this.location = ',"officelocationid":4';
+          locationID = 4;
           LabelElement = document.getElementById("city1");
           LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city1";
          break;
       case "city2":
-          this.location = ',"officelocationid":1';
+          locationID = 1;
           LabelElement = document.getElementById("city2");
           LabelElement.className = "btn btn-outline-secondary med-font active";
            this.cityLabelID = "city2";
          break;
       case "city3":
-          this.location = ',"officelocationid":2';
+          locationID = 2;
           LabelElement = document.getElementById("city3");
           LabelElement.className = "btn btn-outline-secondary med-font active";
            this.cityLabelID = "city3";
          break;
       case "city4":
-          this.location = ',"officelocationid":3';
+          locationID = 3;
           LabelElement = document.getElementById("city4");
           LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city4";
          break;
       case "city5":
-          this.location = ',"officelocationid":5';
+          locationID = 5;
           LabelElement = document.getElementById("city5");
           LabelElement.className = "btn btn-outline-secondary med-font active";
           this.cityLabelID = "city5";
          break;
       default: 
-         this.location = "";
+          locationID = null;
         break;
     }
-    this.getPeople(); 
+
+    if (locationID == null) {
+      this.activePeople = this.people;
+    }
+    else {
+      this.activePeople = this.people.filter(obj => {    
+        return obj.officelocationid === locationID});
+    }
+    this.pageNumber = 0;
   }
 
   ByAlpha(alpha: string): void {
@@ -326,37 +326,31 @@ export class PeopleComponent implements OnInit {
     
     switch (alpha) {
       case "a":
-          this.location = 'lastname":a*';
           LabelElement = document.getElementById("alphaA");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaA";
          break;
       case "b": 
-          this.location = ',"lastname":b*';  // what to add to the API call to pull the right details
           LabelElement = document.getElementById("alphaB");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaB";
          break;
       case "c":
-          this.location = ',"alpha":1';
           LabelElement = document.getElementById("alphaC");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaC";
          break;
       case "d":
-          this.location = ',"alpha":2';
           LabelElement = document.getElementById("alphaD");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
            this.alphaLabelID = "alphaD";
          break;
       case "e":
-          this.location = ',"alpha":3';
           LabelElement = document.getElementById("alphaE");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaE";
          break;
       case "f":
-          this.location = ',"alpha":5';
           LabelElement = document.getElementById("alphaF");
           LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaF";
@@ -368,79 +362,94 @@ export class PeopleComponent implements OnInit {
           this.alphaLabelID = "alphaAll";
         break;
     }
-    this.getPeople(); 
+    if (alpha == null) {
+      this.activePeople = this.people;
+    }
+    else {
+      this.activePeople = this.people.filter(obj => {    
+        return obj.lastname[0] === alpha});
+    } 
   }
 
   ByRole(role: string): void {
-    var LabelElement;
+    var LabelElement, hrdept;
     LabelElement = document.getElementById(this.roleLabelID);
     LabelElement.className = "small-font btn btn-outline-secondary";
 
     switch (role) {
         case "Role1":
-          this.hrdepartmentFilter = '';
+          hrdept = null;
           LabelElement = document.getElementById("Role1");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role1";
          break;
         case "Role2": 
-          this.hrdepartmentFilter = ',"hrdepartmentid":13';
+        hrdept = 13; //"Partners"
           LabelElement = document.getElementById("Role2");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role2";
          break;
       case "Role3":
-          this.hrdepartmentFilter = ',"hrdepartmentid":1';
+        hrdept = 1; //"Associates"
           LabelElement = document.getElementById("Role3");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role3";
          break;
       case "Role4":
-          this.hrdepartmentFilter = ',"hrdepartmentid":11';
+        hrdept = 11; //"Secretary"
           LabelElement = document.getElementById("Role4");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role4";
          break;
       case "Role5":
-          this.hrdepartmentFilter = ',"hrdepartmentid":9';
+          hrdept = 9; //"Administration"
           LabelElement = document.getElementById("Role5");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role5";
          break;
       case "Role6":
-          this.hrdepartmentFilter = ',"hrdepartmentid":8';
+          hrdept = 8; //"Finance"
           LabelElement = document.getElementById("Role6");
           LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role6";
          break;
       case "Role7":
-         this.hrdepartmentFilter = ',"hrdepartmentid":7';
+         hrdept = 7; //"Technology"
          LabelElement = document.getElementById("Role7");
          LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role7";
         break;
       case "Role8":
-         this.hrdepartmentFilter = ',"hrdepartmentid":6';
+         hrdept = 6; //"Marketing"
          LabelElement = document.getElementById("Role8");
          LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role8";
         break;
       case "Role9":
-         this.hrdepartmentFilter = ',"hrdepartmentid":3';
+         hrdept = 3; //"Human Resources"
          LabelElement = document.getElementById("Role9");
          LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role9";
         break;
       case "Role10":
-      this.hrdepartmentFilter = ',"hrdepartmentid":12';
+        //  hrdept = 12; /"Word Processing"
          LabelElement = document.getElementById("Role10");
          LabelElement.className = "small-font btn btn-outline-secondary  active";
          this.roleLabelID = "Role10";
         break;
      default: 
-         this.location = "";
+         this.location = null;
         break;
     }
-    this.getPeople(); 
-}
+    if (hrdept == null) {
+      this.activePeople = this.people;
+    }
+    else {
+      this.activePeople = this.people.filter(obj => {    
+        return obj.hrdepartmentid === hrdept});
+    }
+
+    
+    this.pageNumber = 0;
+  }
 }
