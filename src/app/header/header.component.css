@@ -28,5 +28,7 @@
     display: inline-block;
     text-align: right;
     color:#fff;
+    top: -20px;
+    padding-right: 50px;
 }
 

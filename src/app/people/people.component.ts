@@ -333,33 +333,40 @@ export class PeopleComponent implements OnInit {
   ByRole(role: string): void {
     var LabelElement, hrdept;
     LabelElement = document.getElementById(this.roleLabelID);
-    LabelElement.className = "small-font btn btn-outline-secondary";
+    LabelElement.className = "med-font btn btn-outline-secondary";
 
     switch (role) {
         case "Role1":
-          hrdept = null;
+          //  hrdept = null;
+          this.activePeople = this.sortPeople;
           LabelElement = document.getElementById("Role1");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
+          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role1";
          break;
         case "Role2": 
-          hrdept = 13; //"Partners"
+          //  hrdept = 13; //"Partners"  hrdept = 1; //"Associates" 
+          this.activePeople = this.sortPeople.filter(obj => {    
+            return obj.isattorney === true});
           LabelElement = document.getElementById("Role2");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
+          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role2";
          break;
       case "Role3":
-          hrdept = 1; //"Associates"
+          this.activePeople = this.sortPeople.filter(obj => {    
+            return obj.isattorney === false && obj.hrdepartmentid != 9 });
           LabelElement = document.getElementById("Role3");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
+          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role3";
          break;
       case "Role4":
-          hrdept = 11; //"Secretary"
+          this.activePeople = this.sortPeople.filter(obj => {    
+            return obj.hrdepartmentid === 9 });
           LabelElement = document.getElementById("Role4");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
+          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role4";
          break;
+
+      //  shouldn't reach any of these     
       case "Role5":
           hrdept = 9; //"Administration"
           LabelElement = document.getElementById("Role5");
@@ -399,13 +406,13 @@ export class PeopleComponent implements OnInit {
      default: 
         break;
     }
-    if (hrdept == null) {
-      this.activePeople = this.sortPeople;
-    }
-    else {
-      this.activePeople = this.sortPeople.filter(obj => {    
-        return obj.hrdepartmentid === hrdept});
-    }
+    //if (hrdept == null) {
+    //  this.activePeople = this.sortPeople;
+    //}
+    //else {
+    //  this.activePeople = this.sortPeople.filter(obj => {    
+    //    return obj.hrdepartmentid === hrdept});
+    //}
     this.pageNumber = 0;
     this.clearLocation();
     this.clearAlpha();
@@ -414,10 +421,10 @@ export class PeopleComponent implements OnInit {
   clearRole(): void {
     var _element
     _element = document.getElementById(this.roleLabelID);
-    _element.className = "small-font btn btn-outline-secondary";
+    _element.className = "med-font btn btn-outline-secondary";
 
     _element = document.getElementById("Role1");
-    _element.className = "small-font btn btn-outline-secondary active";
+    _element.className = "med-font btn btn-outline-secondary active";
     this.roleLabelID = "Role1";
   }
 
