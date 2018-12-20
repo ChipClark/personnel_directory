@@ -7,6 +7,7 @@ import { APIService }  from '../api.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 import { PeopleComponent } from '../people/people.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-staff-detail',
@@ -42,49 +43,23 @@ export class StaffDetailComponent implements OnInit {
   }
  
   getPerson(id: number): void {
-    this.url = this.personService.baseURL + this.id + this.personService.All + this.personService.generalIncludes + this.personService.endRequest;;
-    console.log(this.url);
-    this.staffService.getPersonID(this.url) 
+    this.url = this.personService.baseURL + this.personService.All + this.personService.generalIncludes + this.personService.endRequest;;
+    //console.log(this.url);
+    //this.staffService.getPersonID(this.url) 
+
+    this.staffService.getDATA(this.url)
       .subscribe(
         people => {
-          this.person = people
+          this.people = people;
+          this.person = this.people.find(obj => {
+            obj.pkpersonid === id;
+          })
+          
       });
   }
 
-  getPersonTitles(currentperson: any): SafeHtml {
-      var currentJobTitle = currentperson.jobtitle.jobtitle;
-      
-      var addHTML = "<strong>" + currentJobTitle + "</strong>";
-      var temptitle, tempstring;
-  
-      if (currentperson.practices.length > 0) {
-        addHTML = addHTML + '<div class="practice-titles">';
-        var currentPractices = currentperson.practices;
-        var i;
-        for (i = 0; i < currentPractices.length; i++){
-          temptitle = currentPractices[i].practicename;
-          if (i == 0 ) {
-            addHTML = addHTML + temptitle;
-            tempstring = temptitle;
-            continue;
-          }
-          if (i > 0 ) {
-            if ((tempstring.length + temptitle.length) > 49) {
-              addHTML = addHTML + ',<br>' + temptitle;
-              tempstring = temptitle; 
-            }
-            else {
-              addHTML = addHTML + ", " + temptitle;
-              tempstring = tempstring + ", " + temptitle;
-            }
-            continue;
-          }
-          addHTML = addHTML + tempstring;
-        }
-        addHTML = addHTML + "</div>";
-  
-      }
-      return this.sanitizer.bypassSecurityTrustHtml(addHTML);
+  personTitles(currentperson: any): SafeHtml {
+      return this.personService.getTitles(currentperson);
   }
 
   getPhone(currentperson: any): SafeHtml | SafeValue {
@@ -111,5 +86,17 @@ export class StaffDetailComponent implements OnInit {
   }
 
   sanitizeScript(sanitizer: DomSanitizer){}
+
+  ifCPR(currentperson: any): SafeHtml {
+    return this.personService.ifCPR(currentperson);
+  }
+
+  ifNotary(currentperson: any): SafeHtml {
+    return this.personService.ifNotary(currentperson);
+  }
+
+  prefName(preferredfirstname: string): string {
+    return this.personService.getPrefName(preferredfirstname);
+  }
 
 }

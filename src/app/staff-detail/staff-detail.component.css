@@ -1,73 +1,67 @@
 /* satffDetailComponent's private CSS styles */
-label {
-    display: inline-block;
-    width: 3em;
-    margin: .5em 0;
-    color: #607D8B;
-    font-weight: bold;
-  }
-  input {
-    height: 2em;
-    font-size: 1em;
-    padding-left: .4em;
-  }
+/* PeopleComponent's private CSS styles */
 
+.people {
+  margin: 0 0 2em 0;
+  padding: 2px;
+  min-width: 500px;
+}
 
-  .people {
-    margin: 0 0 2em 0;
-    padding: 2px;
-    min-width: 500px;
-  }
+.people.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.people a.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.people:hover {
+  color: rgb(white);
+  background-color: #efefef;
+}
+.people .text {
+  position: relative;
+  top: -3px;
+}
 
-  .people.selected:hover {
-    background-color: #BBD8DC !important;
-    color: white;
-  }
-  .people a.selected:hover {
-    background-color: #BBD8DC !important;
-    color: white;
-  }
-  .people:hover {
-    color: rgb(white);
-    background-color: #002a5f;
-  }
-  .people .text {
-    position: relative;
-    top: -3px;
-  }
+.practice-titles {
+  display: block;
+  max-width:300px;
+}
 
-  .locationbar {
-    display: block;
-    margin-bottom: 15px;
+.person-list {
+  display: block;
+  margin-top: 10px;
 
-  }
+}
 
-  .person-list {
-    display: block;
-    margin-top: 10px;
+.username {
+  font-size:14pt;
+  line-height:120%;
+}
 
-  }
+.userphoto {
+  display: inline-block;
+  vertical-align: top;
+  padding-right:10px;
+}
 
-  .userphoto {
-    display: inline-block;
-    vertical-align: top;
-    padding-right:10px;
-  }
+.userdetails {
+  display: inline-block;
+}
 
-  .userdetails {
-    display: inline-block;
-  }
+.leftColumn .rightcolumn {
+  display: inline-block;
+}
 
-  .leftColumn .rightcolumn {
-    display: inline-block;
-  }
+.emaillink { 
+  display: inline;
+}
 
-  .emaillink { 
-    display: inline;
-  }
+.PaginationBar {
+  float: right;
+  display: block;
+  margin-top:10px;
+  height: 50px;
+}
 
-  .NextPrevBar {
-    float: right;
-    display: block;
-    margin-top:10px;
-  }

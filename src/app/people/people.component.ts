@@ -269,43 +269,38 @@ export class PeopleComponent implements OnInit {
       case "city6":
           locationID = null;
           LabelElement = document.getElementById("city6");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
           this.cityLabelID = "city6";
          break;
       case "city1": 
           locationID = 4;
           LabelElement = document.getElementById("city1");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
           this.cityLabelID = "city1";
          break;
       case "city2":
           locationID = 1;
           LabelElement = document.getElementById("city2");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
            this.cityLabelID = "city2";
          break;
       case "city3":
           locationID = 2;
           LabelElement = document.getElementById("city3");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
            this.cityLabelID = "city3";
          break;
       case "city4":
           locationID = 3;
           LabelElement = document.getElementById("city4");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
           this.cityLabelID = "city4";
          break;
       case "city5":
           locationID = 5;
           LabelElement = document.getElementById("city5");
-          LabelElement.className = "normal-font btn btn-outline-secondary active";
           this.cityLabelID = "city5";
          break;
       default: 
           locationID = null;
         break;
     }
+    LabelElement.className = "normal-font btn btn-outline-secondary active";
 
     if (locationID == null) {
       this.activePeople = this.people;
@@ -340,19 +335,16 @@ export class PeopleComponent implements OnInit {
       case "clear":
           licensetypeid = null;
           _element = document.getElementById("clear");
-          _element.className = "normal-font btn btn-outline-secondary active";
           this.CPRNotary = "clear";
          break;
       case "CPR": 
           licensetypeid = 3;
           _element = document.getElementById("CPR");
-          _element.className = "normal-font btn btn-outline-secondary active";
           this.CPRNotary = "CPR";
          break;
       case "Notary":
           licensetypeid= 2;
           _element = document.getElementById("Notary");
-          _element.className = "normal-font btn btn-outline-secondary active";
            this.CPRNotary = "Notary";
          break;
       
@@ -360,6 +352,8 @@ export class PeopleComponent implements OnInit {
           licensetypeid = null;
         break;
     }
+    _element.className = "normal-font btn btn-outline-secondary active";
+
 
     if (licensetypeid == null) {
       this.activePeople = this.people;
@@ -399,7 +393,6 @@ export class PeopleComponent implements OnInit {
           this.sortPeople = this.people;
           this.activePeople = this.sortPeople;
           LabelElement = document.getElementById("Role1");
-          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role1";
          break;
         case "Role2": 
@@ -408,7 +401,6 @@ export class PeopleComponent implements OnInit {
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.isattorney === true});
           LabelElement = document.getElementById("Role2");
-          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role2";
          break;
       case "Role3":
@@ -416,15 +408,12 @@ export class PeopleComponent implements OnInit {
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.isattorney === false && obj.hrdepartmentid != 9 });
           LabelElement = document.getElementById("Role3");
-          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role3";
          break;
       case "Role4":
-
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.hrdepartmentid === 9 });
           LabelElement = document.getElementById("Role4");
-          LabelElement.className = "med-font btn btn-outline-secondary active";
           this.roleLabelID = "Role4";
          break;
 
@@ -432,49 +421,38 @@ export class PeopleComponent implements OnInit {
       case "Role5":
           hrdept = 9; //"Administration"
           LabelElement = document.getElementById("Role5");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role5";
          break;
       case "Role6":
           hrdept = 8; //"Finance"
           LabelElement = document.getElementById("Role6");
-          LabelElement.className = "small-font btn btn-outline-secondary active";
           this.roleLabelID = "Role6";
          break;
       case "Role7":
          hrdept = 7; //"Technology"
          LabelElement = document.getElementById("Role7");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role7";
         break;
       case "Role8":
          hrdept = 6; //"Marketing"
          LabelElement = document.getElementById("Role8");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role8";
         break;
       case "Role9":
          hrdept = 3; //"Human Resources"
          LabelElement = document.getElementById("Role9");
-         LabelElement.className = "small-font btn btn-outline-secondary active";
          this.roleLabelID = "Role9";
         break;
       case "Role10":
         //  hrdept = 12; /"Word Processing"
          LabelElement = document.getElementById("Role10");
-         LabelElement.className = "small-font btn btn-outline-secondary  active";
          this.roleLabelID = "Role10";
         break;
      default: 
         break;
     }
-    //if (hrdept == null) {
-    //  this.activePeople = this.sortPeople;
-    //}
-    //else {
-    //  this.activePeople = this.sortPeople.filter(obj => {    
-    //    return obj.hrdepartmentid === hrdept});
-    //}
+    LabelElement.className = "med-font btn btn-outline-secondary active";
+
     this.pageNumber = 0;
     this.clearLocation();
     this.clearAlpha();
@@ -511,140 +489,115 @@ export class PeopleComponent implements OnInit {
     switch (alpha) {
       case "a":
           LabelElement = document.getElementById("alphaA");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaA";
          break;
       case "b": 
           LabelElement = document.getElementById("alphaB");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaB";
          break;
       case "c":
           LabelElement = document.getElementById("alphaC");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaC";
          break;
       case "d":
           LabelElement = document.getElementById("alphaD");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
            this.alphaLabelID = "alphaD";
          break;
       case "e":
           LabelElement = document.getElementById("alphaE");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaE";
          break;
       case "f":
           LabelElement = document.getElementById("alphaF");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaF";
          break;
       case "g":
          LabelElement = document.getElementById("alphaG");
-         LabelElement.className = "btn btn-outline-secondary normal-font active";
          this.alphaLabelID = "alphaG";
         break;
       case "h":
           LabelElement = document.getElementById("alphaH");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaH";
         break;
       case "i":
           LabelElement = document.getElementById("alphaI");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaI";
         break;
       case "j":
           LabelElement = document.getElementById("alphaJ");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaJ";
          break;
       case "k":
           LabelElement = document.getElementById("alphaK");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaK";
          break;
       case "l":
           LabelElement = document.getElementById("alphaL");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaL";
         break;
       case "m":
           LabelElement = document.getElementById("alphaM");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaM";
           break;
       case "n":
           LabelElement = document.getElementById("alphaN");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaN";
          break;
       case "o":
           LabelElement = document.getElementById("alphaO");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaO";
         break;
       case "p":
           LabelElement = document.getElementById("alphaP");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaP";
         break;
       case "q":
           LabelElement = document.getElementById("alphaQ");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaQ";
         break;
       case "r":
           LabelElement = document.getElementById("alphaR");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaR";
          break;
       case "s":
           LabelElement = document.getElementById("alphaS");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaS";
         break;
       case "t":
           LabelElement = document.getElementById("alphaT");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaT";
         break;
       case "u":
           LabelElement = document.getElementById("alphaU");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaU";
         break;
       case "v":
           LabelElement = document.getElementById("alphaV");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaV";
          break;
       case "w":
           LabelElement = document.getElementById("alphaW");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaW";
         break;
       case "x":
           LabelElement = document.getElementById("alphaX");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaX";
         break;
       case "y":
           LabelElement = document.getElementById("alphaY");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaY";
         break;
       case "z":
           LabelElement = document.getElementById("alphaZ");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaZ";
          break;
       default: 
           LabelElement = document.getElementById("alphaAll");
-          LabelElement.className = "btn btn-outline-secondary normal-font active";
           this.alphaLabelID = "alphaAll";
         break;
     }
+    LabelElement.className = "btn btn-outline-secondary normal-font active";
+
     if (alpha == null) {
       this.activePeople = this.sortPeople;
     }
