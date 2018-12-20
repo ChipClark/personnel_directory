@@ -36,4 +36,33 @@ export class LegalSubPractices {
 	modifiedby: string;
 	legalsubdeptfriendlyname: string;
 	totalcount: number;
-    }
+	}
+	
+export class License {
+	licenseid: number;
+    pkpersonid: number;
+    licensetypeid: number;
+    licensenumber: string;
+    licenseyear: string;
+    licensestate: string;
+    licensestatelong: string;
+    licensedate: string;
+    note: string;
+    active: boolean;
+    activefromdate: string;
+    modifieddate: string;
+    modifiedby: string;
+    validfromdate: string;
+    validtodate: string;
+	}
+
+export class LicenseType {
+	licensetypeid: number;
+    licensetypename: string;
+    licensetypecode: string;
+    description: string;
+    active: boolean;
+    activefromdate: string;
+    modifieddate: string;
+    modifiedby: string;
+	}

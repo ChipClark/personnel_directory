@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { Schools } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
-import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices } from '../datatables/practicestables';
+import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices, License, LicenseType } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { PersonRelationship } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
@@ -44,7 +44,7 @@ export class PeopleComponent implements OnInit {
 
   //includes
   private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","personrelationship"';
-  private practiceFilter = '"attorneypractices","practices","legalsubdepartments"';
+  private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
   private educationFilter = '"education","schools","degreetypes"';
   public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
   public endRequest = '}';
@@ -52,17 +52,13 @@ export class PeopleComponent implements OnInit {
   private order = '"order":"lastname ASC",'
   private personURL;  // URL to web api
 
-  public cityLabelID = "city6";
-  public roleLabelID = "Role1";
-  public alphaLabelID = "alphaAll";
+  private cityLabelID = "city6";
+  private roleLabelID = "Role1";
+  private alphaLabelID = "alphaAll";
+  private CPRNotary = 'clear';
   public hrdepartmentFilter = "";
   public cprImg = '<img src="../assets/cpr.png" class="cprimg" data-toggle="tooltip" title="CPR Certified" width="25px;">';
   public notaryImg = '<img src="../assets/notary.png" class="notaryimg" data-toggle="tooltip" title="Notary Public" width="25px;">';
-
-  // TEMP Measure to include CPR
-  private cprNAME = ["Alisuag","Bernard","Borkenhagen","Cooke","Coulter","Cramton","Engstrom","Epstein","Fates","Flores","Garrett","Hall","Hanks","Hart","Ishikawa","Lewis","Menzer","Morris","Nash","Palas","Patterson","Peck","Schwin","Steed","Swambat","Taylor","Touboul","Webb","Whitley","Williams","Zalewski" ];
-  private notaryNAME = ["Boliard","Hanks","Hart","Henrotin","Ishikawa","Malvido","Mirdamadi","Morrison","Moulton","Nelson","Peck","Preciado","Robinson","Ron","Salerno","Sandoval","Tristan","Williams","Yerby"  ];
-  
   
   public pageNumber = 0;
   public limit = 10;
@@ -87,6 +83,8 @@ export class PeopleComponent implements OnInit {
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalSubDepts: LegalSubDepartments[];
+  license: License[];
+  licensetype: LicenseType[];
   
   constructor(
     private staffService: APIService,
@@ -102,6 +100,7 @@ export class PeopleComponent implements OnInit {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
+        //console.log(this.personURL);
         this.people = people;
         this.activePeople = people;
         this.sortPeople = people;
@@ -237,10 +236,11 @@ export class PeopleComponent implements OnInit {
   
   ifCPR(currentperson: any): SafeHtml {
     var _element, i;
-    for (i=0; i < this.cprNAME.length; i++){
-      if (currentperson.lastname == this.cprNAME[i]){
-        _element = this.cprImg;
-        return this.sanitizer.bypassSecurityTrustHtml(_element);
+    
+    for (i=0; i < currentperson.licensetype.length; i++) {
+      if (currentperson.licensetype[i].licensetypeid == 3){
+          _element = this.cprImg;
+          return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
     }
     return null;
@@ -248,8 +248,8 @@ export class PeopleComponent implements OnInit {
 
   ifNotary(currentperson: any): SafeHtml {
     var _element, i;
-    for (i=0; i < this.notaryNAME.length; i++){
-      if (currentperson.lastname == this.notaryNAME[i]){
+    for (i=0; i < currentperson.licensetype.length; i++) {
+      if (currentperson.licensetype[i].licensetypeid == 2){
         _element = this.notaryImg;
         return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
@@ -317,6 +317,7 @@ export class PeopleComponent implements OnInit {
     this.pageNumber = 0;
     this.clearRole();
     this.clearAlpha();
+    this.clearCPRNotary();
   }
 
   clearLocation(): void {
@@ -327,6 +328,63 @@ export class PeopleComponent implements OnInit {
     _element = document.getElementById("city6");
     _element.className = "normal-font btn btn-outline-secondary active";
     this.cityLabelID = "city6";
+
+  }
+
+  ByCPRNotary(id: string): void {
+    var _element, licensetypeid, i;
+    _element = document.getElementById(this.CPRNotary);
+    _element.className = "normal-font  btn btn-outline-secondary";
+
+    switch (id) {
+      case "clear":
+          licensetypeid = null;
+          _element = document.getElementById("clear");
+          _element.className = "normal-font btn btn-outline-secondary active";
+          this.CPRNotary = "clear";
+         break;
+      case "CPR": 
+          licensetypeid = 3;
+          _element = document.getElementById("CPR");
+          _element.className = "normal-font btn btn-outline-secondary active";
+          this.CPRNotary = "CPR";
+         break;
+      case "Notary":
+          licensetypeid= 2;
+          _element = document.getElementById("Notary");
+          _element.className = "normal-font btn btn-outline-secondary active";
+           this.CPRNotary = "Notary";
+         break;
+      
+      default: 
+          licensetypeid = null;
+        break;
+    }
+
+    if (licensetypeid == null) {
+      this.activePeople = this.people;
+    }
+    else {
+      this.activePeople = this.people.filter(obj => {
+        for (i=0; i < obj.licensetype.length; i++) {
+          return obj.licensetype[i].licensetypeid === licensetypeid;
+          };
+      });
+    }
+    this.pageNumber = 0;
+    this.clearRole();
+    this.clearAlpha();
+    this.clearLocation();
+  }
+
+  clearCPRNotary(): void {
+    var _element
+    _element = document.getElementById(this.CPRNotary);
+    _element.className = "normal-font btn btn-outline-secondary";
+
+    _element = document.getElementById("clear");
+    _element.className = "normal-font btn btn-outline-secondary active";
+    this.CPRNotary = "clear";
 
   }
 
@@ -420,6 +478,7 @@ export class PeopleComponent implements OnInit {
     this.pageNumber = 0;
     this.clearLocation();
     this.clearAlpha();
+    this.clearCPRNotary();
   }
 
   clearRole(): void {

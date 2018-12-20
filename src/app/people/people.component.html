@@ -142,20 +142,20 @@
         </label>
         </div>
 
-        <div class="btn-group-toggle CPRbar d-none d-sm-block disabled" data-toggle="locationbuttons">
-            <label class="normal-font btn btn-outline-secondary active disabled" id="clear">
+        <div class="btn-group-toggle CPRbar d-none d-sm-block " data-toggle="locationbuttons">
+            <label class="normal-font btn btn-outline-secondary active " id="clear">
                <input type="radio" checked=true name="options" id="option1"  
-                    class="generalbtn" (click)="ByLocation('clear')" aria-pressed="true">
+                    class="generalbtn" (click)="ByCPRNotary('clear')" aria-pressed="true">
                     &nbsp;Clear&nbsp;
             </label>&nbsp; 
-            <label class="normal-font btn btn-outline-secondary blur disabled" id="city1">
+            <label class="normal-font btn btn-outline-secondary blur " id="CPR">
                 <input type="radio" checked=false name="options" id="option2"
-                    class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">
+                    class="generalbtn" (click)="ByCPRNotary('CPR')" aria-pressed="false">
                     <img src="../assets/cpr.png" width="20">&nbsp;CPR&nbsp;
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur disabled" id="city2">
+            <label class="normal-font btn btn-outline-secondary blur " id="Notary">
                 <input type="radio" checked=false name="options" id="option3"
-                    class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">
+                    class="generalbtn" (click)="ByCPRNotary('Notary')" aria-pressed="false">
                     <img src="../assets/notary.png" width="20">&nbsp;Notary&nbsp;
             </label>&nbsp;
         </div>
@@ -205,7 +205,7 @@
                 <strong>
                 <a routerLink="/detail/{{person.pkpersonid}}" data-toggle="tooltip" title="see more about {{person.displayname}}" >
                     {{person.displayname}}</a>
-                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}}
+                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}}  {{person.pkpersonid}}
                 &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
                   &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
