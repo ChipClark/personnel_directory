@@ -205,7 +205,7 @@
                 <strong>
                 <a routerLink="/detail/{{person.pkpersonid}}" data-toggle="tooltip" title="see more about {{person.displayname}}" >
                     {{person.displayname}}</a>
-                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}}  {{person.pkpersonid}}
+                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}}  
                 &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
                   &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
