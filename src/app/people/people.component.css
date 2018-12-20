@@ -31,7 +31,12 @@
   }
 
   .locationbar {
-    display: block;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .CPRbar {
+    display: inline-block;
     margin-bottom: 15px;
   }
 

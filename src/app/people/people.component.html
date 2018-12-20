@@ -115,7 +115,7 @@
     </div>
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
-        <div class="btn-group-toggle locationbar d-none d-sm-block" data-toggle="locationbuttons">
+        <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
         <label class="normal-font btn btn-outline-secondary active" id="city6">
            <input type="radio" checked=true name="options" id="option1"  
                 class="generalbtn" (click)="ByLocation('city6')" aria-pressed="true">&nbsp;All&nbsp;
@@ -142,23 +142,41 @@
         </label>
         </div>
 
+        <div class="btn-group-toggle CPRbar d-none d-sm-block disabled" data-toggle="locationbuttons">
+            <label class="normal-font btn btn-outline-secondary active disabled" id="clear">
+               <input type="radio" checked=true name="options" id="option1"  
+                    class="generalbtn" (click)="ByLocation('clear')" aria-pressed="true">
+                    &nbsp;Clear&nbsp;
+            </label>&nbsp; 
+            <label class="normal-font btn btn-outline-secondary blur disabled" id="city1">
+                <input type="radio" checked=false name="options" id="option2"
+                    class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">
+                    <img src="../assets/cpr.png" width="20">&nbsp;CPR&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur disabled" id="city2">
+                <input type="radio" checked=false name="options" id="option3"
+                    class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">
+                    <img src="../assets/notary.png" width="20">&nbsp;Notary&nbsp;
+            </label>&nbsp;
+        </div>
+
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
-        <label class="med-font btn btn-outline-secondary active" id="Role1">
-            <input type="radio" checked=true name="options" id="roleoption1"  
-                class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;All&nbsp;
-        </label>&nbsp;
-        <label class="med-font btn btn-outline-secondary blur" id="Role2">
-            <input type="radio" checked=false name="options" id="roleoption2"
-               class="generalbtn med-font" (click)="ByRole('Role2')" aria-pressed="false">&nbsp;Attorneys&nbsp;
-        </label>&nbsp;
-        <label class="med-font btn btn-outline-secondary blur" id="Role3">
-            <input type="radio" checked=false name="options" id="roleoption3"
-                class="generalbtn ned-font" (click)="ByRole('Role3')" aria-pressed="false">&nbsp;Staff&nbsp;
-        </label>&nbsp;
-        <label class="med-font btn btn-outline-secondary blur" id="Role4">
-            <input type="radio" checked="false" name="options" id="roleoption5"
-                class="generalbtn med-font" (click)="ByRole('Role4')" aria-pressed="false">&nbsp;Administration&nbsp;
-        </label>&nbsp;
+            <label class="med-font btn btn-outline-secondary active" id="Role1">
+                <input type="radio" checked=true name="options" id="roleoption1"  
+                    class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;All&nbsp;
+            </label>&nbsp;
+            <label class="med-font btn btn-outline-secondary blur" id="Role2">
+                <input type="radio" checked=false name="options" id="roleoption2"
+                    class="generalbtn med-font" (click)="ByRole('Role2')" aria-pressed="false">&nbsp;Attorneys&nbsp;
+            </label>&nbsp;
+            <label class="med-font btn btn-outline-secondary blur" id="Role3">
+                <input type="radio" checked=false name="options" id="roleoption3"
+                        class="generalbtn ned-font" (click)="ByRole('Role3')" aria-pressed="false">&nbsp;Staff&nbsp;
+            </label>&nbsp;
+            <label class="med-font btn btn-outline-secondary blur" id="Role4">
+                <input type="radio" checked="false" name="options" id="roleoption5"
+                        class="generalbtn med-font" (click)="ByRole('Role4')" aria-pressed="false">&nbsp;Administration&nbsp;
+            </label>&nbsp;
         </div>
 
         

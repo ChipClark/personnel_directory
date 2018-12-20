@@ -338,6 +338,7 @@ export class PeopleComponent implements OnInit {
     switch (role) {
         case "Role1":
           //  hrdept = null;
+          this.sortPeople = this.people;
           this.activePeople = this.sortPeople;
           LabelElement = document.getElementById("Role1");
           LabelElement.className = "med-font btn btn-outline-secondary active";
@@ -345,6 +346,7 @@ export class PeopleComponent implements OnInit {
          break;
         case "Role2": 
           //  hrdept = 13; //"Partners"  hrdept = 1; //"Associates" 
+
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.isattorney === true});
           LabelElement = document.getElementById("Role2");
@@ -352,6 +354,7 @@ export class PeopleComponent implements OnInit {
           this.roleLabelID = "Role2";
          break;
       case "Role3":
+
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.isattorney === false && obj.hrdepartmentid != 9 });
           LabelElement = document.getElementById("Role3");
@@ -359,6 +362,7 @@ export class PeopleComponent implements OnInit {
           this.roleLabelID = "Role3";
          break;
       case "Role4":
+
           this.activePeople = this.sortPeople.filter(obj => {    
             return obj.hrdepartmentid === 9 });
           LabelElement = document.getElementById("Role4");
