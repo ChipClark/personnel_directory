@@ -32,23 +32,6 @@ import { PersonSearchComponent } from '../person-search/person-search.component'
   providedIn: 'root'
 })
 
-export class SendService {
-  // see: https://stackoverflow.com/questions/44205950/angular-passing-a-variable-from-a-component-to-a-service 
-  private skip = 20;
-  private limit = 20;
-  private lastRecord;
-
-  getSkipValue(): number{
-    return this.skip;
-  }
-  getLimitValue(): number {
-    return this.limit;
-  }
-  getLastValue(): number {
-    return this.lastRecord;
-  }
-}
-
 export class PeopleComponent implements OnInit {
 
   public baseURL = 'http://am-web05:3030/api/v1/people/';
