@@ -92,7 +92,7 @@ export class PeopleComponent implements OnInit {
     private staffService: APIService,
     private http: HttpClient,
     protected sanitizer: DomSanitizer
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getPeople();
@@ -144,7 +144,7 @@ export class PeopleComponent implements OnInit {
   getPhoto(photodata: any): SafeHtml {
     // this isn't working yet  - photos getting put into database ...
     // no need for extensive logic 
-    var i, photoString, photoURL: any;
+    var photoString, photoURL: any;
 
     if (photodata.length==0) {
       photoString =  '<img src="http://amjabber/nophoto.gif" id="no photo" width="112px;" />'
@@ -162,7 +162,7 @@ export class PeopleComponent implements OnInit {
   getEmail(EMAIL: string, personName: string): string {
     var emailString = '<a href=mailto:' + EMAIL + ' id=' + personName + ' >' + EMAIL + '</a>'; 
   
-  return emailString;
+    return emailString;
   }
 
   getPrefName(prefName: string): string {
