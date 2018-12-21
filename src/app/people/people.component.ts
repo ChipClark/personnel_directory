@@ -98,6 +98,10 @@ export class PeopleComponent implements OnInit {
     this.getPeople();
   }
 
+  ngOnDestroy() {
+    this.staffService.people = this.people;
+  }
+
   getPeople(): void {
     this.buildURL();
     this.staffService.getDATA(this.personURL)

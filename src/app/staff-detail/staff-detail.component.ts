@@ -39,7 +39,8 @@ export class StaffDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.id = params.get("id"), 
-      this.getPerson(this.id)
+      this.people = this.staffService.people;
+      this.getPerson(this.id);
     });
   }
  
@@ -48,12 +49,12 @@ export class StaffDetailComponent implements OnInit {
     //console.log(this.url);
     //this.staffService.getPersonID(this.url) 
 
-    this.allPeople = this.personService.usePeople();
+    this.allPeople = this.people;
     console.log(this.allPeople[0]);
 
-    //this.person = this.allPeople.find(obj => {
-    //  return obj.pkpersonid === id;
-    //})
+    this.person = this.allPeople.find(obj => {
+      return obj.pkpersonid === id;
+    })
 
     
   }
