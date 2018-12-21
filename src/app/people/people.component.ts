@@ -14,6 +14,7 @@ import { RouterLink } from '@angular/router';
 import { Schools } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
+import { Photos } from '../datatables/photo';
 import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices, License, LicenseType } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { PersonRelationship } from '../datatables/personrelationship';
@@ -43,11 +44,11 @@ export class PeopleComponent implements OnInit {
 
 
   //includes
-  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","personrelationship"';
-  private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
-  private educationFilter = '"education","schools","degreetypes"';
-  public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
-  public endRequest = '}';
+    private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
+    private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
+    private educationFilter = '"education","schools","degreetypes"';
+    public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
+    public endRequest = '}';
   
   private order = '"order":"lastname ASC",'
   private personURL;  // URL to web api
@@ -85,6 +86,7 @@ export class PeopleComponent implements OnInit {
   legalSubDepts: LegalSubDepartments[];
   license: License[];
   licensetype: LicenseType[];
+  photo: Photos[];
   
   constructor(
     private staffService: APIService,
@@ -135,33 +137,22 @@ export class PeopleComponent implements OnInit {
     return addHTML;
   }
 
-  getPhoto(): void {
+  getPhoto(photodata: any): SafeHtml {
     // this isn't working yet  - photos getting put into database ...
     // no need for extensive logic 
-    var personPhoto, noPhoto, photoString;
+    var i, photoString, photoURL: any;
+
+    if (photodata.length==0) {
+      photoString =  '<img src="http://amjabber/nophoto.gif" id="no photo" width="112px;" />'
+    }
+    else {
+
+      photoURL = photodata[0].photolocationpath + photodata[0].photofilename;
+      photoString = '<img src="' + photoURL + '" id="' + photodata[0].photofilename + '" width="112px;" />';
+    }
     
-    var personlist = this.people;
-
-    var primary = personlist.find(obj => {
-      return obj.pkpersonid === 1;
-      });
-
-      photoString = `<img src="http://amjabber/nophoto.gif" id='{{person.pkperson.id}}' width="112px;" />`
-    
-      var image = new Image();
-      //console.log("in getPhoto()");
-      //personPhoto = "http://amjabber/" + primary.addomainaccount + ".jpg";
-      image.onload = function () {
-        //photoString = '<img src="' + personPhoto + '" id=' + personid + 'width="112px;" />';
-      }
-      image.onerror = function () {
-        //photoString = '<img src="' + personPhoto + '" id=' + personid + 'width="112px;" />';
-      }
-      image.src = personPhoto;
-
-      //image.id = personid.toString();
-
-      return photoString;
+      
+    return this.sanitizer.bypassSecurityTrustHtml(photoString);
   }
 
   getEmail(EMAIL: string, personName: string): string {
