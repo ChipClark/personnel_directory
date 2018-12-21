@@ -112,6 +112,10 @@ export class PeopleComponent implements OnInit {
       }
     );
   }
+
+  usePeople(): any {
+    return this.people;
+  }
   
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api

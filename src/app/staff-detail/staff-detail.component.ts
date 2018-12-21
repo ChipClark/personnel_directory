@@ -21,6 +21,7 @@ export class StaffDetailComponent implements OnInit {
 
   url: string;
   people: Person[];
+  allPeople: Person[];
   person: Person;
   router: RouterLink;
   params: Params;
@@ -47,15 +48,14 @@ export class StaffDetailComponent implements OnInit {
     //console.log(this.url);
     //this.staffService.getPersonID(this.url) 
 
-    this.staffService.getDATA(this.url)
-      .subscribe(
-        people => {
-          this.people = people;
-          this.person = this.people.find(obj => {
-            obj.pkpersonid === id;
-          })
-          
-      });
+    this.allPeople = this.personService.usePeople();
+    console.log(this.allPeople[0]);
+
+    //this.person = this.allPeople.find(obj => {
+    //  return obj.pkpersonid === id;
+    //})
+
+    
   }
 
   personTitles(currentperson: any): SafeHtml {
