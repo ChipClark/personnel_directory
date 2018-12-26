@@ -51,7 +51,7 @@ export class PeopleComponent implements OnInit {
     public endRequest = '}';
   
   private order = '"order":"lastname ASC",'
-  private personURL;  // URL to web api
+  public personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;
 
   private cityLabelID = "city6";
   private roleLabelID = "Role1";
@@ -102,7 +102,7 @@ export class PeopleComponent implements OnInit {
     this.staffService.people = this.people;
   }
 
-  getPeople(): void {
+  getPeople(): any {
     this.buildURL();
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 

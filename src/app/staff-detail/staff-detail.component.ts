@@ -18,11 +18,12 @@ import { map } from 'rxjs/operators';
 export class StaffDetailComponent implements OnInit {
 
   private id;
+  private individualURL;
 
   url: string;
   people: Person[];
   allPeople: Person[];
-  person: Person;
+  person: Person[];
   router: RouterLink;
   params: Params;
   
@@ -39,24 +40,23 @@ export class StaffDetailComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       this.id = params.get("id"), 
-      this.people = this.staffService.people;
-      this.getPerson(this.id);
+      this.staffService.getDATA(this.personService.personURL)
+        .subscribe(people => {
+          this.people = people;
+          this.getPerson(this.id);
+        });
     });
   }
  
   getPerson(id: number): void {
-    this.url = this.personService.baseURL + this.personService.All + this.personService.generalIncludes + this.personService.endRequest;;
-    //console.log(this.url);
-    //this.staffService.getPersonID(this.url) 
-
-    this.allPeople = this.people;
-    console.log(this.allPeople[0]);
-
-    this.person = this.allPeople.find(obj => {
-      return obj.pkpersonid === id;
-    })
-
-    
+    this.individualURL =  this.personService.baseURL + id + this.personService.activepeopleFilter
+       + this.personService.generalIncludes + this.personService.endRequest;
+       
+    this.staffService.getDATA(this.individualURL)
+      .subscribe(people => {
+        this.allPeople = people;
+        this.person = people;
+      });
   }
 
   personTitles(currentperson: any): SafeHtml {
@@ -84,6 +84,45 @@ export class StaffDetailComponent implements OnInit {
 
   goBack(): void {
     
+  }
+
+  photo(photo: any): SafeHtml {
+    return this.personService.getPhoto(photo);
+  }
+
+  relationships(currentperson: any): SafeHtml {
+    if (currentperson.personrelationship.length == 0) return null;
+
+    var asstID = currentperson.personrelationship[0].relatedpersonid;
+    var assistants: Person;
+    var asst;
+
+    assistants = this.people.find(obj => { 
+      return obj.pkpersonid === currentperson.personrelationship[0].relatedpersonid;
+    });
+ 
+    for (let i = 0; i < currentperson.personrelationship.length; i++){
+      var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
+
+      asst = 'Assistant: <a routerLink="' + detailURL
+              + '" href="' + detailURL  + '" >';
+
+      for (let j = 0; j < this.people.length; j++) {
+        if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
+          assistants = this.people[j];
+
+          if (!assistants.displayname) {
+            asst = asst + 'No name found';
+          }
+          else {
+            asst  = asst + assistants.displayname;
+          }
+    
+        }
+      }
+    }
+    asst = asst + '</a><br />';
+    return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
   sanitizeScript(sanitizer: DomSanitizer){}
