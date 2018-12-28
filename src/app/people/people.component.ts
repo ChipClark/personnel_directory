@@ -11,6 +11,7 @@ import { APIService } from '../api.service';
 import { RouterLink } from '@angular/router';
 
 // datatables 
+import { PersonPage } from '../datatables/AllTextFields';
 import { Schools } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
@@ -21,6 +22,7 @@ import { PersonRelationship } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ACTIVE_INDEX } from '@angular/core/src/render3/interfaces/container';
 import { PersonSearchComponent } from '../person-search/person-search.component';
+import { identifierModuleUrl } from '@angular/compiler';
 
 
 @Component({
@@ -71,6 +73,7 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
+  completePerson: PersonPage[];
   sortPeople: Person[];
   activePeople: Person[];
   relationships: PersonRelationship[];
@@ -78,6 +81,7 @@ export class PeopleComponent implements OnInit {
   phone: Phones[];
   router: RouterLink;
   jobs: JobTitle[];
+  hrdepts: HRDepartments[];
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   subpracticeareas: LegalSubPractices[];
@@ -117,12 +121,53 @@ export class PeopleComponent implements OnInit {
     );
   }
 
+  buildCompletePerson(): any {
+
+    var tempTable: any;
+
+    for (let i=0; i < this.people.length; i++) {
+      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
+      this.completePerson[i].pkpersonid = this.people[i].pkpersonid;
+      this.completePerson[i].personguid = this.people[i].personguid;
+      this.completePerson[i].lastname = this.people[i].lastname;
+      this.completePerson[i].firstname = this.people[i].firstname;
+      this.completePerson[i].middlename = this.people[i].middlename;
+      this.completePerson[i].preferredfirstname = this.people[i].preferredfirstname ;
+      this.completePerson[i].displayname = this.people[i].displayname;
+      this.completePerson[i].initials = this.people[i].initials;
+      this.completePerson[i].prefix = this.people[i].prefix;
+      this.completePerson[i].suffix = this.people[i].suffix;
+      this.completePerson[i].timekeepernumber = this.people[i].timekeepernumber ;
+      this.completePerson[i].ultiproemployeeid = this.people[i].ultiproemployeeid;
+      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
+      this.completePerson[i].adprincipaldomainaccount = this.people[i].adprincipaldomainaccount;
+      this.completePerson[i].officenumber = this.people[i].officenumber;
+      
+      tempTable = this.hrdepts.find(obj => obj.hrdepartmentid === this.people[i].hrdepartmentid);
+        this.completePerson[i].hrdepartmentname = tempTable.hrdepartmentname;
+
+      tempTable = this.jobs.find(obj => obj.jobtitleid ===this.people[i].jobtitleid  );
+        this.completePerson[i].jobtitle = tempTable.jobtitle;
+      
+      //tempTable = this.
+      //this.completePerson[i].officelocationname = this.people[i].addomainaccount;
+  
+    }
+    
+  }
+
   usePeople(): any {
     return this.people;
   }
   
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+  }
+
+  getIndividual(id: number): void {
+    this.activePeople = this.people.filter(p => {
+      return p.pkpersonid === id
+    });
   }
 
   getTitles(currentperson: any): string {
@@ -182,7 +227,7 @@ export class PeopleComponent implements OnInit {
     });
 
     if (!officePhone) {
-      var nophone = 'Phone: <br>'
+      var nophone = 'Phone: NO EXTENSION NUMBER<br>'
       return nophone; 
     }
 
@@ -195,11 +240,31 @@ export class PeopleComponent implements OnInit {
   }
 
   getAssistant(currentperson: any): SafeHtml {
-    if (currentperson.personrelationship.length == 0) return null;
+    var assistants: Person;
+    var attorneys: Person[];
+    var asst;
+    
+    if (currentperson.personrelationship.length == 0) {
+      attorneys = this.people.filter(obj => { 
+        if (obj.personrelationship.length > 0) {
+          return obj.personrelationship[0].relatedpersonid === currentperson.pkpersonid;
+        }
+      });
+
+      if (attorneys.length == 0) return null;
+
+      asst = "Secretary for: <br>"
+      
+      for (let i = 0; i < attorneys.length; i++){
+        var detailURL = "/detail/" + attorneys[i].pkpersonid;
+        asst = asst + attorneys[i].displayname + ',&nbsp;';
+      };
+
+      return asst;
+    }
 
     var asstID = currentperson.personrelationship[0].relatedpersonid;
-    var assistants: Person;
-    var asst;
+    
 
     assistants = this.people.find(obj => { 
       return obj.pkpersonid === currentperson.personrelationship[0].relatedpersonid;
@@ -230,7 +295,12 @@ export class PeopleComponent implements OnInit {
   }
 
   onSearchChange(search: string): void {
-    this.activePeople = this.people.filter(p => p.lastname.toLowerCase().includes(search.toLocaleLowerCase()));
+    // add to filter to search both names, city, practice areas
+    this.activePeople = this.people.filter(p => 
+      p.lastname.toLowerCase().includes(search.toLocaleLowerCase()) ||
+      p.firstname.toLowerCase().includes(search.toLocaleLowerCase()) //||
+      //p.legalsubdeptfriendlyname.toLowerCase().includes(search.toLocaleLowerCase())
+    );
   }
   
   ifCPR(currentperson: any): SafeHtml {
