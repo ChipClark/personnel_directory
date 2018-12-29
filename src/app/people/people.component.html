@@ -5,7 +5,7 @@
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
                 <label class="normal-font btn btn-outline-secondary active" id="alphaAll">
                     <input type="radio" checked=true name="options" id="alphaoption1"  
-                        class="generalbtn normal-font" (click)="ByAlpha()" aria-pressed="true">&nbsp;All&nbsp;
+                        class="generalbtn normal-font" (click)="ByAlpha()" aria-pressed="true">&nbsp;Clear&nbsp;
                 </label>
                 <label class="normal-font btn btn-outline-secondary blur" id="alphaA">
                     <input type="radio" checked=false name="options" id="alphaoption2"
@@ -202,8 +202,8 @@
           <div class="userdetails" > 
             <div class="username">
                 <strong>
-                <a href="" onclick=getIndividual(person.pkpersonid) data-toggle="tooltip" title="see more about {{person.displayname}}" >
-                    {{person.displayname}}</a>
+                <button class="username btn btn-outline-secondary blur" (click)="getIndividual(person.pkpersonid)" data-toggle="tooltip" title="see more about {{person.displayname}}" >
+                    {{person.displayname}}</button>
                 </strong>&nbsp; {{getPrefName(person.preferredfirstname)}}  
                 &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>

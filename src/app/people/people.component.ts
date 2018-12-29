@@ -117,6 +117,7 @@ export class PeopleComponent implements OnInit {
         this.records = this.people.length;
         this.lastRecord = this.people.length;
         this.lastPage = Math.ceil(this.lastRecord / this.limit);
+        //this.buildCompletePerson();
       }
     );
   }
@@ -125,7 +126,9 @@ export class PeopleComponent implements OnInit {
 
     var tempTable: any;
 
-    for (let i=0; i < this.people.length; i++) {
+    if (!this.people) console.log("No People[]");
+
+    for (let i=0; i < 1; i++) {
       this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
       this.completePerson[i].pkpersonid = this.people[i].pkpersonid;
       this.completePerson[i].personguid = this.people[i].personguid;
@@ -256,11 +259,18 @@ export class PeopleComponent implements OnInit {
       asst = "Secretary for: <br>"
       
       for (let i = 0; i < attorneys.length; i++){
-        var detailURL = "/detail/" + attorneys[i].pkpersonid;
-        asst = asst + attorneys[i].displayname + ',&nbsp;';
+        var detailURL = '<a href="#" class="" (click)="' 
+        + 'getIndividual(' + attorneys[i].pkpersonid + ')" data-toggle="tooltip" title="see more about ' 
+        + attorneys[i].displayname + '" >';
+        if (i == 0 ) {
+          asst = asst + detailURL + attorneys[i].displayname + '</a>';
+        }
+        else {
+          asst = asst + ',&nbsp;' + detailURL + attorneys[i].displayname + '</a>';
+        }
       };
 
-      return asst;
+      return this.sanitizer.bypassSecurityTrustHtml(asst);
     }
 
     var asstID = currentperson.personrelationship[0].relatedpersonid;
@@ -271,10 +281,7 @@ export class PeopleComponent implements OnInit {
     });
  
     for (let i = 0; i < currentperson.personrelationship.length; i++){
-      var detailURL = "/detail/" + currentperson.personrelationship[i].relatedpersonid;
-
-      asst = 'Assistant: <a routerLink="' + detailURL
-              + '" href="' + detailURL  + '" >';
+      asst = 'Assistant: ';
 
       for (let j = 0; j < this.people.length; j++) {
         if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
@@ -284,23 +291,29 @@ export class PeopleComponent implements OnInit {
             asst = asst + 'No name found';
           }
           else {
-            asst  = asst + assistants.displayname;
+            var detailURL = '<button href="#" class="" (click)="' 
+              + 'getIndividual(' + assistants.pkpersonid 
+              + ')" data-toggle="tooltip" title="see more about ' 
+              + assistants.displayname + '" >';
+            asst  = asst + detailURL + assistants.displayname;
           }
     
         }
       }
     }
-    asst = asst + '</a><br />';
+    asst = asst + '</button><br />';
     return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
   onSearchChange(search: string): void {
     // add to filter to search both names, city, practice areas
-    this.activePeople = this.people.filter(p => 
-      p.lastname.toLowerCase().includes(search.toLocaleLowerCase()) ||
-      p.firstname.toLowerCase().includes(search.toLocaleLowerCase()) //||
-      //p.legalsubdeptfriendlyname.toLowerCase().includes(search.toLocaleLowerCase())
-    );
+    const regExp = new RegExp(search, 'gi');
+    const check = obj => {
+      if (obj !== null && typeof obj === 'object') { return Object.values(obj).some(check); }
+      if (Array.isArray(obj)) { return obj.some(check); }
+      return (typeof obj === 'string' || typeof obj === 'number') && regExp.test(obj);
+    };
+    this.activePeople = this.people.filter(check);
   }
   
   ifCPR(currentperson: any): SafeHtml {
