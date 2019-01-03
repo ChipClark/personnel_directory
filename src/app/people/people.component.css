@@ -32,12 +32,12 @@
 
   .locationbar {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
 
   .CPRbar {
     display: inline-block;
-    margin-bottom: 15px;
+    margin-bottom: 2px;
   }
 
   .rolebar {
@@ -89,4 +89,14 @@
   .searchbar {
     float: right; 
     display: block;
+  }
+
+  .relatedPerson {
+    text-decoration: underline;
+    color: blue;
+    border: none;
+  }
+
+  .button {
+    box-sizing: none;
   }

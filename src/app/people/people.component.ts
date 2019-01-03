@@ -108,9 +108,9 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
+    //console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
-        //console.log(this.personURL);
         this.people = people;
         this.activePeople = people;
         this.sortPeople = people;
@@ -180,12 +180,14 @@ export class PeopleComponent implements OnInit {
     var attorneyPracName = "No legalsubdeptfriendlyname"
 
     if (currentperson.isattorney == true) {
+      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
       addHTML = addHTML + '<br>'
 
       if (!currentperson.legalsubdepartments) { 
       }
       else {
         attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+        console.log(currentperson.legalsubdeptfriendlyname);
       }
       
       addHTML = addHTML + attorneyPracName;
@@ -259,14 +261,17 @@ export class PeopleComponent implements OnInit {
       asst = "Secretary for: <br>"
       
       for (let i = 0; i < attorneys.length; i++){
-        var detailURL = '<a href="#" class="" (click)="' 
+        var detailURL = '<a href="#" class="" onclick="' 
         + 'getIndividual(' + attorneys[i].pkpersonid + ')" data-toggle="tooltip" title="see more about ' 
         + attorneys[i].displayname + '" >';
         if (i == 0 ) {
           asst = asst + detailURL + attorneys[i].displayname + '</a>';
         }
         else {
-          asst = asst + ',&nbsp;' + detailURL + attorneys[i].displayname + '</a>';
+          asst = asst + '&nbsp;' + detailURL + attorneys[i].displayname + '</a>';
+        }
+        if (asst.length > 40) {
+          asst = asst + '<br>';
         }
       };
 
@@ -291,13 +296,13 @@ export class PeopleComponent implements OnInit {
             asst = asst + 'No name found';
           }
           else {
-            var detailURL = '<button href="#" class="" (click)="' 
-              + 'getIndividual(' + assistants.pkpersonid 
+            var detailURL = '<button class="relatedPerson generalbtn" name="' 
+              //+ assistants.displayname + '" (click)="getIndividual(' + assistants.pkpersonid 
+              + assistants.displayname + '" (click)="getClick($event'
               + ')" data-toggle="tooltip" title="see more about ' 
               + assistants.displayname + '" >';
-            asst  = asst + detailURL + assistants.displayname;
+            asst  = asst + detailURL + assistants.displayname + '</button>';
           }
-    
         }
       }
     }
@@ -305,21 +310,38 @@ export class PeopleComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
-  onSearchChange(search: string): void {
-    // add to filter to search both names, city, practice areas
-    const regExp = new RegExp(search, 'gi');
-    const check = obj => {
-      if (obj !== null && typeof obj === 'object') { return Object.values(obj).some(check); }
-      if (Array.isArray(obj)) { return obj.some(check); }
-      return (typeof obj === 'string' || typeof obj === 'number') && regExp.test(obj);
-    };
-    this.activePeople = this.people.filter(check);
+  getClick(elementID: string): void {
+      console.log("Here I am");
+      document.getElementById(elementID).onclick = function () {
+
+      }
+  }
+
+  onSearchChange(search: any) {
+      const regExp = new RegExp(search, 'gi');
+      const check = p => {
+        if (this.checkPhone(p, regExp)) { return true; }
+        return regExp.test(p.displayname) ||
+          regExp.test(p.officenumber) ||
+          regExp.test(p.officelocation.officelocationcode) ||
+          regExp.test(p.jobtitle.jobtitle) ||
+          regExp.test(p.emails[0].emailaddress) ||
+          regExp.test(p.timekeepernumber) || 
+          regExp.test(p.legalsubdeptfriendlyname);
+      };
+      this.activePeople = this.people.filter(check);
+  }
+
+  checkPhone(p: Person, regExp: RegExp) {
+    return p.phones.some(ph => {
+      return ph.phonetypeid === 1 && regExp.test(ph.phonenumber);
+    });
   }
   
   ifCPR(currentperson: any): SafeHtml {
-    var _element, i;
+    var _element;
     
-    for (i=0; i < currentperson.licensetype.length; i++) {
+    for (let i=0; i < currentperson.licensetype.length; i++) {
       if (currentperson.licensetype[i].licensetypeid == 3){
           _element = this.cprImg;
           return this.sanitizer.bypassSecurityTrustHtml(_element);
@@ -688,5 +710,6 @@ export class PeopleComponent implements OnInit {
     } 
     this.clearRole();
     this.clearLocation();
+    this.clearCPRNotary();
   }
 }
