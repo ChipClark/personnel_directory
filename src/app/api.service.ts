@@ -7,7 +7,7 @@ import { catchError, map, tap, concat } from 'rxjs/operators';
 import { Person } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
-import { Schools } from './datatables/school';
+import { Schools, Education, DegreeTypes } from './datatables/school';
 import { JobTitle } from './datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
 
@@ -27,6 +27,9 @@ export class APIService {
   private lastRecord;
   private headers;
   people: Person[];
+  schools: Schools[];
+  education: Education[];
+  degrees: DegreeTypes[];
   
  
   constructor(
@@ -57,6 +60,17 @@ export class APIService {
     var request = this.http.get(photoUrl).toPromise();
     return false;
   }
+
+  getSchools(url): Observable<Schools[]> {
+    return this.http.get<Schools[]>(url)
+  }
+  getEducation(url): Observable<Education[]> {
+    return this.http.get<Education[]>(url)
+  }
+  getDegrees(url): Observable<DegreeTypes[]> {
+    return this.http.get<DegreeTypes[]>(url)
+  }
+
 
 
   /** GET person by id. Will 404 if id not found */

@@ -1,6 +1,6 @@
 // people.compenents.ts
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 import { Person } from '../person';
 import { iData, APIHeader } from '../JUNK';
@@ -12,17 +12,18 @@ import { RouterLink } from '@angular/router';
 
 // datatables 
 import { PersonPage } from '../datatables/AllTextFields';
-import { Schools } from '../datatables/school';
+import { Schools, Education, DegreeTypes } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
 import { Photos } from '../datatables/photo';
 import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices, License, LicenseType } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
-import { PersonRelationship } from '../datatables/personrelationship';
+import { PersonRelationship, Secretaries } from '../datatables/personrelationship';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ACTIVE_INDEX } from '@angular/core/src/render3/interfaces/container';
 import { PersonSearchComponent } from '../person-search/person-search.component';
 import { identifierModuleUrl } from '@angular/compiler';
+import { forEach } from '@angular/router/src/utils/collection';
 
 
 @Component({
@@ -37,7 +38,11 @@ import { identifierModuleUrl } from '@angular/compiler';
 
 export class PeopleComponent implements OnInit {
 
-  public baseURL = 'http://am-web05:3030/api/v1/people/';
+  public baseURL = 'http://am-web05:3030/api/v1/people';
+  public schoolURL = 'http://am-api:3030/api/v1/schools';
+  public degreeTypesURL = 'http://am-api:3030/api/v1/degreetypes'
+  public educationURL = 'http://am-api:3030/api/v1/education';
+
   
   // Filters
   public activepeopleFilter = '?filter={"where":{"employmentstatus":"A"},'
@@ -77,7 +82,8 @@ export class PeopleComponent implements OnInit {
   sortPeople: Person[];
   activePeople: Person[];
   relationships: PersonRelationship[];
-  school: Schools[];
+  supportedPerson: Secretaries[];
+  schools: Schools[];
   phone: Phones[];
   router: RouterLink;
   jobs: JobTitle[];
@@ -91,6 +97,8 @@ export class PeopleComponent implements OnInit {
   license: License[];
   licensetype: LicenseType[];
   photo: Photos[];
+  degrees: DegreeTypes[];
+  education: Education[];
   
   constructor(
     private staffService: APIService,
@@ -100,6 +108,7 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.getPeople();
+    //this.getSchools();
   }
 
   ngOnDestroy() {
@@ -112,15 +121,64 @@ export class PeopleComponent implements OnInit {
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
         this.people = people;
-        this.activePeople = people;
         this.sortPeople = people;
         this.records = this.people.length;
         this.lastRecord = this.people.length;
         this.lastPage = Math.ceil(this.lastRecord / this.limit);
-        //this.buildCompletePerson();
-      }
-    );
+
+        // build list of supportedpeople;
+        
+        for (let i = 0; i < this.people.length; i++) {
+          if (this.people[i].personrelationship) {
+            const relatedArray = this.people[i].personrelationship;
+            for (let j = 0; j < relatedArray.length; j++) {
+              for (let k = 0; k < this.people.length; k++) {
+                if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
+                  this.people[k].supportrelationships = true;
+                  const relatedPerson = { 
+                    relatedpersonid: null,
+                    personrelationshipid: null,
+                    pkpersonid: null,
+                    relationshiptypeid: null,
+                    supportedpersonid: relatedArray[j].pkpersonid,
+                    description: null,
+                    active: null,
+                    activefromdate: null,
+                    modifieddate: null,
+                    modifiedby: null,
+                    validfromdate: null,
+                    validtodate: null 
+                  };
+                  this.people[k].personrelationship.push(relatedPerson);
+                }
+              }
+            }
+          }
+        }
+
+        this.activePeople = people;
+
+       
+    });
   }
+
+  getIndividual(id: number): void {
+    this.activePeople = this.people.filter(p => {
+      return p.pkpersonid === id
+    });
+  }
+
+  getPerson(id): string {
+    if (!id) return null;
+    let findPerson = this.people.find(p => {
+      return p.pkpersonid === id;
+    })
+    if (!findPerson) {
+      return "No name found";
+    }
+    return findPerson.displayname;
+  }
+
 
   buildCompletePerson(): any {
 
@@ -167,11 +225,7 @@ export class PeopleComponent implements OnInit {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
 
-  getIndividual(id: number): void {
-    this.activePeople = this.people.filter(p => {
-      return p.pkpersonid === id
-    });
-  }
+  
 
   getTitles(currentperson: any): string {
     var currentJobTitle = currentperson.jobtitle.jobtitle;
@@ -187,7 +241,7 @@ export class PeopleComponent implements OnInit {
       }
       else {
         attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-        console.log(currentperson.legalsubdeptfriendlyname);
+        //console.log(currentperson.legalsubdeptfriendlyname);
       }
       
       addHTML = addHTML + attorneyPracName;
@@ -232,7 +286,7 @@ export class PeopleComponent implements OnInit {
     });
 
     if (!officePhone) {
-      var nophone = 'Phone: NO EXTENSION NUMBER<br>'
+      var nophone = 'Phone: NO Office Phone Number<br>'
       return nophone; 
     }
 
@@ -240,81 +294,63 @@ export class PeopleComponent implements OnInit {
     phonenum = phonenum.replace(/\D+/g, '')
           .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-    phonenum = 'Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a><br>'
+    phonenum = 'Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a>'
+    phonenum = phonenum + '&nbsp;x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a><br>'
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
-  }
-
-  getAssistant(currentperson: any): SafeHtml {
-    var assistants: Person;
-    var attorneys: Person[];
-    var asst;
-    
-    if (currentperson.personrelationship.length == 0) {
-      attorneys = this.people.filter(obj => { 
-        if (obj.personrelationship.length > 0) {
-          return obj.personrelationship[0].relatedpersonid === currentperson.pkpersonid;
-        }
-      });
-
-      if (attorneys.length == 0) return null;
-
-      asst = "Secretary for: <br>"
-      
-      for (let i = 0; i < attorneys.length; i++){
-        var detailURL = '<a href="#" class="" onclick="' 
-        + 'getIndividual(' + attorneys[i].pkpersonid + ')" data-toggle="tooltip" title="see more about ' 
-        + attorneys[i].displayname + '" >';
-        if (i == 0 ) {
-          asst = asst + detailURL + attorneys[i].displayname + '</a>';
-        }
-        else {
-          asst = asst + '&nbsp;' + detailURL + attorneys[i].displayname + '</a>';
-        }
-        if (asst.length > 40) {
-          asst = asst + '<br>';
-        }
-      };
-
-      return this.sanitizer.bypassSecurityTrustHtml(asst);
-    }
-
-    var asstID = currentperson.personrelationship[0].relatedpersonid;
-    
-
-    assistants = this.people.find(obj => { 
-      return obj.pkpersonid === currentperson.personrelationship[0].relatedpersonid;
-    });
- 
-    for (let i = 0; i < currentperson.personrelationship.length; i++){
-      asst = 'Assistant: ';
-
-      for (let j = 0; j < this.people.length; j++) {
-        if (currentperson.personrelationship[i].relatedpersonid == this.people[j].pkpersonid) {
-          assistants = this.people[j];
-
-          if (!assistants.displayname) {
-            asst = asst + 'No name found';
-          }
-          else {
-            var detailURL = '<button class="relatedPerson generalbtn" name="' 
-              //+ assistants.displayname + '" (click)="getIndividual(' + assistants.pkpersonid 
-              + assistants.displayname + '" (click)="getClick($event'
-              + ')" data-toggle="tooltip" title="see more about ' 
-              + assistants.displayname + '" >';
-            asst  = asst + detailURL + assistants.displayname + '</button>';
-          }
-        }
-      }
-    }
-    asst = asst + '</button><br />';
-    return this.sanitizer.bypassSecurityTrustHtml(asst);
   }
 
   getClick(elementID: string): void {
       console.log("Here I am");
       document.getElementById(elementID).onclick = function () {
-
       }
+  }
+
+  goBack(): void {
+    this.activePeople = this.people;
+    this.clearAll();
+  }
+
+  getSchools(): any {
+    this.staffService.getSchools(this.schoolURL)
+      .subscribe(schools => { 
+        this.schools = schools;
+      });
+      this.staffService.getEducation(this.schoolURL)
+      .subscribe(education => { 
+        this.education = education;
+      });
+      this.staffService.getDegrees(this.degreeTypesURL)
+      .subscribe(degrees => { 
+        this.degrees = degrees;
+      });
+  }
+
+  getEducation(currentperson: Person): string {
+    let attorneyeducation = null;
+    if (currentperson.isattorney == true) {
+      attorneyeducation = "Education: ";
+
+      currentperson.education = this.education.filter(obj => {
+        return obj.pkpersonid === currentperson.pkpersonid;
+      })
+      for(let i = 0; i < this.education.length; i++) {
+        let aDegree = this.degrees.find(obj => {
+          return obj.degreetypeid === this.education[i].degreetypeid;
+        });
+        this.education[i].degreename = aDegree.degreetypename;
+
+        let aSchool = this.schools.find(obj => {
+          return obj.schoolid === this.education[i].schoolid;
+        });
+        this.education[i].schoolname = aSchool.schoolname;
+
+        attorneyeducation = attorneyeducation + this.education[i].degreename 
+          + '&nbsp;' + this.education[i].schoolname
+          + '&nbsp;' + this.education[i].graduationyear + '<br>';
+      }
+    }
+
+    return attorneyeducation;
   }
 
   onSearchChange(search: any) {
@@ -581,6 +617,9 @@ export class PeopleComponent implements OnInit {
     _element = document.getElementById("alphaAll");
     _element.className = "btn btn-outline-secondary active";
     this.alphaLabelID = "alphaAll";
+
+    //document.getElementById("SearchBar").setAttribute("value") = "";
+    
   }
 
   ByAlpha(alpha: string): void {
@@ -711,5 +750,12 @@ export class PeopleComponent implements OnInit {
     this.clearRole();
     this.clearLocation();
     this.clearCPRNotary();
+  }
+
+  clearAll(): void {
+    this.clearRole();
+    this.clearLocation();
+    this.clearCPRNotary();
+    this.clearAlpha();
   }
 }

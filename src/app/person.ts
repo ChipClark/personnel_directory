@@ -3,6 +3,7 @@ import { PersonRelationship } from "./datatables/personrelationship";
 import { OfficeLocation } from "./datatables/officelocation";
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from "./datatables/departmenttables";
 import { License, LicenseType } from "./datatables/practicestables";
+import { Education } from "./datatables/school";
 
 export class Person {
   pkpersonid: number;
@@ -56,11 +57,13 @@ export class Person {
   validtodate: string;
   legalsubdepartmentid: number;
   legalsubdeptfriendlyname: string;
+  officefloorlocationid: number;
   licensetypeid: number;
   showphoto: boolean;
   photolocation: string;
   legaldepartmentid: number;
   phones: Phones[];
+  supportrelationships: true;
   personrelationship: PersonRelationship[];
   officelocation: OfficeLocation[];
   hrdepartment: HRDepartments[];
@@ -68,6 +71,8 @@ export class Person {
   legalsubs: LegalSubDepartments[];
   license: License[];
   licensetype:LicenseType[];
+  education: Education[];
   totalcount: number;
+
   
 }

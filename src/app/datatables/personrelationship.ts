@@ -3,6 +3,7 @@ export class PersonRelationship {
     pkpersonid: number;
     relationshiptypeid: number;
     relatedpersonid: number;
+    supportedpersonid: number;
     description: string;
     active: boolean;
     activefromdate: string;
@@ -10,4 +11,9 @@ export class PersonRelationship {
     modifiedby: string;
     validfromdate: string;
     validtodate: string;
+}
+
+export class Secretaries {
+    pkpersonid: number;
+    supportedpersonid: number;
 }

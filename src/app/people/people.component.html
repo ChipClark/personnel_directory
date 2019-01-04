@@ -1,6 +1,6 @@
 <h2>Personnel List</h2>
-    <div class="searchbar col-md-7 col-sm-12">
-        <input class="form-control searchbar" placeholder="Search by keyword" (input)="onSearchChange($event.target.value)">
+    <div class="searchbar col-md-7 col-sm-12" >
+        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''" (input)="onSearchChange($event.target.value)">
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
                 <label class="normal-font btn btn-outline-secondary active" id="alphaAll">
@@ -190,11 +190,8 @@
                 let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
-
-                <!-- was part of paginate: , totalItems: records  -->
       <div class="col-md-6">         
         <div class="people" >
-              <!--[class.selected]="person.pkersonid === selectedPerson" (click)="onSelect(person.pkersonid)" >-->
           <div class="userphoto">
             <div [innerHTML]="getPhoto(person.photo)"></div>
             <img src="{{person.photolocationpath}}{{person.photofilename}}" id="{{person.displayname}}" width="112px;" />
@@ -205,11 +202,13 @@
                 <button class="username btn btn-outline-secondary blur" (click)="getIndividual(person.pkpersonid)" data-toggle="tooltip" title="see more about {{person.displayname}}" >
                     {{person.displayname}}</button> <!--{{person.pkpersonid}}-->
                 </strong>&nbsp; <span *ngIf="activePeople.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
+                
                 &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
                   <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
                   &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
                     <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
                   &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
+                  &nbsp;<span *ngIf="activePeople.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
             </div>
 
             <div class="userinfo">
@@ -218,11 +217,19 @@
               {{person.officelocation.officelocationcode}} Office Number: 
               <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officelocationid}}" class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
               <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
-              <div id="assistant" [innerHTML]="getAssistant(person)" ></div>
+              <div *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
+                  <a routerLink="" *ngFor="let related of person.personrelationship" (click)="getIndividual(related.relatedpersonid)" >
+                      {{getPerson(related.relatedpersonid)}}</a><br></div>
+              <div *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
+                  <strong>Supporting:</strong><br><ul>
+                  <div *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="getIndividual(related.supportedpersonid)" >
+                        {{getPerson(related.supportedpersonid)}}</a><br></div></ul>
+                    </div>
               
               <div *ngIf="activePeople.length == 1">
                   <strong>More:</strong><br>
                   {{person.timekeepernumber}}
+                  <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
 
               </div>
               
