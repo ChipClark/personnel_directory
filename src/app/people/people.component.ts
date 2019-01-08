@@ -541,6 +541,7 @@ export class PeopleComponent implements OnInit {
     LabelElement.className = "normal-font btn btn-outline-secondary active";
 
     if (hrdept == 20) {
+      console.log("IN staff");
       this.activePeople = this.people.filter(obj => {
         return obj.hrdepartmentid === 3 ||
           obj.hrdepartmentid === 4 ||
