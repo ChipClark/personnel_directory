@@ -161,89 +161,101 @@
         </div>
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
-            <label class="med-font btn btn-outline-secondary active" id="Role1">
+            <label class="normal-font btn btn-outline-secondary active" id="Role1">
                 <input type="radio" checked=true name="options" id="roleoption1"  
                     class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;Clear&nbsp;
             </label>&nbsp;
-            <label class="med-font btn btn-outline-secondary blur" id="Role2">
+            <label class="normal-font btn btn-outline-secondary blur" id="Role2">
                 <input type="radio" checked=false name="options" id="roleoption2"
-                    class="generalbtn med-font" (click)="ByRole('Role2')" aria-pressed="false">&nbsp;Attorneys&nbsp;
+                    class="generalbtn med-font" (click)="ByRole('Role2')" aria-pressed="false">&nbsp;Partners&nbsp;
             </label>&nbsp;
-            <label class="med-font btn btn-outline-secondary blur" id="Role3">
+            <label class="normal-font btn btn-outline-secondary blur" id="Role3">
                 <input type="radio" checked=false name="options" id="roleoption3"
-                        class="generalbtn ned-font" (click)="ByRole('Role3')" aria-pressed="false">&nbsp;Staff&nbsp;
+                    class="generalbtn med-font" (click)="ByRole('Role3')" aria-pressed="false">&nbsp;Of Counsel&nbsp;
+             </label>&nbsp;
+             <label class="normal-font btn btn-outline-secondary blur" id="Role4">
+                <input type="radio" checked=false name="options" id="roleoption4"
+                    class="generalbtn med-font" (click)="ByRole('Role4')" aria-pressed="false">&nbsp;Associates&nbsp;
+             </label>&nbsp;
+                <label class="normal-font btn btn-outline-secondary blur" id="Role5">
+                <input type="radio" checked=false name="options" id="roleoption5"
+                        class="generalbtn ned-font" (click)="ByRole('Role5')" aria-pressed="false">&nbsp;Paralegal&nbsp;
             </label>&nbsp;
-            <label class="med-font btn btn-outline-secondary blur" id="Role4">
-                <input type="radio" checked="false" name="options" id="roleoption5"
-                        class="generalbtn med-font" (click)="ByRole('Role4')" aria-pressed="false">&nbsp;Administration&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="Role6">
+                <input type="radio" checked="false" name="options" id="roleoption6"
+                        class="generalbtn med-font" (click)="ByRole('Role6')" aria-pressed="false">&nbsp;Staff&nbsp;
             </label>&nbsp;
         </div>
 
         
     </div>
 
-<div class="person-list container" >
+<div class="person-list" >
 
-  <perfect-scrollbar class="person-scrollbar" [config]="config"> 
-  <div class="row">
-    <div *ngFor="let person of activePeople | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+  <div class="PaginationBar">
+        <span class="numoftotal">{{numDisplay}} of {{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
+  </div>
+  <div class="container">
+    <div class="row">
+        <div *ngFor="let person of activePeople | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
-      <div class="col-md-6">         
-        <div class="people" >
-          <div class="userphoto">
-            <div [innerHTML]="getPhoto(person.photo)"></div>
-            <img src="{{person.photolocationpath}}{{person.photofilename}}" id="{{person.displayname}}" width="112px;" />
-          </div>
-          <div class="userdetails" > 
-            <div class="username">
-                <strong>
-                <button class="username btn btn-outline-secondary blur" (click)="getIndividual(person.pkpersonid)" data-toggle="tooltip" title="see more about {{person.displayname}}" >
-                    {{person.displayname}}</button> <!--{{person.pkpersonid}}-->
-                </strong>&nbsp; <span *ngIf="activePeople.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
+        <div class="col">         
+            <div class="people" >
+                <div class="userphoto">
+                    <div [innerHTML]="getPhoto(person.photo)"></div>
+                    <img src="{{person.photolocationpath}}{{person.photofilename}}" id="{{person.displayname}}" width="112px;" />
+                </div>
+                <div class="userdetails" > 
+                    <div class="username">
+                        <strong>
+                        <button class="username btn btn-outline-secondary blur" (click)="getIndividual(person.pkpersonid)" data-toggle="tooltip" title="see more about {{person.displayname}}" >
+                            {{person.displayname}}</button> <!--{{person.pkpersonid}}-->
+                        </strong>&nbsp; <span *ngIf="activePeople.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
                 
-                &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-                  <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
-                  &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-                    <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                  &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
-                  &nbsp;<span *ngIf="activePeople.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
-            </div>
+                        &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
+                        <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
+                            &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
+                        <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
+                            &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
+                            &nbsp;<span *ngIf="activePeople.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
+                    </div>
 
-            <div class="userinfo">
-                <div id="jobtitle" [innerHTML]="getTitles(person)" ></div>  
+                    <div class="userinfo">
+                        <div id="jobtitle" [innerHTML]="getTitles(person)" ></div>  
 
-              {{person.officelocation.officelocationcode}} Office Number: 
-              <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officelocationid}}" class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
-              <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
-              <div *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
-                  <a routerLink="" *ngFor="let related of person.personrelationship" (click)="getIndividual(related.relatedpersonid)" >
-                      {{getPerson(related.relatedpersonid)}}</a><br></div>
-              <div *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
-                  <strong>Supporting:</strong><br><ul>
-                  <div *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="getIndividual(related.supportedpersonid)" >
-                        {{getPerson(related.supportedpersonid)}}</a><br></div></ul>
+                        {{person.officelocation.officelocationcode}} Office Number: 
+                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officelocationid}}" class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
+                        <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
+                        <div *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
+                            <a routerLink="" *ngFor="let related of person.personrelationship" (click)="getIndividual(related.relatedpersonid)" >
+                                {{getPerson(related.relatedpersonid)}}</a><br>
+                        </div>
+                        <div *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
+                            <strong>Supporting:</strong><br><ul>
+                            <div *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="getIndividual(related.supportedpersonid)" >
+                                {{getPerson(related.supportedpersonid)}}</a><br>
+                            </div></ul>
+                        </div>
+              
+                        <div *ngIf="activePeople.length == 1">
+                            <strong>More:</strong><br>
+                            {{person.timekeepernumber}}
+                            <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
+                        </div>
                     </div>
               
-              <div *ngIf="activePeople.length == 1">
-                  <strong>More:</strong><br>
-                  {{person.timekeepernumber}}
-                  <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
-
-              </div>
-              
           
+                </div>
             </div>
-          </div>
-        </div>  
-      </div>
+        </div>
+        </div>
+    </div>
+    <div class="PaginationBar">
+            <span class="numoftotal">{{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
     </div>
   </div>
-
-  </perfect-scrollbar>
-</div>
-<div class="PaginationBar">
-    <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+        
 </div>
 

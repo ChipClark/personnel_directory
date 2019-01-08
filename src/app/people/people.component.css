@@ -25,6 +25,19 @@
     top: -3px;
   }
 
+  .PaginationBar {
+    display: block;
+    height: 70px;
+  }
+
+  .pagecontrols {
+    float: right;
+  }
+  .numoftotal {
+    padding: 10px;
+    float: left;
+  }
+
   .practice-titles {
     display: block;
     max-width:300px;
@@ -77,13 +90,6 @@
 
   .emaillink { 
     display: inline;
-  }
-
-  .PaginationBar {
-    float: right;
-    display: block;
-    margin-top:10px;
-    height: 50px;
   }
 
   .searchbar {

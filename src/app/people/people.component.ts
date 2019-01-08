@@ -71,6 +71,7 @@ export class PeopleComponent implements OnInit {
   public pageNumber = 0;
   public limit = 10;
   public records;
+  public numDisplay;
   public lastRecord;
   public lastPage;
   
@@ -155,17 +156,16 @@ export class PeopleComponent implements OnInit {
             }
           }
         }
-
         this.activePeople = people;
-
-       
     });
+    this.setDisplayNumbers();
   }
 
   getIndividual(id: number): void {
     this.activePeople = this.people.filter(p => {
       return p.pkpersonid === id
     });
+    this.setDisplayNumbers();
   }
 
   getPerson(id): string {
@@ -176,9 +176,17 @@ export class PeopleComponent implements OnInit {
     if (!findPerson) {
       return "No name found";
     }
+    this.setDisplayNumbers();
     return findPerson.displayname;
   }
 
+  setDisplayNumbers(): void {
+    this.records = this.activePeople.length;
+    let numOfPages = this.records / this.limit;
+    let remainingRecords = (this.limit + this.records) - (this.pageNumber * this.limit) ;
+    if (remainingRecords < this.limit) this.numDisplay = remainingRecords;
+    else (this.numDisplay = this.limit);
+  }
 
   buildCompletePerson(): any {
 
@@ -455,15 +463,103 @@ export class PeopleComponent implements OnInit {
     this.clearCPRNotary();
   }
 
-  clearLocation(): void {
-    var _element
-    _element = document.getElementById(this.cityLabelID);
-    _element.className = "normal-font btn btn-outline-secondary";
+  ByRole(role: string): void {
+    var LabelElement, hrdept;
+    LabelElement = document.getElementById(this.roleLabelID);
+    LabelElement.className = "normal-font btn btn-outline-secondary";
 
-    _element = document.getElementById("city6");
-    _element.className = "normal-font btn btn-outline-secondary active";
-    this.cityLabelID = "city6";
+    switch (role) {
+        case "Role1":
+          hrdept = null;
+          this.activePeople = this.people;
+          LabelElement = document.getElementById("Role1");
+          this.roleLabelID = "Role1";
+         break;
+        case "Role2": 
+          hrdept = 13; //"Partners"  hrdept = 1; //"Associates" 
+          LabelElement = document.getElementById("Role2");
+          this.roleLabelID = "Role2";
+         break;
+        case "Role3":
+          hrdept = 2; // "Law Clerks"
+          LabelElement = document.getElementById("Role3");
+          this.roleLabelID = "Role3";
+         break;
+        case "Role4":
+          hrdept = 1; // "Associates"
+          LabelElement = document.getElementById("Role4");
+          this.roleLabelID = "Role4";
+         break;
+        case "Role5":
+          hrdept = 10; //"Paralegal"
+          LabelElement = document.getElementById("Role5");
+          this.roleLabelID = "Role5";
+         break;
+        case "Role6":
+          hrdept = 8; //"Finance"
+          LabelElement = document.getElementById("Role6");
+          this.roleLabelID = "Role6";
+         break;
+        case "Role7":
+          hrdept = 7; //"Technology"
+           LabelElement = document.getElementById("Role7");
+         this.roleLabelID = "Role7";
+         break;
+        case "Role8":
+          hrdept = 6; //"Marketing"
+          LabelElement = document.getElementById("Role8");
+          this.roleLabelID = "Role8";
+         break;
+        case "Role9":
+          hrdept = 3; //"Human Resources"
+          LabelElement = document.getElementById("Role9");
+          this.roleLabelID = "Role9";
+          break;
+        case "Role10":
+          hrdept = 12; //"Word Processing"
+          LabelElement = document.getElementById("Role10");
+          this.roleLabelID = "Role10";
+         break;
+        case "Role11":
+          hrdept = 9; //"Administration"
+          LabelElement = document.getElementById("Role11");
+          this.roleLabelID = "Role11";
+         break;
+        case "Role12":
+          hrdept = 4; //"Library"
+          LabelElement = document.getElementById("Role12");
+          this.roleLabelID = "Role12";
+         break;
+        case "Role13": 
+          hrdept = 20; // all staff
+          LabelElement = document.getElementById("Role13");
+          this.roleLabelID = "Role13";
+         break;
+        default: 
+          break;
+    }
+    LabelElement.className = "normal-font btn btn-outline-secondary active";
 
+    if (hrdept == 20) {
+      this.activePeople = this.people.filter(obj => {
+        return obj.hrdepartmentid === 3 ||
+          obj.hrdepartmentid === 4 ||
+          obj.hrdepartmentid === 5 ||
+          obj.hrdepartmentid === 6 ||
+          obj.hrdepartmentid === 7 ||
+          obj.hrdepartmentid === 8 ||
+          obj.hrdepartmentid === 9 ||
+          obj.hrdepartmentid === 11 ||
+          obj.hrdepartmentid === 12
+      });
+    }
+    else if (!hrdept) this.activePeople = this.people;
+    else {
+      this.activePeople = this.people.filter(obj => {    
+        return obj.hrdepartmentid === hrdept });
+    }
+    this.setDisplayNumbers();
+    this.pageNumber = 0;
   }
 
   ByCPRNotary(id: string): void {
@@ -511,6 +607,17 @@ export class PeopleComponent implements OnInit {
     this.clearLocation();
   }
 
+  clearLocation(): void {
+    var _element
+    _element = document.getElementById(this.cityLabelID);
+    _element.className = "normal-font btn btn-outline-secondary";
+
+    _element = document.getElementById("city6");
+    _element.className = "normal-font btn btn-outline-secondary active";
+    this.cityLabelID = "city6";
+
+  }
+
   clearCPRNotary(): void {
     var _element
     _element = document.getElementById(this.CPRNotary);
@@ -520,83 +627,6 @@ export class PeopleComponent implements OnInit {
     _element.className = "normal-font btn btn-outline-secondary active";
     this.CPRNotary = "clear";
 
-  }
-
-  ByRole(role: string): void {
-    var LabelElement, hrdept;
-    LabelElement = document.getElementById(this.roleLabelID);
-    LabelElement.className = "med-font btn btn-outline-secondary";
-
-    switch (role) {
-        case "Role1":
-          //  hrdept = null;
-          this.sortPeople = this.people;
-          this.activePeople = this.sortPeople;
-          LabelElement = document.getElementById("Role1");
-          this.roleLabelID = "Role1";
-         break;
-        case "Role2": 
-          //  hrdept = 13; //"Partners"  hrdept = 1; //"Associates" 
-
-          this.activePeople = this.sortPeople.filter(obj => {    
-            return obj.isattorney === true});
-          LabelElement = document.getElementById("Role2");
-          this.roleLabelID = "Role2";
-         break;
-      case "Role3":
-
-          this.activePeople = this.sortPeople.filter(obj => {    
-            return obj.isattorney === false && obj.hrdepartmentid != 9 });
-          LabelElement = document.getElementById("Role3");
-          this.roleLabelID = "Role3";
-         break;
-      case "Role4":
-          this.activePeople = this.sortPeople.filter(obj => {    
-            return obj.hrdepartmentid === 9 });
-          LabelElement = document.getElementById("Role4");
-          this.roleLabelID = "Role4";
-         break;
-
-      //  shouldn't reach any of these     
-      case "Role5":
-          hrdept = 9; //"Administration"
-          LabelElement = document.getElementById("Role5");
-          this.roleLabelID = "Role5";
-         break;
-      case "Role6":
-          hrdept = 8; //"Finance"
-          LabelElement = document.getElementById("Role6");
-          this.roleLabelID = "Role6";
-         break;
-      case "Role7":
-         hrdept = 7; //"Technology"
-         LabelElement = document.getElementById("Role7");
-         this.roleLabelID = "Role7";
-        break;
-      case "Role8":
-         hrdept = 6; //"Marketing"
-         LabelElement = document.getElementById("Role8");
-         this.roleLabelID = "Role8";
-        break;
-      case "Role9":
-         hrdept = 3; //"Human Resources"
-         LabelElement = document.getElementById("Role9");
-         this.roleLabelID = "Role9";
-        break;
-      case "Role10":
-        //  hrdept = 12; /"Word Processing"
-         LabelElement = document.getElementById("Role10");
-         this.roleLabelID = "Role10";
-        break;
-     default: 
-        break;
-    }
-    LabelElement.className = "med-font btn btn-outline-secondary active";
-
-    this.pageNumber = 0;
-    this.clearLocation();
-    this.clearAlpha();
-    this.clearCPRNotary();
   }
 
   clearRole(): void {
