@@ -27,15 +27,16 @@
 
   .PaginationBar {
     display: block;
+    padding-top:10px;
     height: 70px;
   }
 
   .pagecontrols {
-    float: right;
+    padding-top: 10px;
+    float: left;
   }
   .numoftotal {
-    padding: 10px;
-    float: left;
+    float: right;
   }
 
   .practice-titles {

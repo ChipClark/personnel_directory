@@ -116,54 +116,36 @@
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
-        <label class="normal-font btn btn-outline-secondary active" id="city6">
-           <input type="radio" checked=true name="options" id="option1"  
-                class="generalbtn" (click)="ByLocation('city6')" aria-pressed="true">&nbsp;Clear&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city1">
-            <input type="radio" checked=false name="options" id="option2"
-                class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">&nbsp;CC&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city2">
-            <input type="radio" checked=false name="options" id="option3"
-                class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">&nbsp;LA&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city3">
-            <input type="radio" checked="false" name="options" id="option4"
-                class="generalbtn" (click)="ByLocation('city3')" aria-pressed="false">&nbsp;OC&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city4">
-            <input type="radio" checked=false name="options" id="option5"
-                class="generalbtn" (click)="ByLocation('city4')" aria-pressed="false">&nbsp;SD&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city5">
-            <input type="radio" checked=false name="options" id="option6"
-            class="generalbtn" (click)="ByLocation('city5')" aria-pressed="false">&nbsp;SF&nbsp;
-        </label>
-        </div>
-
-        <div class="btn-group-toggle CPRbar d-none d-sm-block " data-toggle="locationbuttons">
-            <label class="normal-font btn btn-outline-secondary active " id="clear">
-               <input type="radio" checked=true name="options" id="option1"  
-                    class="generalbtn" (click)="ByCPRNotary('clear')" aria-pressed="true">
-                    &nbsp;Clear&nbsp;
-            </label>&nbsp; 
-            <label class="normal-font btn btn-outline-secondary blur " id="CPR">
+            <label class="normal-font btn btn-outline-secondary active" id="city6">
+                <input type="radio" checked=true name="options" id="option1"  
+                    class="generalbtn" (click)="ByLocation('city6')" aria-pressed="true">&nbsp;All&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="city1">
                 <input type="radio" checked=false name="options" id="option2"
-                    class="generalbtn" (click)="ByCPRNotary('CPR')" aria-pressed="false">
-                    <img src="../assets/cpr.png" width="20">&nbsp;CPR&nbsp;
+                    class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">&nbsp;CC&nbsp;
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur " id="Notary">
+            <label class="normal-font btn btn-outline-secondary blur" id="city2">
                 <input type="radio" checked=false name="options" id="option3"
-                    class="generalbtn" (click)="ByCPRNotary('Notary')" aria-pressed="false">
-                    <img src="../assets/notary.png" width="20">&nbsp;Notary&nbsp;
+                    class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">&nbsp;LA&nbsp;
             </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="city3">
+                <input type="radio" checked="false" name="options" id="option4"
+                    class="generalbtn" (click)="ByLocation('city3')" aria-pressed="false">&nbsp;OC&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="city4">
+                <input type="radio" checked=false name="options" id="option5"
+                    class="generalbtn" (click)="ByLocation('city4')" aria-pressed="false">&nbsp;SD&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" id="city5">
+                <input type="radio" checked=false name="options" id="option6"
+                    class="generalbtn" (click)="ByLocation('city5')" aria-pressed="false">&nbsp;SF&nbsp;
+            </label>
         </div>
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary active" id="Role1">
                 <input type="radio" checked=true name="options" id="roleoption1"  
-                    class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;Clear&nbsp;
+                    class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;All&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" id="Role2">
                 <input type="radio" checked=false name="options" id="roleoption2"
@@ -187,14 +169,16 @@
             </label>&nbsp;
         </div>
 
+    
         
     </div>
 
 <div class="person-list" >
 
-  <div class="PaginationBar">
-        <span class="numoftotal">{{numDisplay}} of {{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
-  </div>
+    <div class="PaginationBar">
+        <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
+        <span class="numoftotal">Items {{numDisplayStart}}-{{numDisplayEnd}} of {{records}}</span>
+    </div>
   <div class="container">
     <div class="row">
         <div *ngFor="let person of activePeople | paginate: { itemsPerPage: limit, currentPage: pageNumber };
@@ -253,7 +237,7 @@
         </div>
     </div>
     <div class="PaginationBar">
-            <span class="numoftotal">{{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
+            <span class="numoftotal">Items {{numDisplayStart}}-{{numDisplayEnd}} of {{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
     </div>
   </div>
         

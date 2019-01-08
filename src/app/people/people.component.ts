@@ -68,10 +68,11 @@ export class PeopleComponent implements OnInit {
   public cprImg = '<img src="../assets/cpr.png" class="cprimg" data-toggle="tooltip" title="CPR Certified" width="25px;">';
   public notaryImg = '<img src="../assets/notary.png" class="notaryimg" data-toggle="tooltip" title="Notary Public" width="25px;">';
   
-  public pageNumber = 0;
+  public pageNumber = 1;
   public limit = 10;
   public records;
-  public numDisplay;
+  public numDisplayStart;
+  public numDisplayEnd;
   public lastRecord;
   public lastPage;
   
@@ -182,10 +183,15 @@ export class PeopleComponent implements OnInit {
 
   setDisplayNumbers(): void {
     this.records = this.activePeople.length;
-    let numOfPages = this.records / this.limit;
     let remainingRecords = (this.limit + this.records) - (this.pageNumber * this.limit) ;
-    if (remainingRecords < this.limit) this.numDisplay = remainingRecords;
-    else (this.numDisplay = this.limit);
+    if (remainingRecords < this.limit) {
+      this.numDisplayEnd = this.records;
+      this.numDisplayStart = this.records - remainingRecords;
+    }
+    else {
+      this.numDisplayEnd = this.limit * this.pageNumber;
+      this.numDisplayStart = (this.limit * this.pageNumber) - (this.limit - 1);
+    }
   }
 
   buildCompletePerson(): any {
@@ -457,10 +463,8 @@ export class PeopleComponent implements OnInit {
       this.activePeople = this.people.filter(obj => {    
         return obj.officelocationid === locationID});
     }
-    this.pageNumber = 0;
-    this.clearRole();
-    this.clearAlpha();
-    this.clearCPRNotary();
+    this.setDisplayNumbers();
+    this.pageNumber = 1;
   }
 
   ByRole(role: string): void {
@@ -560,7 +564,7 @@ export class PeopleComponent implements OnInit {
         return obj.hrdepartmentid === hrdept });
     }
     this.setDisplayNumbers();
-    this.pageNumber = 0;
+    this.pageNumber = 1;
   }
 
   ByCPRNotary(id: string): void {
@@ -602,10 +606,8 @@ export class PeopleComponent implements OnInit {
           };
       });
     }
-    this.pageNumber = 0;
-    this.clearRole();
-    this.clearAlpha();
-    this.clearLocation();
+    this.pageNumber = 1;
+    this.setDisplayNumbers();
   }
 
   clearLocation(): void {
@@ -633,10 +635,10 @@ export class PeopleComponent implements OnInit {
   clearRole(): void {
     var _element
     _element = document.getElementById(this.roleLabelID);
-    _element.className = "med-font btn btn-outline-secondary";
+    _element.className = "normal-font btn btn-outline-secondary";
 
     _element = document.getElementById("Role1");
-    _element.className = "med-font btn btn-outline-secondary active";
+    _element.className = "normal-font btn btn-outline-secondary active";
     this.roleLabelID = "Role1";
   }
 
