@@ -1,13 +1,17 @@
 <h2>Personnel List</h2>
     <div class="searchbar col-md-7 col-sm-12" >
-        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''" (input)="onSearchChange($event.target.value)">
+        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''" [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
-                <label class="normal-font btn btn-outline-secondary active" id="alphaAll">
-                    <input type="radio" checked=true name="options" id="alphaoption1"  
-                        class="generalbtn normal-font" (click)="ByAlpha()" aria-pressed="true">&nbsp;Clear&nbsp;
+                <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
+                    <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value=""
+                        class="generalbtn normal-font" (click)="addQueryParams({alpha: null})">&nbsp;Clear&nbsp;
                 </label>
-                <label class="normal-font btn btn-outline-secondary blur" id="alphaA">
+                <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a"  *ngFor="let a of alphabets">
+                    <input type="radio" name="options"
+                       class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}" (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
+                </label>
+                <!-- <label class="normal-font btn btn-outline-secondary blur" id="alphaA">
                     <input type="radio" checked=false name="options" id="alphaoption2"
                        class="generalbtn normal-font" (click)="ByAlpha('a')" aria-pressed="false">&nbsp;A
                 </label>
@@ -110,35 +114,35 @@
                 <label class="normal-font btn btn-outline-secondary blur" id="alphaZ">
                         <input type="radio" checked=false name="options" id="alphaoption27"
                             class="generalbtn normal-font " (click)="ByAlpha('z')" aria-pressed="false">&nbsp;Z
-                </label>
+                </label> -->
         </div>
     </div>
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
-        <label class="normal-font btn btn-outline-secondary active" id="city6">
-           <input type="radio" checked=true name="options" id="option1"  
-                class="generalbtn" (click)="ByLocation('city6')" aria-pressed="true">&nbsp;Clear&nbsp;
+        <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
+           <input type="radio" name="options" id="option1"  
+                class="generalbtn" [(ngModel)]="cityid" value="" [value]="" (click)="addQueryParams({city: null})">&nbsp;Clear&nbsp;
         </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city1">
-            <input type="radio" checked=false name="options" id="option2"
-                class="generalbtn" (click)="ByLocation('city1')" aria-pressed="false">&nbsp;CC&nbsp;
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
+            <input type="radio" name="options" id="option2"
+                class="generalbtn" [(ngModel)]="cityid" [value]="4" value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
         </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city2">
-            <input type="radio" checked=false name="options" id="option3"
-                class="generalbtn" (click)="ByLocation('city2')" aria-pressed="false">&nbsp;LA&nbsp;
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
+            <input type="radio" name="options" id="option3"
+                class="generalbtn" [(ngModel)]="cityid" [value]="1" value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
         </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city3">
-            <input type="radio" checked="false" name="options" id="option4"
-                class="generalbtn" (click)="ByLocation('city3')" aria-pressed="false">&nbsp;OC&nbsp;
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
+            <input type="radio" name="options" id="option4"
+                class="generalbtn" [(ngModel)]="cityid" [value]="2" value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
         </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city4">
-            <input type="radio" checked=false name="options" id="option5"
-                class="generalbtn" (click)="ByLocation('city4')" aria-pressed="false">&nbsp;SD&nbsp;
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
+            <input type="radio" name="options" id="option5"
+                class="generalbtn" [(ngModel)]="cityid" [value]="3" value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
         </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" id="city5">
-            <input type="radio" checked=false name="options" id="option6"
-            class="generalbtn" (click)="ByLocation('city5')" aria-pressed="false">&nbsp;SF&nbsp;
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
+            <input type="radio" name="options" id="option6"
+            class="generalbtn" [(ngModel)]="cityid" [value]="5" value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
         </label>
         </div>
 
@@ -161,29 +165,29 @@
         </div>
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
-            <label class="normal-font btn btn-outline-secondary active" id="Role1">
-                <input type="radio" checked=true name="options" id="roleoption1"  
-                    class="generalbtn med-font" (click)="ByRole('Role1')" aria-pressed="true">&nbsp;Clear&nbsp;
+            <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
+                <input type="radio" name="options" id="roleoption1"  
+                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="" (click)="addQueryParams({role: null})">&nbsp;Clear&nbsp;
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role2">
-                <input type="radio" checked=false name="options" id="roleoption2"
-                    class="generalbtn med-font" (click)="ByRole('Role2')" aria-pressed="false">&nbsp;Partners&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
+                <input type="radio" name="options" id="roleoption2"
+                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role3">
-                <input type="radio" checked=false name="options" id="roleoption3"
-                    class="generalbtn med-font" (click)="ByRole('Role3')" aria-pressed="false">&nbsp;Of Counsel&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 2" id="Role3">
+                <input type="radio" name="options" id="roleoption3"
+                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="2" (click)="addQueryParams({role: 2})">&nbsp;Of Counsel&nbsp;
              </label>&nbsp;
-             <label class="normal-font btn btn-outline-secondary blur" id="Role4">
-                <input type="radio" checked=false name="options" id="roleoption4"
-                    class="generalbtn med-font" (click)="ByRole('Role4')" aria-pressed="false">&nbsp;Associates&nbsp;
+             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
+                <input type="radio" name="options" id="roleoption4"
+                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="1" (click)="addQueryParams({role: 1})">&nbsp;Associates&nbsp;
              </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" id="Role5">
-                <input type="radio" checked=false name="options" id="roleoption5"
-                        class="generalbtn ned-font" (click)="ByRole('Role5')" aria-pressed="false">&nbsp;Paralegal&nbsp;
+                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 10" id="Role5">
+                <input type="radio" name="options" id="roleoption5"
+                        class="generalbtn ned-font" [(ngModel)]="roleid" [value]="10" (click)="addQueryParams({role: 10})">&nbsp;Paralegal&nbsp;
             </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" id="Role13">
-                <input type="radio" checked="false" name="options" id="roleoption13"
-                        class="generalbtn med-font" (click)="ByRole('Role13')" aria-pressed="false">&nbsp;Staff&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 20" id="Role13">
+                <input type="radio" name="options" id="roleoption13"
+                        class="generalbtn med-font" [(ngModel)]="roleid" [value]="20" (click)="addQueryParams({role: 20})">&nbsp;Staff&nbsp;
             </label>&nbsp;
         </div>
 
@@ -193,11 +197,11 @@
 <div class="person-list" >
 
   <div class="PaginationBar">
-        <span class="numoftotal">{{numDisplay}} of {{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event"></pagination-controls>
+        <span class="numoftotal">{{numDisplay}} of {{records}}</span><pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
   </div>
   <div class="container">
     <div class="row">
-        <div *ngFor="let person of activePeople | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+        <div *ngFor="let person of activePeople | city: cityid | role: roleid | alpha: alpha | search: searchTerm | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"  >
