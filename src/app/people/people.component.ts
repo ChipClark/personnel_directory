@@ -370,7 +370,7 @@ export class PeopleComponent implements OnInit {
         regExp.test(p.timekeepernumber) ||
         regExp.test(p.legalsubdeptfriendlyname);  // still not working correctly - not pulling from entire list
     };
-    this.activePeople = this.people.filter(check);
+    this.people = this.people.filter(check);
   }
 
   checkPhone(p: Person, regExp: RegExp) {

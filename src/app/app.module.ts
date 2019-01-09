@@ -16,9 +16,6 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
-import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { CityPipe } from './city.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { RolePipe } from './role.pipe';
@@ -51,16 +48,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule, 
     AppRoutingModule,
     HttpClientModule,
-    PerfectScrollbarModule,
     NgxPaginationModule
   
   ],
-  providers: [
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG, 
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
-    }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
