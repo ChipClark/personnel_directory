@@ -452,6 +452,10 @@ export class PeopleComponent implements OnInit {
 
   sanitizeScript(sanitizer: DomSanitizer) { }
 
+  clearALL(): void {
+    this.searchTerm = null;
+    this.addQueryParams({alpha: null});
+  }
   
   addQueryParams(query): void {
     //console.log(query);
