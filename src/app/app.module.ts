@@ -21,6 +21,9 @@ import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { CityPipe } from './city.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RolePipe } from './role.pipe';
+import { AlphaPipe } from './alpha.pipe';
+import { SearchPipe } from './search.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -38,7 +41,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NavigationComponent,
     HeaderComponent,
     FooterComponent,
-    CityPipe
+    CityPipe,
+    RolePipe,
+    AlphaPipe,
+    SearchPipe
   ],
   imports: [
     BrowserModule, 

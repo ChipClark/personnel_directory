@@ -2,108 +2,107 @@
 
 /* PeopleComponent's private CSS styles */
 
-  .people {
-    margin: 0 0 2em 0;
-    padding: 2px;
-    min-width: 500px;
-  }
+.people {
+  margin: 0 0 2em 0;
+  padding: 2px;
+  min-width: 500px;
+}
 
-  .people.selected:hover {
-    background-color: #BBD8DC !important;
-    color: white;
-  }
-  .people a.selected:hover {
-    background-color: #BBD8DC !important;
-    color: white;
-  }
-  .people:hover {
-    color: rgb(white);
-    background-color: #efefef;
-  }
-  .people .text {
-    position: relative;
-    top: -3px;
-  }
+.people.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.people a.selected:hover {
+  background-color: #BBD8DC !important;
+  color: white;
+}
+.people:hover {
+  color: rgb(white);
+  background-color: #efefef;
+}
+.people .text {
+  position: relative;
+  top: -3px;
+}
 
-  .PaginationBar {
-    display: block;
-    padding-top:10px;
-    height: 70px;
-  }
+.PaginationBar {
+  display: block;
+  padding-top:10px;
+  height: 70px;
+}
 
-  .pagecontrols {
-    padding-top: 10px;
-    float: left;
-  }
-  .numoftotal {
-    float: right;
-  }
+.pagecontrols {
+  float: left;
+}
+.numoftotal {
+  float: right;
+}
 
-  .practice-titles {
-    display: block;
-    max-width:300px;
-  }
+.practice-titles {
+  display: block;
+  max-width:300px;
+}
 
-  .locationbar {
-    display: inline-block;
-    margin-bottom: 2px;
-  }
+.locationbar {
+  display: inline-block;
+  margin-bottom: 2px;
+}
 
-  .CPRbar {
-    display: inline-block;
-    margin-bottom: 2px;
-  }
+.CPRbar {
+  display: inline-block;
+  margin-bottom: 2px;
+}
 
-  .rolebar {
-    display: block;
-    font-size: 6pt;
-    margin-bottom: 10px;
-    top: -10px;
-  }
+.rolebar {
+  display: block;
+  font-size: 6pt;
+  margin-bottom: 10px;
+  top: -10px;
+}
 
-  
 
-  .person-list {
-    display: block;
-    margin-top: 10px;
 
-  }
+.person-list {
+  display: block;
+  margin-top: 10px;
 
-  .username {
-    font-size:18pt;
-    font-weight: bold;
-    line-height:120%;
-  }
+}
 
-  .userphoto {
-    display: inline-block;
-    vertical-align: top;
-    padding-right:10px;
-  }
+.username {
+  font-size:18pt;
+  font-weight: bold;
+  line-height:120%;
+}
 
-  .userdetails {
-    display: inline-block;
-  }
+.userphoto {
+  display: inline-block;
+  vertical-align: top;
+  padding-right:10px;
+}
 
-  .leftColumn .rightcolumn {
-    display: inline-block;
-  }
+.userdetails {
+  display: inline-block;
+}
 
-  .emaillink { 
-    display: inline;
-  }
+.leftColumn .rightcolumn {
+  display: inline-block;
+}
 
-  .searchbar {
-    float: right; 
-    display: block;
-  }
+.emaillink { 
+  display: inline;
+}
 
-  .relatedPerson {
-    text-decoration: underline;
-    color: blue;
-    border: none;
-  }
+.searchbar {
+  float: right; 
+  display: block;
+}
 
-  .button {
-    box-sizing: none;
-  }
+.relatedPerson {
+  text-decoration: underline;
+  color: blue;
+  border: none;
+}
+
+.button {
+  box-sizing: none;
+}

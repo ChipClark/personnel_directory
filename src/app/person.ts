@@ -4,6 +4,8 @@ import { OfficeLocation } from "./datatables/officelocation";
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from "./datatables/departmenttables";
 import { License, LicenseType } from "./datatables/practicestables";
 import { Education } from "./datatables/school";
+import { JobTitle } from "./datatables/jobs";
+import { Photos } from "./datatables/photo";
 
 export class Person {
   pkpersonid: number;
@@ -73,6 +75,5 @@ export class Person {
   licensetype:LicenseType[];
   education: Education[];
   totalcount: number;
-
   
 }
