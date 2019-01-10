@@ -10,6 +10,7 @@ import { PeopleComponent } from './people/people.component';
 import { Schools, Education, DegreeTypes } from './datatables/school';
 import { JobTitle } from './datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
+import { LegalSubDepartments } from './datatables/departmenttables';
 
 
 const httpOptions = {
@@ -54,6 +55,10 @@ export class APIService {
         tap(people => this.log(this.limit + " people returned")),
         catchError(this.handleError('getPeople', [])),
       );
+  }
+
+  getLegalSub (url): Observable<LegalSubDepartments[]> {
+    return this.http.get<LegalSubDepartments[]>(url);
   }
   
   getPhoto(photoUrl: string): boolean {

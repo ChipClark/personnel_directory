@@ -146,6 +146,9 @@
             <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
         </div>
   </div>
+  <div *ngFor="let person of people">
+        {{getSubDept(person)}}
+  </div>
         
 </div>
 <!-- 

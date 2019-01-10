@@ -38,4 +38,5 @@ export class LegalSubDepartments {
 	modifieddate: string;
 	modifiedby: string;
 	totalcount: number;
+	legalsubdeptfriendlyname: string;
 }

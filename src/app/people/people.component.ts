@@ -44,6 +44,7 @@ export class PeopleComponent implements OnInit {
   public schoolURL = 'http://am-api:3030/api/v1/schools';
   public degreeTypesURL = 'http://am-api:3030/api/v1/degreetypes'
   public educationURL = 'http://am-api:3030/api/v1/education';
+  public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
 
 
   // Filters
@@ -88,10 +89,7 @@ export class PeopleComponent implements OnInit {
   url: string;
   people: Person[];
   completePerson: PersonPage[];
-  sortPeople: Person[];
-  activePeople: Person[];
   relationships: PersonRelationship[];
-  supportedPerson: Secretaries[];
   schools: Schools[];
   phone: Phones[];
   router: RouterLink;
@@ -102,7 +100,7 @@ export class PeopleComponent implements OnInit {
   subpracticeareas: LegalSubPractices[];
   roles: HRDepartments[];
   legalDepts: LegalDepartments[];
-  legalSubDepts: LegalSubDepartments[];
+  legalsubdepts: LegalSubDepartments[];
   license: License[];
   licensetype: LicenseType[];
   photo: Photos[];
@@ -118,8 +116,16 @@ export class PeopleComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getLegalSubDepts();
     this.getPeople();
     //this.getSchools();
+  }
+
+  getLegalSubDepts(): any {
+    this.staffService.getLegalSub(this.legalsubdeptsURL)
+      .subscribe(legalsubdepts => { 
+        this.legalsubdepts = legalsubdepts;
+      });
   }
 
   getPeople(): any {
@@ -179,23 +185,19 @@ export class PeopleComponent implements OnInit {
     return findPerson.displayname;
   }
 
+  getSubDept(currentperson: any) {
+    if (currentperson.isattorney == true) {
+      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+    }
+  }
+
   getTitles(currentperson: any): string {
     var currentJobTitle = currentperson.jobtitle.jobtitle;
 
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
-    var attorneyPracName = "No legalsubdeptfriendlyname"
 
     if (currentperson.isattorney == true) {
-      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-      addHTML = addHTML + '<br>'
-
-      if (!currentperson.legalsubdepartments) {
-      }
-      else {
-        attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-      }
-
-      addHTML = addHTML + attorneyPracName;
+      addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
     }
     return addHTML;
   }
@@ -394,19 +396,19 @@ export class PeopleComponent implements OnInit {
           this.pageNumber = +q[1];
           break;
         case 'role':
-          this.roleid = q[1];
+          this.roleid = +q[1];
           break;
         case 'alpha':
           this.alpha = q[1];
           break;
         case 'city':
-          this.cityid = q[1];
+          this.cityid = +q[1];
           break;
         case 'search':
           this.searchTerm = q[1];
           break;
         case 'ind':
-          this.individualid = q[1];
+          this.individualid = +q[1];
           break;
       }
     }
