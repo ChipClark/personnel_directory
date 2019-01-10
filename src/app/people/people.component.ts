@@ -168,7 +168,16 @@ export class PeopleComponent implements OnInit {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
 
-
+  getPerson(id): string {
+    if (!id) return null;
+    let findPerson = this.people.find(p => {
+      return p.pkpersonid === id;
+    })
+    if (!findPerson) {
+      return "No name found";
+    }
+    return findPerson.displayname;
+  }
 
   getTitles(currentperson: any): string {
     var currentJobTitle = currentperson.jobtitle.jobtitle;

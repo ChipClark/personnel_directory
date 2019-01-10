@@ -39,7 +39,7 @@ export class Person {
   hrdepartmentid: number;
   jobtitleid: number;
   officenumber: string;
-  officefloorlocationid: number;
+  officefloorid: number;
   employmentstatus: string;
   employmentstartdate: string;
   employmentterminationdate: string;

@@ -117,24 +117,20 @@
                             <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
                         <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
 
-                        <div *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
-                            related person
-                            <!--
-                            <a routerLink="" *ngFor="let related of person.personrelationship" (click)="individualid = related.relatedpersonid" >
-                                {{getPerson(related.relatedpersonid)}}</a><br>
-                            -->
-                        </div>
-                    <!--
-                        <div *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
-                            <strong>Supporting:</strong><br><ul>
-                            <div *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="individualid = related.supportedpersonid" >
+                        <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
+                            <span *ngFor="let related of person.personrelationship"><span *ngIf="related.relatedpersonid">
+                            Assistant: <a routerLink="" (click)="individualid = related.relatedpersonid" >
+                                {{getPerson(related.relatedpersonid)}}</a><br></span>
+                            </span>
+                        </span>
+                        <span *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
+                            <strong>Supports:</strong> <span *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="individualid = related.supportedpersonid" >
                                 {{getPerson(related.supportedpersonid)}}</a><br>
-                            </div></ul>
-                        </div>
-                    -->
+                            </span>
+                        </span>
+                        TK #:{{person.timekeepernumber}}
                         <div *ngIf="filtered?.length == 1">
                             <strong>More:</strong><br>
-                            {{person.timekeepernumber}}
                             <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
                         </div>
                     </div>
