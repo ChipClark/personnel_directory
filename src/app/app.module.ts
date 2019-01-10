@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StaffDetailComponent } from './staff-detail/staff-detail.component';
 import { MessagesComponent } from './messages/messages.component';
-import { PersonSearchComponent }  from './person-search/person-search.component';
+import { PersonSearchComponent } from './person-search/person-search.component';
 import { ConfigComponent } from './config/config.component';
 import { PeopleComponent } from './people/people.component';
 import { DepartmentsComponent } from './departments/departments.component';
@@ -21,6 +21,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RolePipe } from './role.pipe';
 import { AlphaPipe } from './alpha.pipe';
 import { SearchPipe } from './search.pipe';
+import { IndividualPipe } from './individual.pipe';
 
 @NgModule({
   declarations: [
@@ -37,15 +38,16 @@ import { SearchPipe } from './search.pipe';
     CityPipe,
     RolePipe,
     AlphaPipe,
-    SearchPipe
+    SearchPipe,
+    IndividualPipe
   ],
   imports: [
-    BrowserModule, 
-    FormsModule, 
+    BrowserModule,
+    FormsModule,
     AppRoutingModule,
     HttpClientModule,
     NgxPaginationModule
-  
+
   ],
   providers: [],
   bootstrap: [AppComponent]

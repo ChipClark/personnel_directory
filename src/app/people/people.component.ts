@@ -1,12 +1,12 @@
 // people.compenents.ts
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core';
 import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 import { Person } from '../person';
 import { iData, APIHeader } from '../JUNK';
 import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 
@@ -25,6 +25,7 @@ import { ACTIVE_INDEX } from '@angular/core/src/render3/interfaces/container';
 import { PersonSearchComponent } from '../person-search/person-search.component';
 import { identifierModuleUrl } from '@angular/compiler';
 import { forEach } from '@angular/router/src/utils/collection';
+import { filterQueryId } from '@angular/core/src/view/util';
 
 
 @Component({
@@ -72,6 +73,9 @@ export class PeopleComponent implements OnInit {
   public numDisplayEnd;
   public lastRecord;
   public lastPage;
+  public Math = Math;
+
+  @ViewChildren('someVar') filtered;
 
   public cityid = null;
   public roleid = null;
@@ -79,6 +83,7 @@ export class PeopleComponent implements OnInit {
   public alpha = null;
   public alphabets =
     ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  public individualid = null;
 
   url: string;
   people: Person[];
@@ -119,14 +124,10 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    //console.log(this.personURL);
+    console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
         this.people = people;
-        this.sortPeople = people;
-        this.records = this.people.length;
-        this.lastRecord = this.people.length;
-        this.lastPage = Math.ceil(this.lastRecord / this.limit);
 
         // build list of supportedpeople;
 
@@ -157,11 +158,9 @@ export class PeopleComponent implements OnInit {
             }
           }
         }
-        this.activePeople = people;
+        const queryStrings: any = this.route.queryParamMap;
+        this.executeQueryParams(queryStrings.source.value);
       });
-    //this.activePeople = this.people;
-    this.setDisplayNumbers();
-    this.executeQueryParams();
   }
 
   getIndividual(id: number): void {
@@ -185,7 +184,7 @@ export class PeopleComponent implements OnInit {
 
   setDisplayNumbers(): void {
     //this.records = ngx.getTotalItems();
-    let remainingRecords = (this.limit + this.records) - (this.pageNumber * this.limit) ;
+    let remainingRecords = (this.limit + this.records) - (this.pageNumber * this.limit);
     if (remainingRecords < this.limit) {
       this.numDisplayEnd = this.records;
       this.numDisplayStart = this.records - remainingRecords;
@@ -249,13 +248,13 @@ export class PeopleComponent implements OnInit {
     var attorneyPracName = "No legalsubdeptfriendlyname"
 
     if (currentperson.isattorney == true) {
-      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+      // currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
       addHTML = addHTML + '<br>'
 
       if (!currentperson.legalsubdepartments) {
       }
       else {
-        attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+        // attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
       }
 
       addHTML = addHTML + attorneyPracName;
@@ -358,27 +357,6 @@ export class PeopleComponent implements OnInit {
     return attorneyeducation;
   }
 
-  onSearchChange(search: any) {
-    const regExp = new RegExp(search, 'gi');
-    const check = p => {
-      if (this.checkPhone(p, regExp)) { return true; }
-      return regExp.test(p.displayname) ||
-        regExp.test(p.officenumber) ||
-        regExp.test(p.officelocation.officelocationcode) ||
-        regExp.test(p.jobtitle.jobtitle) ||
-        regExp.test(p.emails[0].emailaddress) ||
-        regExp.test(p.timekeepernumber) ||
-        regExp.test(p.legalsubdeptfriendlyname);  // still not working correctly - not pulling from entire list
-    };
-    this.people = this.people.filter(check);
-  }
-
-  checkPhone(p: Person, regExp: RegExp) {
-    return p.phones.some(ph => {
-      return ph.phonetypeid === 1 && regExp.test(ph.phonenumber);
-    });
-  }
-
   ifCPR(currentperson: any): SafeHtml {
     var _element;
 
@@ -407,45 +385,45 @@ export class PeopleComponent implements OnInit {
     switch (id) {
       case 1:
         floor = 11;
-      break;
+        break;
       case 2:
         floor = 16;
-      break;
+        break;
       case 3:
         floor = 12;
-      break;
+        break;
       case 4:
         floor = 13;
-      break;
+        break;
       case 5:
         floor = 2;
-      break;
+        break;
       case 6:
         floor = 3;
-      break;
+        break;
       case 7:
         floor = 14;
-      break;
+        break;
       case 8:
         floor = 15;
-      break;
+        break;
       case 9:
         floor = 7;
-      break;
+        break;
       case 10:
         floor = 1;
-      break;
+        break;
       case 11:
         floor = 6;
-      break;
+        break;
     }
     return floor;
   }
 
   ifWebBio(currentperson: any): SafeHtml {
-    let webbio = '&nbsp;<a href="http://' + currentperson.addomainaccount 
-        + '.allenmatkins.com" id="web bio for "' + currentperson.displayname + '" >'
-        + '<img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a>'
+    let webbio = '&nbsp;<a href="http://' + currentperson.addomainaccount
+      + '.allenmatkins.com" id="web bio for "' + currentperson.displayname + '" >'
+      + '<img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a>'
     return this.sanitizer.bypassSecurityTrustHtml(webbio);
   }
 
@@ -454,9 +432,9 @@ export class PeopleComponent implements OnInit {
 
   clearALL(): void {
     this.searchTerm = null;
-    this.addQueryParams({alpha: null});
+    this.addQueryParams({ alpha: null });
   }
-  
+
   addQueryParams(query): void {
     //console.log(query);
     if (query === "") {
@@ -478,28 +456,25 @@ export class PeopleComponent implements OnInit {
     });
   }
 
-  executeQueryParams(): void {
-    if (!this.route.queryParams.value) {
-      return;
-    }
-    const queries = Object.entries(this.route.queryParams.value);
+  executeQueryParams(queryStrings): void {
+    const queries = Object.entries(queryStrings);
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
-        this.pageNumber = parseInt[1];
-        break;
+          this.pageNumber = parseInt(q[1]);
+          break;
         case 'role':
-        this.roleid = q[1];
-        break;
+          this.roleid = q[1];
+          break;
         case 'alpha':
-        this.alpha = q[1];
-        break;
+          this.alpha = q[1];
+          break;
         case 'city':
-        this.cityid = q[1];
-        break;
+          this.cityid = q[1];
+          break;
         case 'search':
-        this.searchTerm = q[1];
-        break;
+          this.searchTerm = q[1];
+          break;
       }
     }
   }
