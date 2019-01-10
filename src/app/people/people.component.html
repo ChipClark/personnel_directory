@@ -16,30 +16,30 @@
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
-        <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
-           <input type="radio" name="options" id="option1"  
-                class="generalbtn" [(ngModel)]="cityid" value="" [value]="" (click)="addQueryParams({city: null})">&nbsp;All&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
-            <input type="radio" name="options" id="option2"
-                class="generalbtn" [(ngModel)]="cityid" [value]="4" value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
-            <input type="radio" name="options" id="option3"
-                class="generalbtn" [(ngModel)]="cityid" [value]="1" value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
-            <input type="radio" name="options" id="option4"
-                class="generalbtn" [(ngModel)]="cityid" [value]="2" value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
-            <input type="radio" name="options" id="option5"
-                class="generalbtn" [(ngModel)]="cityid" [value]="3" value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
-        </label>&nbsp;
-        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
-            <input type="radio" name="options" id="option6"
-            class="generalbtn" [(ngModel)]="cityid" [value]="5" value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
-        </label>
+            <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
+            <input type="radio" name="options" id="option1"  
+                    class="generalbtn" [(ngModel)]="cityid" value="" [value]="" (click)="addQueryParams({city: null})">&nbsp;All&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
+                <input type="radio" name="options" id="option2"
+                    class="generalbtn" [(ngModel)]="cityid" [value]="4" value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
+                <input type="radio" name="options" id="option3"
+                    class="generalbtn" [(ngModel)]="cityid" [value]="1" value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
+                <input type="radio" name="options" id="option4"
+                    class="generalbtn" [(ngModel)]="cityid" [value]="2" value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
+                <input type="radio" name="options" id="option5"
+                    class="generalbtn" [(ngModel)]="cityid" [value]="3" value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
+                <input type="radio" name="options" id="option6"
+                class="generalbtn" [(ngModel)]="cityid" [value]="5" value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
+            </label>
         </div>
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
@@ -111,8 +111,8 @@
                     <div class="userinfo">
                         <div id="jobtitle" [innerHTML]="getTitles(person)" ></div>  
                         {{person.officelocation.officelocationcode}} Office Number: 
-                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id=3" 
-                            class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
+                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id="
+                            class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> office floor: {{person.officefloorid}}<br>
 
                             <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
                         <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
@@ -124,12 +124,13 @@
                             <strong>Supporting:</strong><br><ul>
                             <div *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="individualid = related.supportedpersonid" >
                                 {{getPerson(related.supportedpersonid)}}</a><br>
+                                TK Number: {{person.timekeepernumber}}
                             </div></ul>
                         </div>
               
                         <div *ngIf="filtered?.length == 1">
                             <strong>More:</strong><br>
-                            {{person.timekeepernumber}}
+                            
                             <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
                         </div>
                     </div>

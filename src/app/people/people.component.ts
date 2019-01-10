@@ -124,7 +124,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    console.log(this.personURL);
+    //console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => { 
         this.people = people;
@@ -461,7 +461,7 @@ export class PeopleComponent implements OnInit {
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
-          this.pageNumber = parseInt(q[1]);
+          this.pageNumber = +q[1];
           break;
         case 'role':
           this.roleid = q[1];
