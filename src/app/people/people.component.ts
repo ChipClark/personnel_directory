@@ -360,6 +360,9 @@ export class PeopleComponent implements OnInit {
       break;
       case 'ind':
         this.individualid = values[0];
+        this.roleid = null;
+        this.cityid = null;
+        this.alpha = null;
       break;
     }
     //console.log(query);
