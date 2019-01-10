@@ -39,6 +39,7 @@ export class Person {
   hrdepartmentid: number;
   jobtitleid: number;
   officenumber: string;
+  officefloorlocationid: number;
   employmentstatus: string;
   employmentstartdate: string;
   employmentterminationdate: string;
@@ -59,13 +60,12 @@ export class Person {
   validtodate: string;
   legalsubdepartmentid: number;
   legalsubdeptfriendlyname: string;
-  officefloorlocationid: number;
   licensetypeid: number;
   showphoto: boolean;
   photolocation: string;
   legaldepartmentid: number;
   phones: Phones[];
-  supportrelationships: true;
+  supportrelationships: boolean;
   personrelationship: PersonRelationship[];
   officelocation: OfficeLocation[];
   hrdepartment: HRDepartments[];

@@ -47,7 +47,7 @@ export class PeopleComponent implements OnInit {
 
 
   // Filters
-  public activepeopleFilter = '?filter={"where":{"employmentstatus":"A"},'
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},' 
   public All = this.activepeopleFilter;
   public addFilter = this.All;
 
@@ -129,6 +129,7 @@ export class PeopleComponent implements OnInit {
       .subscribe(people => { 
         this.people = people;
 
+        // **************************
         // build list of supportedpeople;
 
         for (let i = 0; i < this.people.length; i++) {
@@ -163,78 +164,6 @@ export class PeopleComponent implements OnInit {
       });
   }
 
-  getIndividual(id: number): void {
-    this.activePeople = this.people.filter(p => {
-      return p.pkpersonid === id
-    });
-    this.setDisplayNumbers();
-  }
-
-  getPerson(id): string {
-    if (!id) return null;
-    let findPerson = this.people.find(p => {
-      return p.pkpersonid === id;
-    })
-    if (!findPerson) {
-      return "No name found";
-    }
-    this.setDisplayNumbers();
-    return findPerson.displayname;
-  }
-
-  setDisplayNumbers(): void {
-    //this.records = ngx.getTotalItems();
-    let remainingRecords = (this.limit + this.records) - (this.pageNumber * this.limit);
-    if (remainingRecords < this.limit) {
-      this.numDisplayEnd = this.records;
-      this.numDisplayStart = this.records - remainingRecords;
-    }
-    else {
-      this.numDisplayEnd = this.limit * this.pageNumber;
-      this.numDisplayStart = (this.limit * this.pageNumber) - (this.limit - 1);
-    }
-  }
-
-  buildCompletePerson(): any {
-
-    var tempTable: any;
-
-    if (!this.people) console.log("No People[]");
-
-    for (let i = 0; i < 1; i++) {
-      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
-      this.completePerson[i].pkpersonid = this.people[i].pkpersonid;
-      this.completePerson[i].lastname = this.people[i].lastname;
-      this.completePerson[i].firstname = this.people[i].firstname;
-      this.completePerson[i].middlename = this.people[i].middlename;
-      this.completePerson[i].preferredfirstname = this.people[i].preferredfirstname;
-      this.completePerson[i].displayname = this.people[i].displayname;
-      this.completePerson[i].initials = this.people[i].initials;
-      this.completePerson[i].prefix = this.people[i].prefix;
-      this.completePerson[i].suffix = this.people[i].suffix;
-      this.completePerson[i].timekeepernumber = this.people[i].timekeepernumber;
-      this.completePerson[i].ultiproemployeeid = this.people[i].ultiproemployeeid;
-      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
-      this.completePerson[i].adprincipaldomainaccount = this.people[i].adprincipaldomainaccount;
-      this.completePerson[i].officenumber = this.people[i].officenumber;
-
-      tempTable = this.hrdepts.find(obj => obj.hrdepartmentid === this.people[i].hrdepartmentid);
-      this.completePerson[i].hrdepartmentname = tempTable.hrdepartmentname;
-
-      tempTable = this.jobs.find(obj => obj.jobtitleid === this.people[i].jobtitleid);
-      this.completePerson[i].jobtitle = tempTable.jobtitle;
-
-      //tempTable = this.
-      //this.completePerson[i].officelocationname = this.people[i].addomainaccount;
-
-    }
-
-  }
-
-  usePeople(): any {
-    return this.people;
-  }
-
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
   }
@@ -248,13 +177,13 @@ export class PeopleComponent implements OnInit {
     var attorneyPracName = "No legalsubdeptfriendlyname"
 
     if (currentperson.isattorney == true) {
-      // currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
       addHTML = addHTML + '<br>'
 
       if (!currentperson.legalsubdepartments) {
       }
       else {
-        // attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+        attorneyPracName = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
       }
 
       addHTML = addHTML + attorneyPracName;
@@ -301,60 +230,17 @@ export class PeopleComponent implements OnInit {
       return nophone;
     }
 
-    var phonenum = officePhone.phonenumber;
-    phonenum = phonenum.replace(/\D+/g, '')
+    var pnum = officePhone.phonenumber;
+    pnum = pnum.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-    phonenum = 'Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a>'
-    phonenum = phonenum + '&nbsp;x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a><br>'
+    var phonenum =  'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
+    phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a><br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
 
   goBack(): void {
     this.activePeople = this.people;
-  }
-
-  getSchools(): any {
-    this.staffService.getSchools(this.schoolURL)
-      .subscribe(schools => {
-        this.schools = schools;
-      });
-    this.staffService.getEducation(this.schoolURL)
-      .subscribe(education => {
-        this.education = education;
-      });
-    this.staffService.getDegrees(this.degreeTypesURL)
-      .subscribe(degrees => {
-        this.degrees = degrees;
-      });
-  }
-
-  getEducation(currentperson: Person): string {
-    let attorneyeducation = null;
-    if (currentperson.isattorney == true) {
-      attorneyeducation = "Education: ";
-
-      currentperson.education = this.education.filter(obj => {
-        return obj.pkpersonid === currentperson.pkpersonid;
-      })
-      for (let i = 0; i < this.education.length; i++) {
-        let aDegree = this.degrees.find(obj => {
-          return obj.degreetypeid === this.education[i].degreetypeid;
-        });
-        this.education[i].degreename = aDegree.degreetypename;
-
-        let aSchool = this.schools.find(obj => {
-          return obj.schoolid === this.education[i].schoolid;
-        });
-        this.education[i].schoolname = aSchool.schoolname;
-
-        attorneyeducation = attorneyeducation + this.education[i].degreename
-          + '&nbsp;' + this.education[i].schoolname
-          + '&nbsp;' + this.education[i].graduationyear + '<br>';
-      }
-    }
-
-    return attorneyeducation;
   }
 
   ifCPR(currentperson: any): SafeHtml {
@@ -479,4 +365,94 @@ export class PeopleComponent implements OnInit {
     }
   }
 
+  // ************************************
+  //
+  //  additional functions not implemented 
+  //
+  // ************************************
+
+  buildCompletePerson(): any {
+
+    var tempTable: any;
+
+    if (!this.people) console.log("No People[]");
+
+    for (let i = 0; i < 1; i++) {
+      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
+      this.completePerson[i].pkpersonid = this.people[i].pkpersonid;
+      this.completePerson[i].lastname = this.people[i].lastname;
+      this.completePerson[i].firstname = this.people[i].firstname;
+      this.completePerson[i].middlename = this.people[i].middlename;
+      this.completePerson[i].preferredfirstname = this.people[i].preferredfirstname;
+      this.completePerson[i].displayname = this.people[i].displayname;
+      this.completePerson[i].initials = this.people[i].initials;
+      this.completePerson[i].prefix = this.people[i].prefix;
+      this.completePerson[i].suffix = this.people[i].suffix;
+      this.completePerson[i].timekeepernumber = this.people[i].timekeepernumber;
+      this.completePerson[i].ultiproemployeeid = this.people[i].ultiproemployeeid;
+      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
+      this.completePerson[i].adprincipaldomainaccount = this.people[i].adprincipaldomainaccount;
+      this.completePerson[i].officenumber = this.people[i].officenumber;
+
+      tempTable = this.hrdepts.find(obj => obj.hrdepartmentid === this.people[i].hrdepartmentid);
+      this.completePerson[i].hrdepartmentname = tempTable.hrdepartmentname;
+
+      tempTable = this.jobs.find(obj => obj.jobtitleid === this.people[i].jobtitleid);
+      this.completePerson[i].jobtitle = tempTable.jobtitle;
+
+      //tempTable = this.
+      //this.completePerson[i].officelocationname = this.people[i].addomainaccount;
+
+    }
+
+  }
+
+  usePeople(): any {
+    return this.people;
+  }
+  getSchools(): any {
+    this.staffService.getSchools(this.schoolURL)
+      .subscribe(schools => {
+        this.schools = schools;
+      });
+    this.staffService.getEducation(this.schoolURL)
+      .subscribe(education => {
+        this.education = education;
+      });
+    this.staffService.getDegrees(this.degreeTypesURL)
+      .subscribe(degrees => {
+        this.degrees = degrees;
+      });
+  }
+
+  getEducation(currentperson: Person): string {
+    let attorneyeducation = null;
+    if (currentperson.isattorney == true) {
+      attorneyeducation = "Education: ";
+
+      currentperson.education = this.education.filter(obj => {
+        return obj.pkpersonid === currentperson.pkpersonid;
+      })
+      for (let i = 0; i < this.education.length; i++) {
+        let aDegree = this.degrees.find(obj => {
+          return obj.degreetypeid === this.education[i].degreetypeid;
+        });
+        this.education[i].degreename = aDegree.degreetypename;
+
+        let aSchool = this.schools.find(obj => {
+          return obj.schoolid === this.education[i].schoolid;
+        });
+        this.education[i].schoolname = aSchool.schoolname;
+
+        attorneyeducation = attorneyeducation + this.education[i].degreename
+          + '&nbsp;' + this.education[i].schoolname
+          + '&nbsp;' + this.education[i].graduationyear + '<br>';
+      }
+    }
+
+    return attorneyeducation;
+  }
+
+ 
+  
 }
