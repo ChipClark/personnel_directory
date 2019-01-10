@@ -249,7 +249,7 @@ export class PeopleComponent implements OnInit {
   }
 
   goBack(): void {
-    this.clearALL();
+    this.clearALL("ind");
   }
 
   ifCPR(currentperson: any): SafeHtml {
@@ -330,9 +330,22 @@ export class PeopleComponent implements OnInit {
 
   sanitizeScript(sanitizer: DomSanitizer) { }
 
-  clearALL(): void {
+  clearALL(key): void {
     this.searchTerm = null;
-    this.addQueryParams({ alpha: null });
+    switch (key) {
+        case "alpha": 
+          this.addQueryParams({ alpha: null });
+          break;
+        case "city": 
+          this.addQueryParams({ city: null });
+          break;
+        case "role": 
+          this.addQueryParams({ role: null });
+          break;
+        case "ind": 
+          this.addQueryParams({ ind: null });
+          break;
+    }
   }
 
   addQueryParams(query): void {
