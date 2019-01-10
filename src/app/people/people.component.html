@@ -95,8 +95,8 @@
                 <div class="userdetails" > 
                     <div class="username">
                         <strong>
-                        <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid" data-toggle="tooltip" title="see more about {{person.displayname}}" >
-                            {{person.displayname}}</button> <!--{{person.pkpersonid}}-->
+                        <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})" data-toggle="tooltip" title="see more about {{person.displayname}}" >
+                            {{person.displayname}}</button> <!--   {{person.pkpersonid}}  -->
                         </strong>&nbsp; <span *ngIf="filtered?.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
                 
                         &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
@@ -119,12 +119,13 @@
 
                         <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
                             <span *ngFor="let related of person.personrelationship"><span *ngIf="related.relatedpersonid">
-                            Assistant: <a routerLink="" (click)="individualid = related.relatedpersonid" >
+                            Assistant: <a routerLink="" (click)="individualid = related.relatedpersonid; addQueryParams({ind: individualid})" >
                                 {{getPerson(related.relatedpersonid)}}</a><br></span>
                             </span>
                         </span>
                         <span *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
-                            <strong>Supports:</strong> <span *ngFor="let related of person.personrelationship" ><a routerLink="" (click)="individualid = related.supportedpersonid" >
+                            <strong>Supports:</strong> <span *ngFor="let related of person.personrelationship" >
+                                <a routerLink="" (click)="individualid = related.supportedpersonid; addQueryParams({ind: individualid})" >
                                 {{getPerson(related.supportedpersonid)}}</a><br>
                             </span>
                         </span>

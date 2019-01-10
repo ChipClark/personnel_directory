@@ -159,10 +159,10 @@ export class PeopleComponent implements OnInit {
             }
           }
         }
-        const queryStrings: any = this.route.queryParamMap;
-        this.executeQueryParams(queryStrings.source.value);
       });
-  }
+      const queryStrings: any = this.route.queryParamMap;
+      this.executeQueryParams(queryStrings.source.value);
+    }
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
@@ -249,7 +249,7 @@ export class PeopleComponent implements OnInit {
   }
 
   goBack(): void {
-    this.activePeople = this.people;
+    this.clearALL();
   }
 
   ifCPR(currentperson: any): SafeHtml {
@@ -273,6 +273,11 @@ export class PeopleComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  getOfficeFloor(currentperson: any): void {
+    let floorNum = currentperson.officefloor.officefloorid;
+
   }
 
   officeFloor(id): number {
@@ -331,7 +336,21 @@ export class PeopleComponent implements OnInit {
   }
 
   addQueryParams(query): void {
+    const keys = Object.keys(query);
+    const values = Object.values(query);
+    switch (keys[0]) {
+      case 'city':
+        this.cityid = values[0];
+      break;
+      case 'role':
+        this.roleid = values[0];
+      break;
+      case 'ind':
+        this.individualid = values[0];
+      break;
+    }
     //console.log(query);
+
     if (query === "") {
       query = null;
     }
@@ -369,6 +388,9 @@ export class PeopleComponent implements OnInit {
           break;
         case 'search':
           this.searchTerm = q[1];
+          break;
+        case 'ind':
+          this.individualid = q[1];
           break;
       }
     }
