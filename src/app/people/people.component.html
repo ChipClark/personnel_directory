@@ -2,16 +2,6 @@
     <div class="searchbar col-md-7 col-sm-12" >
         <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''" [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
 
-        <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
-                <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
-                    <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value=""
-                        class="generalbtn normal-font" (click)='clearALL("alpha")'>&nbsp;Clear&nbsp;
-                </label>
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a"  *ngFor="let a of alphabets">
-                    <input type="radio" name="options"
-                       class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}" (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
-                </label>
-        </div>
     </div>
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
@@ -42,7 +32,7 @@
             </label>
         </div>
 
-        <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="rolebuttons">
+        <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
                 <input type="radio" name="options" id="roleoption1"  
                     class="generalbtn med-font" [(ngModel)]="roleid" [value]="" (click)='clearALL("role")'>&nbsp;All&nbsp;
@@ -51,10 +41,11 @@
                 <input type="radio" name="options" id="roleoption2"
                     class="generalbtn med-font" [(ngModel)]="roleid" [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
             </label>&nbsp;
+            <!--
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 2" id="Role3">
                 <input type="radio" name="options" id="roleoption3"
                     class="generalbtn med-font" [(ngModel)]="roleid" [value]="2" (click)="addQueryParams({role: 2})">&nbsp;Of Counsel&nbsp;
-             </label>&nbsp;
+             </label>&nbsp;-->
              <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
                 <input type="radio" name="options" id="roleoption4"
                     class="generalbtn med-font" [(ngModel)]="roleid" [value]="1" (click)="addQueryParams({role: 1})">&nbsp;Associates&nbsp;
@@ -68,9 +59,18 @@
                         class="generalbtn med-font" [(ngModel)]="roleid" [value]="20" (click)="addQueryParams({role: 20})">&nbsp;Staff&nbsp;
             </label>&nbsp;
         </div>
-        <br clear=all>
-    
-        
+
+        <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="alphabuttons">
+                <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
+                    <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value=""
+                        class="generalbtn normal-font" (click)='clearALL("alpha")'>&nbsp;All&nbsp;
+                </label>&nbsp;
+                <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a"  *ngFor="let a of alphabets">
+                    <input type="radio" name="options"
+                       class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}" (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
+                </label>
+        </div>
+
     </div>
 
 <div class="person-list" >
@@ -79,12 +79,12 @@
     <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
     <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} - {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
   </div>
-      <br clear=all>
-  <div class="container">
+      
+  <div class="container">  <span *ngFor="let person of people">   {{getSubDept(person)}} </span>
+
     <div class="row">
         <div *ngFor="let person of people | individual: individualid | city: cityid | role: roleid | alpha: alpha | search: searchTerm | paginate: { itemsPerPage: limit, currentPage: pageNumber };
-                let i = index;
-                let odd = odd let even = even; 
+                let i = index; 
                 trackBy: person?.pkpersonid" #someVar>
         <div class="col">         
             <div class="people" >
@@ -145,9 +145,6 @@
     <div class="PaginationBar">
             <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
         </div>
-  </div>
-  <div *ngFor="let person of people">
-        {{getSubDept(person)}}
   </div>
         
 </div>

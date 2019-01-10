@@ -4,8 +4,8 @@
 
 .people {
   margin: 0 0 2em 0;
-  padding: 2px;
-  min-width: 500px;
+  padding: 1px;
+  min-width: 480px;
 }
 
 .people.selected:hover {
@@ -27,7 +27,6 @@
 
 .PaginationBar {
   display: block;
-  padding-top:10px;
   height: 70px;
 }
 
