@@ -64,6 +64,8 @@ export class Person {
   showphoto: boolean;
   photolocation: string;
   legaldepartmentid: number;
+  HasBiography: boolean;
+  BiographyURL: string;
   phones: Phones[];
   supportrelationships: boolean;
   personrelationship: PersonRelationship[];

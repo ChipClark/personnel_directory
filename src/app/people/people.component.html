@@ -111,8 +111,8 @@
                     <div class="userinfo">
                         <div id="jobtitle" [innerHTML]="getTitles(person)" ></div>  
                         {{person.officelocation.officelocationcode}} Office Number: 
-                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id=" 
-                            class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor: {{person.officefloorid}}<br>
+                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{getOfficeFloor(person)}}" 
+                            class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor: {{getOfficeFloor(person)}}<br>
 
                             <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
                         <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
@@ -129,7 +129,8 @@
                                 {{getPerson(related.supportedpersonid)}}</a><br>
                             </span>
                         </span>
-                        TK #:{{person.timekeepernumber}}
+                        <div *ngIf="person.isattorney" [innerHTML]="getBAR(person)"></div>
+                        TK #: {{person.timekeepernumber}}
                         <div *ngIf="filtered?.length == 1">
                             <strong>More:</strong><br>
                             <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->

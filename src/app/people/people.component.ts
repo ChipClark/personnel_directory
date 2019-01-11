@@ -278,49 +278,61 @@ export class PeopleComponent implements OnInit {
     return null;
   }
 
-  getOfficeFloor(currentperson: any): void {
-    let floorNum = currentperson.officefloor.officefloorid;
-
+  getOfficeFloor(currentperson: any): number {
+    let floorNum = currentperson.officefloorid;
+    //return floorNum;
+    return this.officeFloor(floorNum);
   }
 
   officeFloor(id): number {
     var floor;
     switch (id) {
-      case 1:
-        floor = 11;
-        break;
-      case 2:
-        floor = 16;
-        break;
-      case 3:
-        floor = 12;
-        break;
       case 4:
-        floor = 13;
-        break;
-      case 5:
         floor = 2;
         break;
-      case 6:
+      case 5:
         floor = 3;
         break;
-      case 7:
-        floor = 14;
+      case 12:
+        floor = 1;
         break;
-      case 8:
-        floor = 15;
+      case 13:
+        floor = 6;
         break;
-      case 9:
+      case 18:
         floor = 7;
+        break;
+      case 26:
+        floor = 11;
+        break;
+      case 27:
+        floor = 16;
+        break;
+      case 28:
+        floor = 12;
+        break;
+      case 29:
+        floor = 13;
         break;
       case 10:
         floor = 1;
         break;
-      case 11:
-        floor = 6;
+      case 1:
+        floor = 11;
         break;
     }
     return floor;
+  }
+
+  getBAR(currentperson: any): SafeHtml {
+    let barnum = null;
+    if (currentperson.licenses) {
+      for (let i = 0; i < currentperson.licenses.length; i++) {
+        barnum = currentperson.licenses[i].licensestate
+         + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
+      }
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(barnum);
   }
 
   ifWebBio(currentperson: any): SafeHtml {
