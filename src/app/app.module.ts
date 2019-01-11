@@ -22,6 +22,7 @@ import { RolePipe } from './role.pipe';
 import { AlphaPipe } from './alpha.pipe';
 import { SearchPipe } from './search.pipe';
 import { IndividualPipe } from './individual.pipe';
+import { MapComponent } from './maps/maps.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { IndividualPipe } from './individual.pipe';
     RolePipe,
     AlphaPipe,
     SearchPipe,
-    IndividualPipe
+    IndividualPipe,
+    MapComponent
   ],
   imports: [
     BrowserModule,
