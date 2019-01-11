@@ -88,6 +88,7 @@ export class PeopleComponent implements OnInit {
 
   url: string;
   people: Person[];
+  person: any;
   completePerson: PersonPage[];
   relationships: PersonRelationship[];
   schools: Schools[];
