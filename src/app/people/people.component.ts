@@ -325,10 +325,11 @@ export class PeopleComponent implements OnInit {
   }
 
   getBAR(currentperson: any): SafeHtml {
-    let barnum = null;
+    let barnum = "";
     if (currentperson.licenses) {
       for (let i = 0; i < currentperson.licenses.length; i++) {
-        barnum = currentperson.licenses[i].licensestate
+        if (!currentperson.licenses[i].licensenumber) break;
+        barnum = barnum + currentperson.licenses[i].licensestate
          + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
       }
     }

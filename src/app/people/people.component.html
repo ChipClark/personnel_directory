@@ -96,7 +96,7 @@
                     <div class="username">
                         <strong>
                         <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})" data-toggle="tooltip" title="see more about {{person.displayname}}" >
-                            {{person.displayname}}</button> <!--   {{person.pkpersonid}}  -->
+                            {{person.displayname}}</button>  <!--{person.pkpersonid}}  -->
                         </strong>&nbsp; <span *ngIf="filtered?.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
                 
                         &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
