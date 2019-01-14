@@ -49,7 +49,6 @@ import { MapComponent } from './maps/maps.component';
     AppRoutingModule,
     HttpClientModule,
     NgxPaginationModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]
