@@ -16,12 +16,16 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { CityPipe } from './city.pipe';
+import { CityPipe } from './pipes/city.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RolePipe } from './role.pipe';
-import { AlphaPipe } from './alpha.pipe';
-import { SearchPipe } from './search.pipe';
-import { IndividualPipe } from './individual.pipe';
+import { RolePipe } from './pipes/role.pipe';
+import { AlphaPipe } from './pipes/alpha.pipe';
+import { SearchPipe } from './pipes/search.pipe';
+import { IndividualPipe } from './pipes/individual.pipe';
+import { CityArrayPipe } from './pipes/cityArray.pipe';
+import { RoleArrayPipe } from './pipes/roleArray.pipe';
+import { StaffDeptPipe } from './pipes/staffDept.pipe';
+import { OtherPipe } from './pipes/other.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import { IndividualPipe } from './individual.pipe';
     RolePipe,
     AlphaPipe,
     SearchPipe,
-    IndividualPipe
+    IndividualPipe,
+    CityArrayPipe,
+    RoleArrayPipe,
+    StaffDeptPipe,
+    OtherPipe
   ],
   imports: [
     BrowserModule,

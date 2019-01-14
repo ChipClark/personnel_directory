@@ -48,7 +48,7 @@ export class PeopleComponent implements OnInit {
 
 
   // Filters
-  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},' 
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
   public All = this.activepeopleFilter;
   public addFilter = this.All;
 
@@ -75,9 +75,112 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
+  public cities = [
+    {
+      'city': 'CC',
+      'id': 4
+    },
+    {
+      'city': 'LA',
+      'id': 1
+    },
+    {
+      'city': 'OC',
+      'id': 2
+    },
+    {
+      'city': 'SD',
+      'id': 3
+    },
+    {
+      'city': 'SF',
+      'id': 5
+    }
+  ];
+  public roles = [
+    {
+      'role': 'Partners',
+      'id': 13
+    },
+    {
+      'role': 'Of Counsel',
+      'id': 2
+    },
+    {
+      'role': 'Associate',
+      'id': 1
+    },
+    {
+      'role': 'Paralegal',
+      'id': 10
+    },
+    {
+      'role': 'Staff',
+      'id': 20
+    }
+  ];
 
-  @ViewChildren('someVar') filtered;
+  public staffDept = [
+    {
+      'name': 'Human Resources',
+      'id': 3
+    },
+    {
+      'name': 'Library',
+      'id': 4
+    },
+    {
+      'name': 'Recruiting',
+      'id': 5
+    },
+    {
+      'name': 'Marketing',
+      'id': 6
+    },
+    {
+      'name': 'Technology',
+      'id': 7
+    },
+    {
+      'name': 'Finance',
+      'id': 8
+    },
+    {
+      'name': 'Administration',
+      'id': 9
+    },
+    {
+      'name': 'Secretary',
+      'id': 11
+    },
+    {
+      'name': 'Word Processing',
+      'id': 12
+    }
+  ];
 
+  public timekeeperDept = [
+    {
+      'name': 'Corporate & Finance',
+      'id': '(C&F)'
+    },
+    {
+      'name': 'Legislation',
+      'id': '(LIT)'
+    },
+    {
+      'name': 'Real Estate',
+      'id': '(RE)'
+    }
+  ];
+
+  @ViewChildren('nGForArray') filtered;
+  public otherArray = [];
+  public staffDeptId = 0;
+  public cityidArray = [4, 1, 2, 3, 5];
+  public roleidArray = [13, 2, 1, 10, 20];
+  public roleCheckAll = true;
+  public showAdvFilter = false;
   public cityid = null;
   public roleid = null;
   public searchTerm = null;
@@ -99,7 +202,7 @@ export class PeopleComponent implements OnInit {
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   subpracticeareas: LegalSubPractices[];
-  roles: HRDepartments[];
+  // roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalsubdepts: LegalSubDepartments[];
   license: License[];
@@ -131,9 +234,9 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    //console.log(this.personURL);
+    console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
-      .subscribe(people => { 
+      .subscribe(people => {
         this.people = people;
 
         // **************************
@@ -146,7 +249,7 @@ export class PeopleComponent implements OnInit {
               for (let k = 0; k < this.people.length; k++) {
                 if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
                   this.people[k].supportrelationships = true;
-                  const relatedPerson = { 
+                  const relatedPerson = {
                     relatedpersonid: null,
                     personrelationshipid: null,
                     pkpersonid: null,
@@ -158,7 +261,7 @@ export class PeopleComponent implements OnInit {
                     modifieddate: null,
                     modifiedby: null,
                     validfromdate: null,
-                    validtodate: null 
+                    validtodate: null
                   };
                   this.people[k].personrelationship.push(relatedPerson);
                 }
@@ -167,9 +270,9 @@ export class PeopleComponent implements OnInit {
           }
         }
       });
-      const queryStrings: any = this.route.queryParamMap;
-      this.executeQueryParams(queryStrings.source.value);
-    }
+    const queryStrings: any = this.route.queryParamMap;
+    this.executeQueryParams(queryStrings.source.value);
+  }
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
@@ -246,7 +349,7 @@ export class PeopleComponent implements OnInit {
     pnum = pnum.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-    var phonenum =  'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
+    var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
     phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a><br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
@@ -370,16 +473,13 @@ export class PeopleComponent implements OnInit {
     switch (keys[0]) {
       case 'city':
         this.cityid = values[0];
-      break;
+        break;
       case 'role':
         this.roleid = values[0];
-      break;
+        break;
       case 'ind':
         this.individualid = values[0];
-        this.roleid = null;
-        this.cityid = null;
-        this.alpha = null;
-      break;
+        break;
     }
     //console.log(query);
 
@@ -404,6 +504,7 @@ export class PeopleComponent implements OnInit {
 
   executeQueryParams(queryStrings): void {
     const queries = Object.entries(queryStrings);
+    // console.log(queries);
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
@@ -425,6 +526,50 @@ export class PeopleComponent implements OnInit {
           this.individualid = +q[1];
           break;
       }
+    }
+    console.log(this.people);
+  }
+
+  includeCities(cityid): void {
+    const index = this.cityidArray.indexOf(cityid);
+    if (index == -1) {
+      this.cityidArray.push(cityid);
+    } else {
+      this.cityidArray.splice(index, 1);
+    }
+  }
+
+  cityIsChecked(cityid) {
+    if (cityid === 6) {
+      return this.cityidArray.length === 5 ? true : false;
+    } else {
+      return this.cityidArray.indexOf(cityid) >= 0;
+    }
+  }
+
+  includeRoles(roleid): void {
+    const index = this.roleidArray.indexOf(roleid);
+    if (index == -1) {
+      this.roleidArray.push(roleid);
+    } else {
+      this.roleidArray.splice(index, 1);
+    }
+  }
+
+  roleIsChecked(roleid) {
+    if (roleid === 999) {
+      return this.roleidArray.length === 5 ? true : false;
+    } else {
+      return this.roleidArray.indexOf(roleid) >= 0;
+    }
+  }
+
+  includeOthers(id): void {
+    const index = this.otherArray.indexOf(id);
+    if (index == -1) {
+      this.otherArray.push(id);
+    } else {
+      this.otherArray.splice(index, 1);
     }
   }
 
@@ -516,6 +661,6 @@ export class PeopleComponent implements OnInit {
     return attorneyeducation;
   }
 
- 
-  
+
+
 }

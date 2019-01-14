@@ -1,153 +1,206 @@
 <h2>Personnel List</h2>
-    <div class="searchbar col-md-7 col-sm-12" >
-        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''" [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
+<div class="searchbar col-md-7 col-sm-12">
+    <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''"
+        [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
 
+    <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
+        <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
+            <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value="" class="generalbtn normal-font"
+                (click)="clearALL()">&nbsp;Clear&nbsp;
+        </label>
+        <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a" *ngFor="let a of alphabets">
+            <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"
+                (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
+        </label>
     </div>
+</div>
 
-    <div class='optionsbar col-md-5 d-md-block d-none'>
+<div class='optionsbar col-md-5 d-md-block d-none'>
+        <a routerLink="" *ngIf="!showAdvFilter" (click)="showAdvFilter = !showAdvFilter"><small>show advanced filter</small></a>
+        <a routerLink="" *ngIf="showAdvFilter" (click)="showAdvFilter = !showAdvFilter"><small>hide advanced filter</small></a>
+    <div id="basicfilter" *ngIf="!showAdvFilter">
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
-            <input type="radio" name="options" id="option1"  
-                    class="generalbtn" [(ngModel)]="cityid" value="" [value]="" (click)='clearALL("city")'>&nbsp;All&nbsp;
+                <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
+                    [value]="" (click)="addQueryParams({city: null})">&nbsp;All&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
-                <input type="radio" name="options" id="option2"
-                    class="generalbtn" [(ngModel)]="cityid" [value]="4" value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
+                <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
+                    value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
-                <input type="radio" name="options" id="option3"
-                    class="generalbtn" [(ngModel)]="cityid" [value]="1" value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
+                <input type="radio" name="options" id="option3" class="generalbtn" [(ngModel)]="cityid" [value]="1"
+                    value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
-                <input type="radio" name="options" id="option4"
-                    class="generalbtn" [(ngModel)]="cityid" [value]="2" value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
+                <input type="radio" name="options" id="option4" class="generalbtn" [(ngModel)]="cityid" [value]="2"
+                    value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
-                <input type="radio" name="options" id="option5"
-                    class="generalbtn" [(ngModel)]="cityid" [value]="3" value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
+                <input type="radio" name="options" id="option5" class="generalbtn" [(ngModel)]="cityid" [value]="3"
+                    value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
-                <input type="radio" name="options" id="option6"
-                class="generalbtn" [(ngModel)]="cityid" [value]="5" value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
+                <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
+                    value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
             </label>
         </div>
 
         <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
-                <input type="radio" name="options" id="roleoption1"  
-                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="" (click)='clearALL("role")'>&nbsp;All&nbsp;
+                <input type="radio" name="options" id="roleoption1" class="generalbtn med-font" [(ngModel)]="roleid"
+                    [value]="" (click)="addQueryParams({role: null})">&nbsp;All&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
-                <input type="radio" name="options" id="roleoption2"
-                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
+                <input type="radio" name="options" id="roleoption2" class="generalbtn med-font" [(ngModel)]="roleid"
+                    [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
             </label>&nbsp;
-            <!--
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 2" id="Role3">
-                <input type="radio" name="options" id="roleoption3"
-                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="2" (click)="addQueryParams({role: 2})">&nbsp;Of Counsel&nbsp;
-             </label>&nbsp;-->
-             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
-                <input type="radio" name="options" id="roleoption4"
-                    class="generalbtn med-font" [(ngModel)]="roleid" [value]="1" (click)="addQueryParams({role: 1})">&nbsp;Associates&nbsp;
-             </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 10" id="Role5">
-                <input type="radio" name="options" id="roleoption5"
-                        class="generalbtn ned-font" [(ngModel)]="roleid" [value]="10" (click)="addQueryParams({role: 10})">&nbsp;Paralegal&nbsp;
+                <input type="radio" name="options" id="roleoption3" class="generalbtn med-font" [(ngModel)]="roleid"
+                    [value]="2" (click)="addQueryParams({role: 2})">&nbsp;Of Counsel&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
+                <input type="radio" name="options" id="roleoption4" class="generalbtn med-font" [(ngModel)]="roleid"
+                    [value]="1" (click)="addQueryParams({role: 1})">&nbsp;Associates&nbsp;
+            </label>&nbsp;
+            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 10" id="Role5">
+                <input type="radio" name="options" id="roleoption5" class="generalbtn ned-font" [(ngModel)]="roleid"
+                    [value]="10" (click)="addQueryParams({role: 10})">&nbsp;Paralegal&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 20" id="Role13">
-                <input type="radio" name="options" id="roleoption13"
-                        class="generalbtn med-font" [(ngModel)]="roleid" [value]="20" (click)="addQueryParams({role: 20})">&nbsp;Staff&nbsp;
+                <input type="radio" name="options" id="roleoption13" class="generalbtn med-font" [(ngModel)]="roleid"
+                    [value]="20" (click)="addQueryParams({role: 20})">&nbsp;Staff&nbsp;
             </label>&nbsp;
         </div>
-
-        <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="alphabuttons">
-                <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
-                    <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value=""
-                        class="generalbtn normal-font" (click)='clearALL("alpha")'>&nbsp;All&nbsp;
-                </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a"  *ngFor="let a of alphabets">
-                    <input type="radio" name="options"
-                       class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}" (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
-                </label>
-        </div>
-
     </div>
+    <div id="advfilter" *ngIf="showAdvFilter">
+        <div id="officecheck" class="row checkbox">
+            <label class="col-md-2" for="">Office:</label>
+            <div class="col-md-10">
+                <label><input type="checkbox" (change)="cityIsChecked(6) ? cityidArray = [] : cityidArray = [4,1,2,3,5]" [ngModel]="cityIsChecked(6)">&nbsp;All&nbsp;</label>
+                <label *ngFor="let c of cities"><input type="checkbox" [value]="c.id" (change)="includeCities(c.id)" [ngModel]="cityIsChecked(c.id)">&nbsp;{{c.city}}&nbsp;</label>
+            </div>
+        </div>
+        <div id="rolecheck" class="row checkbox">
+            <label class="col-md-2" for="">Role:</label>
+            <div class="col-md-10">
+                    <label><input type="checkbox" (change)="roleIsChecked(999) ? roleidArray = [] : roleidArray = [13, 2, 1, 10, 20];" [ngModel]="roleIsChecked(999)">&nbsp;All&nbsp;</label>
+                    <label *ngFor="let r of roles"><input type="checkbox" [value]="r.id" (change)="includeRoles(r.id)" [ngModel]="roleIsChecked(r.id)">&nbsp;{{r.role}}&nbsp;</label>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
+            <div class="col-md-10">
+                <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId">
+                    <option [ngValue]="0">All</option>
+                    <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2" for="staffdept">Timekeeper Dept:&nbsp;&nbsp; </label>
+            <div class="col-md-10">
+                <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId">
+                        <option [ngValue]="0">All</option>
+                    <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
+                </select>
+            </div>
+        </div>
+        <div id="othercheck" class="row checkbox">
+            <label class="col-md-2" for="">Other:</label>
+            <div class="col-md-10">
+                <label><input type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
+                <label><input type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
+            </div>
+        </div>
+    </div>
+    <br clear=all>
 
-<div class="person-list" >
 
-  <div class="PaginationBar">
-    <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
-    <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} - {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
-  </div>
-      
-  <div class="container">  <span *ngFor="let person of people">   {{getSubDept(person)}} </span>
+</div>
 
-    <div class="row">
-        <div *ngFor="let person of people | individual: individualid | city: cityid | role: roleid | alpha: alpha | search: searchTerm | paginate: { itemsPerPage: limit, currentPage: pageNumber };
-                let i = index; 
-                trackBy: person?.pkpersonid" #someVar>
-        <div class="col">         
-            <div class="people" >
-                <div class="userphoto">
-                    <div [innerHTML]="getPhoto(person.photo)"></div>
-                    <img src="{{person.photolocationpath}}{{person.photofilename}}" id="{{person.displayname}}" width="112px;" />
-                </div>
-                <div class="userdetails" > 
-                    <div class="username">
-                        <strong>
-                        <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})" data-toggle="tooltip" title="see more about {{person.displayname}}" >
-                            {{person.displayname}}</button>  <!--{person.pkpersonid}}  -->
-                        </strong>&nbsp; <span *ngIf="filtered?.length == 1">{{getPrefName(person.preferredfirstname)}} </span> 
-                
-                        &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}" >
-                        <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}" width="20px;" ></a>
-                            &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}" id="{{person.interactionid}}" >
-                        <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                        <span *ngIf="person.isattorney" [innerHTML]="ifWebBio(person)"></span>
-                            &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
-                            &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
-                    </div>
+<div class="person-list">
 
-                    <div class="userinfo">
-                        <div id="jobtitle" [innerHTML]="getTitles(person)" ></div>  
-                        {{person.officelocation.officelocationcode}} Office Number: 
-                        <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{getOfficeFloor(person)}}" 
-                            class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor: {{getOfficeFloor(person)}}<br>
+    <div class="PaginationBar">
+        <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
+        <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} -
+            {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
+    </div>
+    <br clear=all>
+    <div class="container">
+        <div class="row">
+            <div *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId| other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+                let i = index;
+                let odd = odd let even = even; 
+                trackBy: person?.pkpersonid"
+                #nGForArray>
+                <div class="col">
+                    <div class="people">
+                        <div class="userphoto">
+                            <div [innerHTML]="getPhoto(person.photo)"></div>
+                            <img src="{{person.photolocationpath}}{{person.photofilename}}" id="{{person.displayname}}"
+                                width="112px;" />
+                        </div>
+                        <div class="userdetails">
+                            <div class="username">
+                                <strong>
+                                    <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
+                                        data-toggle="tooltip" title="see more about {{person.displayname}}">
+                                        {{person.displayname}}</button> <!--   {{person.pkpersonid}}  -->
+                                </strong>&nbsp; <span *ngIf="filtered?.length == 1">{{getPrefName(person.preferredfirstname)}}
+                                </span>
 
-                            <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
-                        <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
+                                &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
+                                    <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}"
+                                        width="20px;"></a>
+                                &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
+                                    id="{{person.interactionid}}">
+                                    <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
+                                <span *ngIf="person.isattorney" [innerHTML]="ifWebBio(person)"></span>
+                                &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
+                                &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
+                            </div>
 
-                        <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant" >
-                            <span *ngFor="let related of person.personrelationship"><span *ngIf="related.relatedpersonid">
-                            Assistant: <a routerLink="" (click)="individualid = related.relatedpersonid; addQueryParams({ind: individualid})" >
-                                {{getPerson(related.relatedpersonid)}}</a><br></span>
-                            </span>
-                        </span>
-                        <span *ngIf="person.personrelationship && person.supportrelationships" id="secretary" >
-                            <strong>Supports:</strong> <span *ngFor="let related of person.personrelationship" >
-                                <a routerLink="" (click)="individualid = related.supportedpersonid; addQueryParams({ind: individualid})" >
-                                {{getPerson(related.supportedpersonid)}}</a><br>
-                            </span>
-                        </span>
-                        <div *ngIf="person.isattorney" [innerHTML]="getBAR(person)"></div>
-                        TK #: {{person.timekeepernumber}}
-                        <div *ngIf="filtered?.length == 1">
-                            <strong>More:</strong><br>
-                            <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
+                            <div class="userinfo">
+                                <div id="jobtitle" [innerHTML]="getTitles(person)"></div>
+                                {{person.officelocation.officelocationcode}} Office Number:
+                                <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id="
+                                    class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor:
+                                {{person.officefloorid}}<br>
+
+                                <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
+                                <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
+
+                                <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant">
+                                    <span *ngFor="let related of person.personrelationship"><span *ngIf="related.relatedpersonid">
+                                            Assistant: <a routerLink="" (click)="individualid = related.relatedpersonid; addQueryParams({ind: individualid})">
+                                                {{getPerson(related.relatedpersonid)}}</a><br></span>
+                                    </span>
+                                </span>
+                                <span *ngIf="person.personrelationship && person.supportrelationships" id="secretary">
+                                    <strong>Supports:</strong> <span *ngFor="let related of person.personrelationship">
+                                        <a routerLink="" (click)="individualid = related.supportedpersonid; addQueryParams({ind: individualid})">
+                                            {{getPerson(related.supportedpersonid)}}</a><br>
+                                    </span>
+                                </span>
+                                TK #:{{person.timekeepernumber}}
+                                <div *ngIf="filtered?.length == 1">
+                                    <strong>More:</strong><br>
+                                    <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
-              
-          
                 </div>
             </div>
         </div>
-        </div>
-    </div>
-    <div class="PaginationBar">
+        <div class="PaginationBar">
             <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
         </div>
-  </div>
-        
+    </div>
+
 </div>
 <!-- 
 <pagination-template #p="paginationApi"
