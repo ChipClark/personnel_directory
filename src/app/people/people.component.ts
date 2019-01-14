@@ -228,7 +228,7 @@ export class PeopleComponent implements OnInit {
 
   getLegalSubDepts(): any {
     this.staffService.getLegalSub(this.legalsubdeptsURL)
-      .subscribe(legalsubdepts => { 
+      .subscribe(legalsubdepts => {
         this.legalsubdepts = legalsubdepts;
       });
   }
@@ -436,7 +436,7 @@ export class PeopleComponent implements OnInit {
       for (let i = 0; i < currentperson.licenses.length; i++) {
         if (!currentperson.licenses[i].licensenumber) break;
         barnum = barnum + currentperson.licenses[i].licensestate
-         + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
+          + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
       }
     }
     return this.sanitizer.bypassSecurityTrustHtml(barnum);
@@ -455,18 +455,18 @@ export class PeopleComponent implements OnInit {
   clearALL(key): void {
     this.searchTerm = null;
     switch (key) {
-        case "alpha": 
-          this.addQueryParams({ alpha: null });
-          break;
-        case "city": 
-          this.addQueryParams({ city: null });
-          break;
-        case "role": 
-          this.addQueryParams({ role: null });
-          break;
-        case "ind": 
-          this.addQueryParams({ ind: null });
-          break;
+      case "alpha":
+        this.addQueryParams({ alpha: null });
+        break;
+      case "city":
+        this.addQueryParams({ city: null });
+        break;
+      case "role":
+        this.addQueryParams({ role: null });
+        break;
+      case "ind":
+        this.addQueryParams({ ind: null });
+        break;
     }
   }
 
@@ -503,11 +503,19 @@ export class PeopleComponent implements OnInit {
       queryParams: {
       },
     });
+    this.staffDeptId = 0;
+    this.cityidArray = [4, 1, 2, 3, 5];
+    this.roleidArray = [13, 2, 1, 10, 20];
+    this.roleCheckAll = true;
+    this.cityid = null;
+    this.roleid = null;
+    this.searchTerm = null;
+    this.alpha = null;
+    this.individualid = null;
   }
 
   executeQueryParams(queryStrings): void {
     const queries = Object.entries(queryStrings);
-    // console.log(queries);
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
@@ -528,9 +536,24 @@ export class PeopleComponent implements OnInit {
         case 'ind':
           this.individualid = +q[1];
           break;
+        case 'cities':
+          this.cityidArray = q[1].split(',').map(Number);
+          this.showAdvFilter = true;
+          break;
+        case 'roles':
+          this.cityidArray = q[1].split(',').map(Number);
+          this.showAdvFilter = true;
+          break;
+        case 'staffdept':
+          this.staffDeptId = +q[1];
+          this.showAdvFilter = true;
+          break;
+        case 'other':
+          this.otherArray = q[1].split(',').map(Number);
+          this.showAdvFilter = true;
+
       }
     }
-    //console.log(this.people);
   }
 
   includeCities(cityid): void {
@@ -540,6 +563,7 @@ export class PeopleComponent implements OnInit {
     } else {
       this.cityidArray.splice(index, 1);
     }
+    this.addQueryParams({ cities: this.cityidArray.toString() })
   }
 
   cityIsChecked(cityid) {
@@ -557,6 +581,7 @@ export class PeopleComponent implements OnInit {
     } else {
       this.roleidArray.splice(index, 1);
     }
+    this.addQueryParams({ roles: this.roleidArray.toString() })
   }
 
   roleIsChecked(roleid) {
@@ -574,6 +599,7 @@ export class PeopleComponent implements OnInit {
     } else {
       this.otherArray.splice(index, 1);
     }
+    this.addQueryParams({ other: this.otherArray.length > 0 ? this.otherArray.toString() : null })
   }
 
   // ************************************

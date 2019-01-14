@@ -16,8 +16,8 @@
 </div>
 
 <div class='optionsbar col-md-5 d-md-block d-none'>
-        <a routerLink="" *ngIf="!showAdvFilter" (click)="showAdvFilter = !showAdvFilter"><small>show advanced filter</small></a>
-        <a routerLink="" *ngIf="showAdvFilter" (click)="showAdvFilter = !showAdvFilter"><small>hide advanced filter</small></a>
+        <a routerLink="" *ngIf="!showAdvFilter" (click)="showAdvFilter = !showAdvFilter; clearQueryParams()"><small>show advanced filter</small></a>
+        <a routerLink="" *ngIf="showAdvFilter" (click)="showAdvFilter = !showAdvFilter; clearQueryParams()"><small>hide advanced filter</small></a>
     <div id="basicfilter" *ngIf="!showAdvFilter">
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
@@ -77,21 +77,21 @@
         <div id="officecheck" class="row checkbox">
             <label class="col-md-2" for="">Office:</label>
             <div class="col-md-10">
-                <label><input type="checkbox" (change)="cityIsChecked(6) ? cityidArray = [] : cityidArray = [4,1,2,3,5]" [ngModel]="cityIsChecked(6)">&nbsp;All&nbsp;</label>
+                <label><input type="checkbox" (change)="cityIsChecked(6) ? cityidArray = [] : cityidArray = [4,1,2,3,5];addQueryParams({cities: cityidArray.toString()})" [ngModel]="cityIsChecked(6)">&nbsp;All&nbsp;</label>
                 <label *ngFor="let c of cities"><input type="checkbox" [value]="c.id" (change)="includeCities(c.id)" [ngModel]="cityIsChecked(c.id)">&nbsp;{{c.city}}&nbsp;</label>
             </div>
         </div>
         <div id="rolecheck" class="row checkbox">
             <label class="col-md-2" for="">Role:</label>
             <div class="col-md-10">
-                    <label><input type="checkbox" (change)="roleIsChecked(999) ? roleidArray = [] : roleidArray = [13, 2, 1, 10, 20];" [ngModel]="roleIsChecked(999)">&nbsp;All&nbsp;</label>
+                    <label><input type="checkbox" (change)="roleIsChecked(999) ? roleidArray = [] : roleidArray = [13, 2, 1, 10, 20];addQueryParams({roles: roleidArray.toString()})" [ngModel]="roleIsChecked(999)">&nbsp;All&nbsp;</label>
                     <label *ngFor="let r of roles"><input type="checkbox" [value]="r.id" (change)="includeRoles(r.id)" [ngModel]="roleIsChecked(r.id)">&nbsp;{{r.role}}&nbsp;</label>
             </div>
         </div>
         <div class="row">
             <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
-                <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId">
+                <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null}) : addQueryParams({staffdept: staffDeptId})">
                     <option [ngValue]="0">All</option>
                     <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
                 </select>
@@ -100,7 +100,7 @@
         <div class="row">
             <label class="col-md-2" for="staffdept">Timekeeper Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
-                <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId">
+                <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null}) : addQueryParams({staffdept: staffDeptId})">
                         <option [ngValue]="0">All</option>
                     <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
                 </select>
