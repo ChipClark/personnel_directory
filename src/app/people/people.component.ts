@@ -537,11 +537,11 @@ export class PeopleComponent implements OnInit {
           this.individualid = +q[1];
           break;
         case 'cities':
-          this.cityidArray = q[1].split(',').map(Number);
+          this.cityidArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
           break;
         case 'roles':
-          this.cityidArray = q[1].split(',').map(Number);
+          this.cityidArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
           break;
         case 'staffdept':
@@ -549,7 +549,7 @@ export class PeopleComponent implements OnInit {
           this.showAdvFilter = true;
           break;
         case 'other':
-          this.otherArray = q[1].split(',').map(Number);
+          this.otherArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
 
       }
