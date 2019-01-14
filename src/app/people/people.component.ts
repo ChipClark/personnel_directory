@@ -192,6 +192,7 @@ export class PeopleComponent implements OnInit {
   url: string;
   people: Person[];
   person: any;
+  activePeople: Person[];
   completePerson: PersonPage[];
   relationships: PersonRelationship[];
   schools: Schools[];
@@ -234,7 +235,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    console.log(this.personURL);
+    //console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
@@ -243,6 +244,9 @@ export class PeopleComponent implements OnInit {
         // build list of supportedpeople;
 
         for (let i = 0; i < this.people.length; i++) {
+          if (this.people[i]) {
+            this.getSubDept(this.people[i])
+          }
           if (this.people[i].personrelationship) {
             const relatedArray = this.people[i].personrelationship;
             for (let j = 0; j < relatedArray.length; j++) {
@@ -292,6 +296,13 @@ export class PeopleComponent implements OnInit {
   getSubDept(currentperson: any) {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+      for (let i = 0; i < currentperson.legalsubdepartments.length; i++){
+
+        if (currentperson.legalsubdepartments[i]){
+          currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments[i].legalsubdeptfriendlyname;
+        }
+      }
+      //currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments[0].legalsubdeptfriendlyname;
     }
   }
 
@@ -527,7 +538,7 @@ export class PeopleComponent implements OnInit {
           break;
       }
     }
-    console.log(this.people);
+    //console.log(this.people);
   }
 
   includeCities(cityid): void {
