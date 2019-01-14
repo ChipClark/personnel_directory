@@ -183,7 +183,9 @@
                                             {{getPerson(related.supportedpersonid)}}</a><br>
                                     </span>
                                 </span>
+                                <div *ngIf="person.isattorney" [innerHTML]="getBAR(person)"></div>
                                 TK #:{{person.timekeepernumber}}
+                                
                                 <div *ngIf="filtered?.length == 1">
                                     <strong>More:</strong><br>
                                     <!--<div id="Education" [innerHTML="getEducation(person)"]></div>-->
