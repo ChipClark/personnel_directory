@@ -6,7 +6,7 @@
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
         <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
             <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value="" class="generalbtn normal-font"
-                (click)="clearALL()">&nbsp;Clear&nbsp;
+                (click)="clearALL('alpha')">&nbsp;Clear&nbsp;
         </label>
         <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a" *ngFor="let a of alphabets">
             <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"

@@ -296,13 +296,6 @@ export class PeopleComponent implements OnInit {
   getSubDept(currentperson: any) {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-      for (let i = 0; i < currentperson.legalsubdepartments.length; i++){
-
-        if (currentperson.legalsubdepartments[i]){
-          currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments[i].legalsubdeptfriendlyname;
-        }
-      }
-      //currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments[0].legalsubdeptfriendlyname;
     }
   }
 
@@ -392,9 +385,8 @@ export class PeopleComponent implements OnInit {
     return null;
   }
 
-  getOfficeFloor(currentperson: any): number {
-    let floorNum = currentperson.officefloorid;
-    //return floorNum;
+  getOfficeFloor(id): number {
+    let floorNum = id;
     return this.officeFloor(floorNum);
   }
 
