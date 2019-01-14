@@ -354,7 +354,7 @@ export class PeopleComponent implements OnInit {
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
     var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
-    phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a><br>';
+    phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
   }
 
@@ -371,7 +371,7 @@ export class PeopleComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
     }
-    return null;
+    return "";
   }
 
   ifNotary(currentperson: any): SafeHtml {
@@ -382,7 +382,7 @@ export class PeopleComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
     }
-    return null;
+    return "";
   }
 
   getOfficeFloor(id): number {

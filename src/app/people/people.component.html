@@ -158,7 +158,8 @@
                                     <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
                                 <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}">
                                     <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a></span>
-                                &nbsp;<span [innerHTML]="ifCPR(person)"></span>&nbsp;<span [innerHTML]="ifNotary(person)"></span>
+                                &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span
+                                    >&nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
                             </div>
 
