@@ -15,12 +15,10 @@ export class OtherPipe implements PipeTransform {
         //        return arr.indexOf(i.licensetypeid) ? true : false;
         //     });
         //   });
-        const x = items.filter(item =>
+        return items.filter(item =>
             item.licensetype.some(i => {
                 if (arr.indexOf(i.licensetypeid) >= 0) { return true; }
             }));
-    console.log(x);
-        return x;
     }
 
 }
