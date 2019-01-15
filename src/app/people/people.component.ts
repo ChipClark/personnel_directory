@@ -490,7 +490,7 @@ export class PeopleComponent implements OnInit {
     if (query === "") {
       query = null;
     }
-    this._router.navigate(['/people'], {
+    this._router.navigate([''], {
       queryParams: {
         ...query
       },
@@ -500,13 +500,14 @@ export class PeopleComponent implements OnInit {
 
   clearQueryParams(): void {
     //console.log('clearing params');
-    this._router.navigate(['/people'], {
+    this._router.navigate([''], {
       queryParams: {
       },
     });
     this.staffDeptId = 0;
     this.cityidArray = [4, 1, 2, 3, 5];
     this.roleidArray = [13, 2, 1, 10, 20];
+    this.otherArray = [];
     this.roleCheckAll = true;
     this.cityid = null;
     this.roleid = null;
