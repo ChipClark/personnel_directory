@@ -68,7 +68,7 @@
 }
 
 .username {
-  font-size:18pt;
+  font-size:16pt;
   font-weight: bold;
   line-height:120%;
 }
@@ -78,7 +78,16 @@
   vertical-align: top;
   padding-right:10px;
 }
+.jobdetails {
+  display: inline-block;
+  width: 200px;
+}
 
+.contacticons {
+  display: inline-block;
+  width: 120px;
+  vertical-align: top;
+}
 .userdetails {
   display: inline-block;
 }

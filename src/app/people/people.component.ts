@@ -349,11 +349,16 @@ export class PeopleComponent implements OnInit {
     pnum = pnum.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-    var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
-    phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
+    var phonenum = 'x' + officePhone.phoneextension;
+    phonenum = phonenum + '&nbsp;Phone: ' + pnum + '<br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
-  }
 
+    //  USE IF WE WANT TO ADD LINKS TO THE PHONE NUMBERS  
+    //var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
+    //phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
+    //return this.sanitizer.bypassSecurityTrustHtml(phonenum);  }
+  }
+  
   goBack(): void {
     this.clearALL("ind");
   }

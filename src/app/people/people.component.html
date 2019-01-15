@@ -1,4 +1,3 @@
-<h2>Personnel List</h2>
 <div class="searchbar col-md-7 col-sm-12">
     <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''"
         [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
@@ -54,10 +53,6 @@
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
                 <input type="radio" name="options" id="roleoption2" class="generalbtn med-font" [(ngModel)]="roleid"
                     [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
-            </label>&nbsp;
-            <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 2" id="Role3">
-                <input type="radio" name="options" id="roleoption3" class="generalbtn med-font" [(ngModel)]="roleid"
-                    [value]="2" (click)="addQueryParams({role: 2})">&nbsp;Of Counsel&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
                 <input type="radio" name="options" id="roleoption4" class="generalbtn med-font" [(ngModel)]="roleid"
@@ -147,24 +142,26 @@
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
                                         {{person.displayname}}</button> <!--   {{person.pkpersonid}}  -->
-                                </strong>&nbsp; <span *ngIf="filtered?.length == 1">{{getPrefName(person.preferredfirstname)}}
-                                </span>
+                                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}} <br>
 
-                                &nbsp;<a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
-                                    <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}"
-                                        width="20px;"></a>
-                                &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
-                                    id="{{person.interactionid}}">
-                                    <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                                <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}">
-                                    <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a></span>
-                                &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span
-                                    >&nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
-                                &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
                             </div>
 
                             <div class="userinfo">
-                                <div id="jobtitle" [innerHTML]="getTitles(person)"></div>
+                                <div class="jobdetails">
+                                    <div id="jobtitle" [innerHTML]="getTitles(person)"></div>
+                                </div>
+                                <div class="contacticons"><a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
+                                        <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}"
+                                            width="20px;"></a>
+                                        &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
+                                        id="{{person.interactionid}}">
+                                        <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
+                                        <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"  target="_blank">
+                                        <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
+                                        &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
+                                        &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
+                                        &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
+                                </div><br>
                                 {{person.officelocation.officelocationcode}} Office Number:
                                 <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{officeFloor(person.officefloorid)}}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor:
@@ -201,8 +198,10 @@
             </div>
         </div>
         <div class="PaginationBar">
-            <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
-        </div>
+                <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
+                <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} -
+                    {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
+            </div>
     </div>
 
 </div>

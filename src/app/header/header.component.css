@@ -13,6 +13,8 @@
     font-size: 22pt;
     font-family: 'Times New Roman', Times, serif;
     font-weight: 800;
+    vertical-align: middle;
+    top: 15px;
 }
 
 .header-img {
@@ -32,3 +34,21 @@
     padding-right: 50px;
 }
 
+.confidential {
+    display: inline-block;
+    color: #bbb;
+    font-size: 18pt;
+    vertical-align: middle;
+    top: 15px;
+}
+.bugcontact {
+    color: #999;
+}
+
+.bugcontact a {
+    color: #ddd
+}
+
+.bugcontact a:hover {
+    color: #FFF;
+}
