@@ -8,7 +8,7 @@ import { StaffDetailComponent }  from './staff-detail/staff-detail.component';
 
 const routes: Routes = [
   { path: 'root', component: PeopleComponent },
-  { path: '', redirectTo: '/people', pathMatch: 'full' },
+  { path: '', component: PeopleComponent, pathMatch: 'full' },
   { path: 'detail/:id', component: StaffDetailComponent },
   { path: 'people', component: PeopleComponent }
 ];
