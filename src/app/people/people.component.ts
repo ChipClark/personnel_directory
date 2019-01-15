@@ -103,10 +103,6 @@ export class PeopleComponent implements OnInit {
       'id': 13
     },
     {
-      'role': 'Of Counsel',
-      'id': 2
-    },
-    {
       'role': 'Associate',
       'id': 1
     },
@@ -178,7 +174,7 @@ export class PeopleComponent implements OnInit {
   public otherArray = [];
   public staffDeptId = 0;
   public cityidArray = [4, 1, 2, 3, 5];
-  public roleidArray = [13, 2, 1, 10, 20];
+  public roleidArray = [13, 1, 10, 20];
   public roleCheckAll = true;
   public showAdvFilter = false;
   public cityid = null;
