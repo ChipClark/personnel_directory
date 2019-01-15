@@ -161,7 +161,7 @@ export class PeopleComponent implements OnInit {
       'id': '(C&F)'
     },
     {
-      'name': 'Legislation',
+      'name': 'Litigation',
       'id': '(LIT)'
     },
     {
