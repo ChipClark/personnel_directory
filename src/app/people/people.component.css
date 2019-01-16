@@ -2,11 +2,36 @@
 
 /* PeopleComponent's private CSS styles */
 
+.person-list {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.container { 
+  width:100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.row {
+  margin-left:-30px;
+  margin-right:0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.col {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .people {
   margin: 0 0 2em 0;
   padding: 1px;
-  min-width: 480px;
+  min-width: 440px;
 }
+
 
 .people.selected:hover {
   background-color: #BBD8DC !important;
@@ -61,11 +86,6 @@
 
 
 
-.person-list {
-  display: block;
-  margin-top: 10px;
-
-}
 
 .username {
   font-size:16pt;

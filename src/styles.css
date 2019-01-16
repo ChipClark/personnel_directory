@@ -4,6 +4,7 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
+    zoom: .75;
 }
 
 .main-body {
@@ -14,9 +15,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.router-body {
-   /* padding-left:10px;
-    padding-right:10px; */
+.app-root {
+    width: 100%;
+    padding-left:0px;
+    padding-right:0px; 
 }
 
 .footer-bar {

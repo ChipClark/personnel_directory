@@ -122,11 +122,10 @@
             {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
     </div>
     <br clear=all>
-    <div class="container">
-        <div class="row">
-            <div *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId| other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+<div class="container">
+    <div class="row">
+            <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId| other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
-                let odd = odd let even = even; 
                 trackBy: person?.pkpersonid"
                 #nGForArray>
                 <div class="col">
@@ -195,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </span>
         </div>
         <div class="PaginationBar">
                 <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
