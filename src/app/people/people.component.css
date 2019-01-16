@@ -1,12 +1,42 @@
 /*  people.compenent.css  */ 
+.person-list {
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+}
 
-/* PeopleComponent's private CSS styles */
+.container { 
+  width:100%;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.row {
+  margin-left:-30px;
+  margin-right:0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.col {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE Edge 12+ CSS styles go here */ 
+  .people {
+    margin: 0 0 0 0;
+    padding: 0em 0em 0em 0em;
+    height: 250px;
+  }
+}
 
 .people {
   margin: 0 0 2em 0;
   padding: 1px;
-  min-width: 480px;
+  min-width: 440px;
 }
+
 
 .people.selected:hover {
   background-color: #BBD8DC !important;
@@ -61,14 +91,9 @@
 
 
 
-.person-list {
-  display: block;
-  margin-top: 10px;
-
-}
 
 .username {
-  font-size:18pt;
+  font-size:16pt;
   font-weight: bold;
   line-height:120%;
 }
@@ -78,7 +103,16 @@
   vertical-align: top;
   padding-right:10px;
 }
+.jobdetails {
+  display: inline-block;
+  width: 200px;
+}
 
+.contacticons {
+  display: inline-block;
+  width: 120px;
+  vertical-align: top;
+}
 .userdetails {
   display: inline-block;
 }

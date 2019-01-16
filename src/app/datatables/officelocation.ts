@@ -21,3 +21,12 @@ export class OfficeLocation {
     note: string;
     active: true;
 }
+
+export class OfficeFloors {
+    officefloorid: number;
+    officelocationid: number;
+    officefloorname: string;
+    officefloormapfile: string;
+    note: string;
+    active: boolean;
+}

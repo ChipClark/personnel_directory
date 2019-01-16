@@ -2,7 +2,7 @@
     padding-top:2px;
     padding-bottom:5px;
     background: #002a5f;
-    text-align: left;
+    text-align: center;
     height: 80x;
 }
 
@@ -10,16 +10,17 @@
     display: inline-block;
     width:400px;
     color:#fff;
-    font-size: 22pt;
+    font-size: 42pt;
     font-family: 'Times New Roman', Times, serif;
-    font-weight: 800;
+    font-weight: 200;
+    vertical-align: middle;
+    top: 15px;
 }
 
 .header-img {
     display: inline-block;
-    height:75px;
-    top:10px;
-    padding-right:30px;
+    height:100px;
+    padding-right:20px;
     padding-left:20px;
     vertical-align: middle;
 }
@@ -32,3 +33,25 @@
     padding-right: 50px;
 }
 
+.confidential {
+    display: inline-block;
+    color: #bbb;
+    font-size: 18pt;
+    vertical-align: middle;
+    top: 15px;
+}
+.bugcontact {
+    color: #999;
+}
+
+.bugcontact a {
+    color: #ddd
+}
+
+.bugcontact a:hover {
+    color: #FFF;
+}
+
+.rightcol {
+    top:10px;
+}

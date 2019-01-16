@@ -46,9 +46,9 @@ export class PeopleComponent implements OnInit {
   public educationURL = 'http://am-api:3030/api/v1/education';
   public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
 
-
+ 
   // Filters
-  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},' 
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
   public All = this.activepeopleFilter;
   public addFilter = this.All;
 
@@ -75,9 +75,108 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
+  public cities = [
+    {
+      'city': 'CC',
+      'id': 4
+    },
+    {
+      'city': 'LA',
+      'id': 1
+    },
+    {
+      'city': 'OC',
+      'id': 2
+    },
+    {
+      'city': 'SD',
+      'id': 3
+    },
+    {
+      'city': 'SF',
+      'id': 5
+    }
+  ];
+  public roles = [
+    {
+      'role': 'Partners',
+      'id': 13
+    },
+    {
+      'role': 'Associate',
+      'id': 1
+    },
+    {
+      'role': 'Paralegal',
+      'id': 10
+    },
+    {
+      'role': 'Staff',
+      'id': 20
+    }
+  ];
 
-  @ViewChildren('someVar') filtered;
+  public staffDept = [
+    {
+      'name': 'Human Resources',
+      'id': 3
+    },
+    {
+      'name': 'Library',
+      'id': 4
+    },
+    {
+      'name': 'Recruiting',
+      'id': 5
+    },
+    {
+      'name': 'Marketing',
+      'id': 6
+    },
+    {
+      'name': 'Technology',
+      'id': 7
+    },
+    {
+      'name': 'Finance',
+      'id': 8
+    },
+    {
+      'name': 'Administration',
+      'id': 9
+    },
+    {
+      'name': 'Secretary',
+      'id': 11
+    },
+    {
+      'name': 'Word Processing',
+      'id': 12
+    }
+  ];
 
+  public timekeeperDept = [
+    {
+      'name': 'Corporate & Finance',
+      'id': '(C&F)'
+    },
+    {
+      'name': 'Litigation',
+      'id': '(LIT)'
+    },
+    {
+      'name': 'Real Estate',
+      'id': '(RE)'
+    }
+  ];
+
+  @ViewChildren('nGForArray') filtered;
+  public otherArray = [];
+  public staffDeptId = 0;
+  public cityidArray = [4, 1, 2, 3, 5];
+  public roleidArray = [13, 1, 10, 20];
+  public roleCheckAll = true;
+  public showAdvFilter = false;
   public cityid = null;
   public roleid = null;
   public searchTerm = null;
@@ -89,6 +188,7 @@ export class PeopleComponent implements OnInit {
   url: string;
   people: Person[];
   person: any;
+  activePeople: Person[];
   completePerson: PersonPage[];
   relationships: PersonRelationship[];
   schools: Schools[];
@@ -99,7 +199,6 @@ export class PeopleComponent implements OnInit {
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   subpracticeareas: LegalSubPractices[];
-  roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalsubdepts: LegalSubDepartments[];
   license: License[];
@@ -124,7 +223,7 @@ export class PeopleComponent implements OnInit {
 
   getLegalSubDepts(): any {
     this.staffService.getLegalSub(this.legalsubdeptsURL)
-      .subscribe(legalsubdepts => { 
+      .subscribe(legalsubdepts => {
         this.legalsubdepts = legalsubdepts;
       });
   }
@@ -133,20 +232,23 @@ export class PeopleComponent implements OnInit {
     this.buildURL();
     //console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
-      .subscribe(people => { 
+      .subscribe(people => {
         this.people = people;
 
         // **************************
         // build list of supportedpeople;
 
         for (let i = 0; i < this.people.length; i++) {
+          if (this.people[i]) {
+            this.getSubDept(this.people[i])
+          }
           if (this.people[i].personrelationship) {
             const relatedArray = this.people[i].personrelationship;
             for (let j = 0; j < relatedArray.length; j++) {
               for (let k = 0; k < this.people.length; k++) {
                 if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
                   this.people[k].supportrelationships = true;
-                  const relatedPerson = { 
+                  const relatedPerson = {
                     relatedpersonid: null,
                     personrelationshipid: null,
                     pkpersonid: null,
@@ -158,7 +260,7 @@ export class PeopleComponent implements OnInit {
                     modifieddate: null,
                     modifiedby: null,
                     validfromdate: null,
-                    validtodate: null 
+                    validtodate: null
                   };
                   this.people[k].personrelationship.push(relatedPerson);
                 }
@@ -167,9 +269,9 @@ export class PeopleComponent implements OnInit {
           }
         }
       });
-      const queryStrings: any = this.route.queryParamMap;
-      this.executeQueryParams(queryStrings.source.value);
-    }
+    const queryStrings: any = this.route.queryParamMap;
+    this.executeQueryParams(queryStrings.source.value);
+  }
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
@@ -246,11 +348,16 @@ export class PeopleComponent implements OnInit {
     pnum = pnum.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
-    var phonenum =  'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
-    phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + phonenum + '</a><br>';
+    var phonenum = 'x' + officePhone.phoneextension;
+    phonenum = phonenum + '&nbsp;Phone: ' + pnum + '<br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
-  }
 
+    //  USE IF WE WANT TO ADD LINKS TO THE PHONE NUMBERS  
+    //var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
+    //phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
+    //return this.sanitizer.bypassSecurityTrustHtml(phonenum);  }
+  }
+  
   goBack(): void {
     this.clearALL("ind");
   }
@@ -264,7 +371,7 @@ export class PeopleComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
     }
-    return null;
+    return "";
   }
 
   ifNotary(currentperson: any): SafeHtml {
@@ -275,12 +382,11 @@ export class PeopleComponent implements OnInit {
         return this.sanitizer.bypassSecurityTrustHtml(_element);
       }
     }
-    return null;
+    return "";
   }
 
-  getOfficeFloor(currentperson: any): number {
-    let floorNum = currentperson.officefloorid;
-    //return floorNum;
+  getOfficeFloor(id): number {
+    let floorNum = id;
     return this.officeFloor(floorNum);
   }
 
@@ -330,7 +436,7 @@ export class PeopleComponent implements OnInit {
       for (let i = 0; i < currentperson.licenses.length; i++) {
         if (!currentperson.licenses[i].licensenumber) break;
         barnum = barnum + currentperson.licenses[i].licensestate
-         + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
+          + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
       }
     }
     return this.sanitizer.bypassSecurityTrustHtml(barnum);
@@ -349,18 +455,18 @@ export class PeopleComponent implements OnInit {
   clearALL(key): void {
     this.searchTerm = null;
     switch (key) {
-        case "alpha": 
-          this.addQueryParams({ alpha: null });
-          break;
-        case "city": 
-          this.addQueryParams({ city: null });
-          break;
-        case "role": 
-          this.addQueryParams({ role: null });
-          break;
-        case "ind": 
-          this.addQueryParams({ ind: null });
-          break;
+      case "alpha":
+        this.addQueryParams({ alpha: null });
+        break;
+      case "city":
+        this.addQueryParams({ city: null });
+        break;
+      case "role":
+        this.addQueryParams({ role: null });
+        break;
+      case "ind":
+        this.addQueryParams({ ind: null });
+        break;
     }
   }
 
@@ -370,23 +476,20 @@ export class PeopleComponent implements OnInit {
     switch (keys[0]) {
       case 'city':
         this.cityid = values[0];
-      break;
+        break;
       case 'role':
         this.roleid = values[0];
-      break;
+        break;
       case 'ind':
         this.individualid = values[0];
-        this.roleid = null;
-        this.cityid = null;
-        this.alpha = null;
-      break;
+        break;
     }
     //console.log(query);
 
     if (query === "") {
       query = null;
     }
-    this._router.navigate(['/people'], {
+    this._router.navigate([''], {
       queryParams: {
         ...query
       },
@@ -396,10 +499,20 @@ export class PeopleComponent implements OnInit {
 
   clearQueryParams(): void {
     //console.log('clearing params');
-    this._router.navigate(['/people'], {
+    this._router.navigate([''], {
       queryParams: {
       },
     });
+    this.staffDeptId = 0;
+    this.cityidArray = [4, 1, 2, 3, 5];
+    this.roleidArray = [13, 2, 1, 10, 20];
+    this.otherArray = [];
+    this.roleCheckAll = true;
+    this.cityid = null;
+    this.roleid = null;
+    this.searchTerm = null;
+    this.alpha = null;
+    this.individualid = null;
   }
 
   executeQueryParams(queryStrings): void {
@@ -424,13 +537,75 @@ export class PeopleComponent implements OnInit {
         case 'ind':
           this.individualid = +q[1];
           break;
+        case 'cities':
+          this.cityidArray = (q[1] as string).split(',').map(Number);
+          this.showAdvFilter = true;
+          break;
+        case 'roles':
+          this.cityidArray = (q[1] as string).split(',').map(Number);
+          this.showAdvFilter = true;
+          break;
+        case 'staffdept':
+          this.staffDeptId = +q[1];
+          this.showAdvFilter = true;
+          break;
+        case 'other':
+          this.otherArray = (q[1] as string).split(',').map(Number);
+          this.showAdvFilter = true;
+
       }
     }
   }
 
+  includeCities(cityid): void {
+    const index = this.cityidArray.indexOf(cityid);
+    if (index == -1) {
+      this.cityidArray.push(cityid);
+    } else {
+      this.cityidArray.splice(index, 1);
+    }
+    this.addQueryParams({ cities: this.cityidArray.toString() })
+  }
+
+  cityIsChecked(cityid) {
+    if (cityid === 6) {
+      return this.cityidArray.length === 5 ? true : false;
+    } else {
+      return this.cityidArray.indexOf(cityid) >= 0;
+    }
+  }
+
+  includeRoles(roleid): void {
+    const index = this.roleidArray.indexOf(roleid);
+    if (index == -1) {
+      this.roleidArray.push(roleid);
+    } else {
+      this.roleidArray.splice(index, 1);
+    }
+    this.addQueryParams({ roles: this.roleidArray.toString() })
+  }
+
+  roleIsChecked(roleid) {
+    if (roleid === 999) {
+      return this.roleidArray.length === 5 ? true : false;
+    } else {
+      return this.roleidArray.indexOf(roleid) >= 0;
+    }
+  }
+
+  includeOthers(id): void {
+    const index = this.otherArray.indexOf(id);
+    if (index == -1) {
+      this.otherArray.push(id);
+    } else {
+      this.otherArray.splice(index, 1);
+    }
+    this.addQueryParams({ other: this.otherArray.length > 0 ? this.otherArray.toString() : null })
+  }
+
   // ************************************
   //
-  //  additional functions not implemented 
+  //  additional functions not yet implemented 
   //
   // ************************************
 
@@ -516,6 +691,6 @@ export class PeopleComponent implements OnInit {
     return attorneyeducation;
   }
 
- 
-  
+
+
 }

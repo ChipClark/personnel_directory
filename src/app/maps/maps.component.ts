@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { APIService } from '../api.service';
 import { InlineSVGModule } from 'ng-inline-svg';
 import * as Svg from 'svg.js'
+
+import { OfficeFloors, OfficeLocation } from '../datatables/officelocation';
 
 @Component({
   selector: 'app-map',
@@ -9,16 +12,38 @@ import * as Svg from 'svg.js'
 })
 export class MapComponent implements OnInit {
 
+  private floorURL = 'http://am-api:3030/api/v1/officefloors';
+  private officelocationURL = 'http://am-api:3030/api/v1/officelocations';
+
+  floors: OfficeFloors[];
+  officelocations: OfficeLocation[];
   regions: any[];
 
-  constructor() { 
-    
-  }
+  constructor(
+    private staffService: APIService,
+  ) { }
 
   ngOnInit() {
-    this.LA28();
+    this.getOfficeFloors();
+    this.getOfficeLocations();
     this.colorOffice('o2849');
   }
+
+  getOfficeFloors(): void {
+    this.staffService.getOfficeFloors(this.floorURL)
+    .subscribe(floors => {
+      this.floors = floors;
+    });
+
+  }
+  getOfficeLocations(): void {
+    this.staffService.getOfficeLocations(this.officelocationURL)
+    .subscribe(officelocations => {
+      this.officelocations = officelocations;
+    });
+
+  }
+
 
   generateMap(): string {
     var mapImg = '<img src="assets/la-28.svg" class="basemap">';

@@ -11,6 +11,7 @@ import { Schools, Education, DegreeTypes } from './datatables/school';
 import { JobTitle } from './datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
 import { LegalSubDepartments } from './datatables/departmenttables';
+import { OfficeFloors, OfficeLocation} from './datatables/officelocation';
 
 
 const httpOptions = {
@@ -31,6 +32,8 @@ export class APIService {
   schools: Schools[];
   education: Education[];
   degrees: DegreeTypes[];
+  floors: OfficeFloors[];
+  officeLocation: OfficeLocation[];
   
  
   constructor(
@@ -74,6 +77,14 @@ export class APIService {
   }
   getDegrees(url): Observable<DegreeTypes[]> {
     return this.http.get<DegreeTypes[]>(url)
+  }
+
+  getOfficeLocations(url): Observable<OfficeLocation[]> {
+    return this.http.get<OfficeLocation[]>(url)
+  }
+
+  getOfficeFloors(url): Observable<OfficeFloors[]> {
+    return this.http.get<OfficeFloors[]>(url)
   }
 
 
