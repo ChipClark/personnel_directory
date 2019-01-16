@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.min.css";
-@import '~perfect-scrollbar/css/perfect-scrollbar.css';
 
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -12,11 +11,6 @@ body {
     padding-top:10px;
     padding-bottom:20px;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-.router-body {
-   /* padding-left:10px;
-    padding-right:10px; */
 }
 
 .footer-bar {
