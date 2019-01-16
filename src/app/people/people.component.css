@@ -1,7 +1,4 @@
 /*  people.compenent.css  */ 
-
-/* PeopleComponent's private CSS styles */
-
 .person-list {
   display: block;
   margin-top: 10px;
@@ -24,6 +21,14 @@
 .col {
   padding-left: 0px;
   padding-right: 0px;
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE Edge 12+ CSS styles go here */ 
+  .people {
+    margin: 0 0 0 0;
+    padding: 0em 0em 0em 0em;
+    height: 250px;
+  }
 }
 
 .people {
