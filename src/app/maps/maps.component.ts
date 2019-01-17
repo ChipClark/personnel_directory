@@ -66,43 +66,40 @@ export class MapComponent implements OnInit {
   sanitizeScript(sanitizer: DomSanitizer) { }
 
 
-  displayMap(city: string, floor: number): SafeHtml {
+  displayMap(): SafeHtml {
     var mapIMG;
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
-    console.log(this.cityName);
-
     mapIMG = '<object id="map" src="assets/' + this.cityName + '-' + this.floorID + '" >';
     mapIMG = mapIMG + '<img id="map" src="assets/' + this.cityName + '-' + this.floorID + '.svg" class="basemap"></object>';
     return this.sanitizer.bypassSecurityTrustHtml(mapIMG);
   }
 
-  labelMap(city: string, floor: number, office): string {
+  labelMap(city: string, floor: number): string {
+    const queryStrings: any = this.route.queryParamMap;
+    this.executeQueryParams(queryStrings.source.value);
     console.log(city);
     console.log(floor);
-    this.officeID = office;
-    console.log(this.officeID);
     var label;
 
-    return "we are here";
     switch (city) {
       case 'cc':
-        label = "Century City:&bnsp;";
+        label = "Century City:&nbsp;";
         break;
       case 'la':
-        label = "Los Angeles:&bnsp;";
+        label = "Los Angeles:&nbsp;";
         break;
       case 'oc':
-        label = "Orange County:&bnsp;";
+        label = "Orange County:&nbsp;";
         break;
       case 'sd':
-        label = "Dan Diego:&bnsp;";
+        label = "Dan Diego:&nbsp;";
         break;
       case 'sf':
-        label = "San Francisco:&bnsp;";
+        label = "San Francisco:&nbsp;";
         break;
     }
-    label = label + floor + "th&nbsp;Floor&nbsp;[" + this.officeID + "]";
+    label = label + floor + "th&nbsp;Floor&nbsp;";
 
     return label;
   }
@@ -130,7 +127,7 @@ export class MapComponent implements OnInit {
       case "floor":
         this.addQueryParams({ floor: null });
         break;
-      case "office":
+      case "offid":
         this.addQueryParams({ office: null });
         break;
       case "ind":
@@ -149,7 +146,7 @@ export class MapComponent implements OnInit {
       case 'floor':
         this.floorID = values[0];
         break;
-      case 'office':
+      case 'offid':
         this.officeID = values[0];
         break;
       case 'ind':
@@ -183,7 +180,6 @@ export class MapComponent implements OnInit {
 
   executeQueryParams(queryStrings): void {
     const queries = Object.entries(queryStrings);
-    console.log(queryStrings);
     for (const q of queries) {
       switch (q[0]) {
         case 'city':
@@ -192,7 +188,7 @@ export class MapComponent implements OnInit {
         case 'floor':
           this.floorID = +q[1];
           break;
-        case 'office':
+        case 'offid':
           this.officeID = +q[1];
           break;
         case 'ind':
@@ -200,7 +196,6 @@ export class MapComponent implements OnInit {
           break;
       }
     }
-    console.log(this.cityName);
   }
 
   LA28() { 
