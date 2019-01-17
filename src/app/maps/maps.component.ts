@@ -30,6 +30,13 @@ export class MapComponent implements OnInit {
   public searchTerm = null;
   public individualid = null;
 
+  public la28 = ['o2859', 'o2855', 'o2854', 'o2852', 'o2850', 'o2849', 'o2848', 'o2847', 
+    'o2846', 'o2842', 'o2839', 'o2838', 'o2837', 'o2836', 'o2835', 'o2831', 'o2830', 
+    'o2829', 'o2827', 'o2826', 'o2823', 'o2822', 'o2821', 'o2817', 'o2817', 'o2816',
+    'o2815', 'o2813', 'o2812', 'o2845', 'o2857B', 'o2857A', 'o2832D', 'o2832B', 'o2832A', 
+    'o2819D', 'o2819C', 'o2819B', 'o2819A', 'o2801', 'o2878', 'o2853', 'o2841', 'o2825',
+    'o2818', 'o2814', 'o2808', 'o2805', 'o2804', 'o2803'  
+  ]
 
   floors: OfficeFloors[];
   officelocations: OfficeLocation[];
@@ -70,8 +77,7 @@ export class MapComponent implements OnInit {
     var mapIMG;
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
-    mapIMG = '<object id="map" src="assets/' + this.cityName + '-' + this.floorID + '" >';
-    mapIMG = mapIMG + '<img id="map" src="assets/' + this.cityName + '-' + this.floorID + '.svg" class="basemap"></object>';
+    mapIMG = '<object id="svgObject" data="../../assets/' + this.cityName + '-' + this.floorID + '.svg" type="image/svg+xml" ></object>';
     return this.sanitizer.bypassSecurityTrustHtml(mapIMG);
   }
 
@@ -196,6 +202,11 @@ export class MapComponent implements OnInit {
           break;
       }
     }
+  }
+  setToolTips(city: string, floor: number, offid: string): string {
+    var officetooltip;
+    
+    return officetooltip;
   }
 
   LA28() { 
