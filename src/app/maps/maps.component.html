@@ -1,9 +1,3 @@
-<object id="map" src="assets/la-28.svg" >
-  <img id="map" src="assets/la-28.svg" class="basemap"></object>
+<div id="map" [innerHTML]="displayMap('la', 26)"></div>
 
-<svg height="100px" width="1000px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-	<rect id="svgItem" width="800" height="800" fill="red"></rect>
-	<circle cx="400" cy="400" r="400" fill="blue"></circle>
-</svg>
-
-<div>Los Angeles: 28th Floor [2849]</div>
+<div id="map label" innerHTML="labelMap('la', 26, '2613-A)"></div>

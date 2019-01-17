@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core';
 import { APIService } from '../api.service';
+import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { Person } from '../person';
+import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
+
+
 import { InlineSVGModule } from 'ng-inline-svg';
 import * as Svg from 'svg.js'
 
@@ -12,20 +17,35 @@ import { OfficeFloors, OfficeLocation } from '../datatables/officelocation';
 })
 export class MapComponent implements OnInit {
 
-  private floorURL = 'http://am-api:3030/api/v1/officefloors';
-  private officelocationURL = 'http://am-api:3030/api/v1/officelocations';
+  public floorURL = 'http://am-api:3030/api/v1/officefloors';
+  public officelocationURL = 'http://am-api:3030/api/v1/officelocations';
+
+  @ViewChildren('nGForArray') filtered;
+  public floor = ['04', '05', '12', '13', '18', '26', '27', '28', '29'];
+  public floorID = null;
+  public cities = ['CC', 'LA', 'OC', 'SD', 'SF'];
+  public cityName = null;
+  public officeID = null;
+  public showAdvFilter = false;
+  public searchTerm = null;
+  public individualid = null;
+
 
   floors: OfficeFloors[];
   officelocations: OfficeLocation[];
+  people: Person[];
   regions: any[];
 
   constructor(
     private staffService: APIService,
+    private route: ActivatedRoute,
+    protected sanitizer: DomSanitizer,
+    private _router: Router
   ) { }
 
   ngOnInit() {
-    this.getOfficeFloors();
-    this.getOfficeLocations();
+    //this.getOfficeFloors();
+    //this.getOfficeLocations();
     this.colorOffice('o2849');
   }
 
@@ -34,16 +54,58 @@ export class MapComponent implements OnInit {
     .subscribe(floors => {
       this.floors = floors;
     });
-
   }
+
   getOfficeLocations(): void {
     this.staffService.getOfficeLocations(this.officelocationURL)
     .subscribe(officelocations => {
       this.officelocations = officelocations;
     });
-
   }
 
+  sanitizeScript(sanitizer: DomSanitizer) { }
+
+
+  displayMap(city: string, floor: number): SafeHtml {
+    var mapIMG;
+    const queryStrings: any = this.route.queryParamMap;
+    this.executeQueryParams(queryStrings.source.value);
+    console.log(this.cityName);
+
+    mapIMG = '<object id="map" src="assets/' + this.cityName + '-' + this.floorID + '" >';
+    mapIMG = mapIMG + '<img id="map" src="assets/' + this.cityName + '-' + this.floorID + '.svg" class="basemap"></object>';
+    return this.sanitizer.bypassSecurityTrustHtml(mapIMG);
+  }
+
+  labelMap(city: string, floor: number, office): string {
+    console.log(city);
+    console.log(floor);
+    this.officeID = office;
+    console.log(this.officeID);
+    var label;
+
+    return "we are here";
+    switch (city) {
+      case 'cc':
+        label = "Century City:&bnsp;";
+        break;
+      case 'la':
+        label = "Los Angeles:&bnsp;";
+        break;
+      case 'oc':
+        label = "Orange County:&bnsp;";
+        break;
+      case 'sd':
+        label = "Dan Diego:&bnsp;";
+        break;
+      case 'sf':
+        label = "San Francisco:&bnsp;";
+        break;
+    }
+    label = label + floor + "th&nbsp;Floor&nbsp;[" + this.officeID + "]";
+
+    return label;
+  }
 
   generateMap(): string {
     var mapImg = '<img src="assets/la-28.svg" class="basemap">';
@@ -57,6 +119,88 @@ export class MapComponent implements OnInit {
 
     //  Get the element in the SVG map file - and adjust the fill. 
     //officesvg.fill = "#FFC1C1";
+  }
+
+  clearALL(key): void {
+    this.searchTerm = null;
+    switch (key) {
+      case "city":
+        this.addQueryParams({ location: null });
+        break;
+      case "floor":
+        this.addQueryParams({ floor: null });
+        break;
+      case "office":
+        this.addQueryParams({ office: null });
+        break;
+      case "ind":
+        this.addQueryParams({ ind: null });
+        break;
+    }
+  }
+
+  addQueryParams(query): void {
+    const keys = Object.keys(query);
+    const values = Object.values(query);
+    switch (keys[0]) {
+      case 'city':
+        this.cityName = values[0];
+        break;
+      case 'floor':
+        this.floorID = values[0];
+        break;
+      case 'office':
+        this.officeID = values[0];
+        break;
+      case 'ind':
+        this.individualid = values[0];
+        break;
+    }
+    //console.log(query);
+
+    if (query === "") {
+      query = null;
+    }
+    this._router.navigate([''], {
+      queryParams: {
+        ...query
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  clearQueryParams(): void {
+    //console.log('clearing params');
+    this._router.navigate([''], {
+      queryParams: {
+      },
+    });
+    this.cityName = null;
+    this.floorID = null;
+    this.officeID = null;
+    this.individualid = null;
+  }
+
+  executeQueryParams(queryStrings): void {
+    const queries = Object.entries(queryStrings);
+    console.log(queryStrings);
+    for (const q of queries) {
+      switch (q[0]) {
+        case 'city':
+          this.cityName = q[1];
+          break;
+        case 'floor':
+          this.floorID = +q[1];
+          break;
+        case 'office':
+          this.officeID = +q[1];
+          break;
+        case 'ind':
+          this.individualid = +q[1];
+          break;
+      }
+    }
+    console.log(this.cityName);
   }
 
   LA28() { 

@@ -161,7 +161,7 @@
                                         &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                         &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
                                 </div><br>
-                                {{person.officelocation.officelocationcode}} Office Number:
+                                {{person.officelocation.officelocationcode}} Office Number: 
                                 <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{officeFloor(person.officefloorid)}}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor:
                                 {{person.officefloorid}}<br>
