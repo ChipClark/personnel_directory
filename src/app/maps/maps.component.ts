@@ -9,6 +9,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import * as Svg from 'svg.js'
 
 import { OfficeFloors, OfficeLocation } from '../datatables/officelocation';
+import { HighlightDelayBarrier } from 'blocking-proxy/built/lib/highlight_delay_barrier';
 
 @Component({
   selector: 'app-map',
@@ -81,11 +82,21 @@ export class MapComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(mapIMG);
   }
 
+  highlightOffice(offid: string): void {
+    var highlight;
+    let a = document.getElementById('svgObject') 
+    //highlight = a.DOCUMENT_FRAGMENT_NODE; 
+    console.log(a);
+    //highlight.setAttribute("fill", "red");
+    console.log(offid);
+    //return highlight;
+  }
+
   labelMap(city: string, floor: number): string {
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
-    console.log(city);
-    console.log(floor);
+    //console.log(city);
+    //console.log(floor);
     var label;
 
     switch (city) {
