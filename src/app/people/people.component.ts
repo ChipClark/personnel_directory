@@ -46,7 +46,7 @@ export class PeopleComponent implements OnInit {
   public educationURL = 'http://am-api:3030/api/v1/education';
   public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
 
-
+ 
   // Filters
   public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
   public All = this.activepeopleFilter;
@@ -75,6 +75,7 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
+  
   public cities = [
     {
       'city': 'CC',
@@ -169,7 +170,7 @@ export class PeopleComponent implements OnInit {
       'id': '(RE)'
     }
   ];
-
+  
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
@@ -199,7 +200,6 @@ export class PeopleComponent implements OnInit {
   attorneyareas: AttorneyPracticeAreas[];
   practiceareas: LegalPractices[];
   subpracticeareas: LegalSubPractices[];
-  // roles: HRDepartments[];
   legalDepts: LegalDepartments[];
   legalsubdepts: LegalSubDepartments[];
   license: License[];
@@ -293,6 +293,9 @@ export class PeopleComponent implements OnInit {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
+    //currentperson.officefloorid = this.completelocation.find( obj => {
+    //  return obj.officelocationid === currentperson.officelocationid && obj.officeid === currentperson.officeid;
+    //}).officefloorid;
   }
 
   getTitles(currentperson: any): string {
@@ -606,7 +609,7 @@ export class PeopleComponent implements OnInit {
 
   // ************************************
   //
-  //  additional functions not implemented 
+  //  additional functions not yet implemented 
   //
   // ************************************
 
