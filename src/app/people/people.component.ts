@@ -469,7 +469,7 @@ export class PeopleComponent implements OnInit {
         this.addQueryParams({ role: null });
         break;
       case "ind":
-        this.addQueryParams({ ind: null });
+        this.addQueryParams({ ind: null });    
         break;
     }
   }
@@ -520,6 +520,7 @@ export class PeopleComponent implements OnInit {
   }
 
   executeQueryParams(queryStrings): void {
+    console.log("in ExecuteQuery");
     const queries = Object.entries(queryStrings);
     for (const q of queries) {
       switch (q[0]) {
