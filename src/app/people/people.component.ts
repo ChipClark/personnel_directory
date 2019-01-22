@@ -323,7 +323,6 @@ export class PeopleComponent implements OnInit {
       // The following line adjust the maps to work with Adam's maps
       currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
     }
-
   }
 
   getTitles(currentperson: any): string {
@@ -432,10 +431,10 @@ export class PeopleComponent implements OnInit {
         floor = 16;
         break;
       case 3:
-        floor = 13;
+        floor = 12;
         break;
       case 4:
-        floor = 12;
+        floor = 13;
         break;
       case 5:
         floor = 2;
@@ -450,12 +449,12 @@ export class PeopleComponent implements OnInit {
         floor = 15;
         break;
       case 9:
-        floor = 18;
+        floor = 7;
         break;
       case 10:
         floor = 1;
         break;
-      case 1:
+      case 11:
         floor = 6;
         break;
     }
