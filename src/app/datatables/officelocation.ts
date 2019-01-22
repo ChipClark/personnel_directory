@@ -21,3 +21,12 @@ export class OfficeLocation {
     note: string;
     active: true;
 }
+
+export class RoomLocation {
+    city: string;
+    cityfullname:  string;
+    officelocationid:  number;
+    officefloorid:  number;
+    officenumber:  string;
+       
+}

@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpHandler, HttpRequest } from 
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap, concat } from 'rxjs/operators';
 
-import { Person } from './person';
+import { Person, } from './person';
 import { MessageService } from './message.service';
 import { PeopleComponent } from './people/people.component';
 import { Schools, Education, DegreeTypes } from './datatables/school';
+import { OfficeLocation, RoomLocation } from './datatables/officelocation';
 import { JobTitle } from './datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
 import { LegalSubDepartments } from './datatables/departmenttables';
@@ -31,6 +32,7 @@ export class APIService {
   schools: Schools[];
   education: Education[];
   degrees: DegreeTypes[];
+  location: RoomLocation[];
   
  
   constructor(
@@ -74,6 +76,10 @@ export class APIService {
   }
   getDegrees(url): Observable<DegreeTypes[]> {
     return this.http.get<DegreeTypes[]>(url)
+  }
+
+  getLocation(url): Observable<RoomLocation[]> {
+    return this.http.get<RoomLocation[]>(url)
   }
 
 
