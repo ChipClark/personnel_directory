@@ -438,6 +438,7 @@ export class PeopleComponent implements OnInit {
     let barnum = "";
     if (currentperson.licenses) {
       for (let i = 0; i < currentperson.licenses.length; i++) {
+        console.log("number of bar licences" + i);
         if (!currentperson.licenses[i].licensenumber) break;
         barnum = barnum + currentperson.licenses[i].licensestate
           + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
