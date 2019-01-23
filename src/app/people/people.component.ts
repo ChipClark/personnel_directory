@@ -284,9 +284,7 @@ export class PeopleComponent implements OnInit {
         }
       });
       this.route.queryParamMap.subscribe(params => {
-        console.log('firing');
         const queryStrings: any = this.route.queryParamMap;
-        console.log(queryStrings.source.value);
         this.executeQueryParams(queryStrings.source.value);
       });
   }
@@ -520,7 +518,13 @@ export class PeopleComponent implements OnInit {
         break;
     }
     //console.log(query);
-
+    if(keys[0] === 'ind') {
+      this._router.navigate([''], {
+        queryParams: {
+          ...query
+        }
+      });
+    } else {
     if (query === "") {
       query = null;
     }
@@ -530,19 +534,18 @@ export class PeopleComponent implements OnInit {
       },
       queryParamsHandling: 'merge',
     });
+    }
   }
 
   clearQueryParams(): void {
-    //console.log('clearing params');
+    this.clearFilters();
     this._router.navigate([''], {
       queryParams: {
-      },
+      }
     });
-    this.clearFilters();
   }
 
   executeQueryParams(queryStrings): void {
-    console.log("in ExecuteQuery");
     const queries = Object.entries(queryStrings);
     this.clearFilters();
     for (const q of queries) {
@@ -596,7 +599,7 @@ export class PeopleComponent implements OnInit {
     this.searchTerm = null;
     this.alpha = null;
     this.individualid = null;
-    this.pageNumber = 1;
+    this.pageNumber = null;
   }
 
   includeCities(cityid): void {
@@ -644,6 +647,7 @@ export class PeopleComponent implements OnInit {
     }
     this.addQueryParams({ other: this.otherArray.length > 0 ? this.otherArray.toString() : null })
   }
+
 
   // ************************************
   //
