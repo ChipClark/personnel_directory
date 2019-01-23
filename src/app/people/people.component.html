@@ -123,12 +123,14 @@
     </div>
     <br clear=all>
 <div class="container">
-    <div class="row">
+    
+        <div class="row">
             <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId| other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 trackBy: person?.pkpersonid"
                 #nGForArray>
                 <div class="col">
+                    <div *ngIf="filtered?.length == 1" class="back"><button class="backbutton" (click)="goBack()">Back</button></div>
                     <div class="people">
                         <div class="userphoto">
                             <div [innerHTML]="getPhoto(person.photo)"></div>
@@ -159,14 +161,12 @@
                                         <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
                                         &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
                                         &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
-                                        &nbsp;<span *ngIf="filtered?.length == 1" class="normal-font"><a routerLink="" (click)="goBack()">Back</a></span>
                                 </div><br>
-                                {{person.officelocation.officelocationcode}} Office Number: 
-                                <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{officeFloor(person.officefloorid)}}"
-                                    class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a> Floor:
-                                {{person.officefloorid}}<br>
+                                {{person.officelocation.officelocationcode}} Office Number:
+                                <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officefloorid}}"
+                                    class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
 
-                                <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
+                                
                                 <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
 
                                 <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant">

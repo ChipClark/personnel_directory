@@ -12,6 +12,7 @@ import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 
 // datatables 
 import { PersonPage } from '../datatables/AllTextFields';
+import { OfficeLocation, RoomLocation } from '../datatables/officelocation';
 import { Schools, Education, DegreeTypes } from '../datatables/school';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
@@ -45,6 +46,7 @@ export class PeopleComponent implements OnInit {
   public degreeTypesURL = 'http://am-api:3030/api/v1/degreetypes'
   public educationURL = 'http://am-api:3030/api/v1/education';
   public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
+  public roomLocationURL = './assets/location.json'
 
  
   // Filters
@@ -75,6 +77,7 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
+  
   public cities = [
     {
       'city': 'CC',
@@ -169,7 +172,7 @@ export class PeopleComponent implements OnInit {
       'id': '(RE)'
     }
   ];
-
+  
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
@@ -189,7 +192,8 @@ export class PeopleComponent implements OnInit {
   people: Person[];
   person: any;
   activePeople: Person[];
-  completePerson: PersonPage[];
+  roomLocation: RoomLocation[];
+  //completePerson: PersonPage[];
   relationships: PersonRelationship[];
   schools: Schools[];
   phone: Phones[];
@@ -217,6 +221,7 @@ export class PeopleComponent implements OnInit {
 
   ngOnInit() {
     this.getLegalSubDepts();
+    this.getRoomLocation();
     this.getPeople();
     //this.getSchools();
   }
@@ -225,6 +230,13 @@ export class PeopleComponent implements OnInit {
     this.staffService.getLegalSub(this.legalsubdeptsURL)
       .subscribe(legalsubdepts => {
         this.legalsubdepts = legalsubdepts;
+      });
+  }
+
+  getRoomLocation(): any {
+    this.staffService.getLocation(this.roomLocationURL)
+      .subscribe(roomLocation => {
+        this.roomLocation = roomLocation;
       });
   }
 
@@ -237,10 +249,12 @@ export class PeopleComponent implements OnInit {
 
         // **************************
         // build list of supportedpeople;
+        // build officefloorid for each person
 
         for (let i = 0; i < this.people.length; i++) {
           if (this.people[i]) {
-            this.getSubDept(this.people[i])
+            this.getSubDept(this.people[i]);
+            this.getFloorLocation(this.people[i]);
           }
           if (this.people[i].personrelationship) {
             const relatedArray = this.people[i].personrelationship;
@@ -271,6 +285,7 @@ export class PeopleComponent implements OnInit {
       });
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
+    
   }
 
   buildURL() {
@@ -291,6 +306,22 @@ export class PeopleComponent implements OnInit {
   getSubDept(currentperson: any) {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+    }
+    //currentperson.officefloorid = this.completelocation.find( obj => {
+    //  return obj.officelocationid === currentperson.officelocationid && obj.officeid === currentperson.officeid;
+    //}).officefloorid;
+  }
+
+  getFloorLocation(currentperson: Person) {
+    let floorID = this.roomLocation.find(p => {
+        return p.officelocationid === currentperson.officelocationid  && p.officenumber=== currentperson.officenumber
+    });
+    if (floorID) {
+      //  The following line will be used for the internal maps 
+      //currentperson.officefloorid = floorID.officefloorid;
+      
+      // The following line adjust the maps to work with Adam's maps
+      currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
     }
   }
 
@@ -393,38 +424,38 @@ export class PeopleComponent implements OnInit {
   officeFloor(id): number {
     var floor;
     switch (id) {
-      case 4:
-        floor = 2;
-        break;
-      case 5:
-        floor = 3;
-        break;
-      case 12:
-        floor = 1;
-        break;
-      case 13:
-        floor = 6;
-        break;
-      case 18:
-        floor = 7;
-        break;
-      case 26:
+      case 1:
         floor = 11;
         break;
-      case 27:
+      case 2:
         floor = 16;
         break;
-      case 28:
+      case 3:
         floor = 12;
         break;
-      case 29:
+      case 4:
         floor = 13;
+        break;
+      case 5:
+        floor = 2;
+        break;
+      case 6:
+        floor = 3;
+        break;
+      case 7:
+        floor = 14;
+        break;
+      case 8:
+        floor = 15;
+        break;
+      case 9:
+        floor = 7;
         break;
       case 10:
         floor = 1;
         break;
-      case 1:
-        floor = 11;
+      case 11:
+        floor = 6;
         break;
     }
     return floor;
@@ -434,6 +465,7 @@ export class PeopleComponent implements OnInit {
     let barnum = "";
     if (currentperson.licenses) {
       for (let i = 0; i < currentperson.licenses.length; i++) {
+        //console.log("number of bar licences" + i);
         if (!currentperson.licenses[i].licensenumber) break;
         barnum = barnum + currentperson.licenses[i].licensestate
           + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
@@ -465,7 +497,7 @@ export class PeopleComponent implements OnInit {
         this.addQueryParams({ role: null });
         break;
       case "ind":
-        this.addQueryParams({ ind: null });
+        this.addQueryParams({ ind: null });    
         break;
     }
   }
@@ -516,6 +548,7 @@ export class PeopleComponent implements OnInit {
   }
 
   executeQueryParams(queryStrings): void {
+    console.log("in ExecuteQuery");
     const queries = Object.entries(queryStrings);
     for (const q of queries) {
       switch (q[0]) {
@@ -609,6 +642,7 @@ export class PeopleComponent implements OnInit {
   //
   // ************************************
 
+  /*  comment out to the end  
   buildCompletePerson(): any {
 
     var tempTable: any;
@@ -690,6 +724,7 @@ export class PeopleComponent implements OnInit {
 
     return attorneyeducation;
   }
+  */
 
 
 

@@ -89,8 +89,17 @@
   top: -10px;
 }
 
+.back {
+  position: absolute;
+  top: -50px;
+  float: left;
+  left: 350px;
+}
 
-
+.backbutton {
+  font-size: 16pt;
+  font-weight: bold;
+}
 
 .username {
   font-size:16pt;

@@ -22,11 +22,12 @@ export class OfficeLocation {
     active: true;
 }
 
-export class OfficeFloors {
-    officefloorid: number;
-    officelocationid: number;
-    officefloorname: string;
-    officefloormapfile: string;
-    note: string;
-    active: boolean;
+
+export class RoomLocation {
+    city: string;
+    cityfullname:  string;
+    officelocationid:  number;
+    officefloorid:  number;
+    officenumber:  string;
+       
 }
