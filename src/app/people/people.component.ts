@@ -48,7 +48,7 @@ export class PeopleComponent implements OnInit {
   public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
   public roomLocationURL = './assets/location.json'
 
- 
+
   // Filters
   public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
   public All = this.activepeopleFilter;
@@ -77,7 +77,7 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
-  
+
   public cities = [
     {
       'city': 'CC',
@@ -172,7 +172,7 @@ export class PeopleComponent implements OnInit {
       'id': '(RE)'
     }
   ];
-  
+
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
@@ -283,9 +283,12 @@ export class PeopleComponent implements OnInit {
           }
         }
       });
-    const queryStrings: any = this.route.queryParamMap;
-    this.executeQueryParams(queryStrings.source.value);
-    
+      this.route.queryParamMap.subscribe(params => {
+        console.log('firing');
+        const queryStrings: any = this.route.queryParamMap;
+        console.log(queryStrings.source.value);
+        this.executeQueryParams(queryStrings.source.value);
+      });
   }
 
   buildURL() {
@@ -314,12 +317,12 @@ export class PeopleComponent implements OnInit {
 
   getFloorLocation(currentperson: Person) {
     let floorID = this.roomLocation.find(p => {
-        return p.officelocationid === currentperson.officelocationid  && p.officenumber=== currentperson.officenumber
+      return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
     });
     if (floorID) {
       //  The following line will be used for the internal maps 
       //currentperson.officefloorid = floorID.officefloorid;
-      
+
       // The following line adjust the maps to work with Adam's maps
       currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
     }
@@ -388,7 +391,7 @@ export class PeopleComponent implements OnInit {
     //phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
     //return this.sanitizer.bypassSecurityTrustHtml(phonenum);  }
   }
-  
+
   goBack(): void {
     this.clearALL("ind");
   }
@@ -497,7 +500,7 @@ export class PeopleComponent implements OnInit {
         this.addQueryParams({ role: null });
         break;
       case "ind":
-        this.addQueryParams({ ind: null });    
+        this.addQueryParams({ ind: null });
         break;
     }
   }
@@ -535,21 +538,13 @@ export class PeopleComponent implements OnInit {
       queryParams: {
       },
     });
-    this.staffDeptId = 0;
-    this.cityidArray = [4, 1, 2, 3, 5];
-    this.roleidArray = [13, 2, 1, 10, 20];
-    this.otherArray = [];
-    this.roleCheckAll = true;
-    this.cityid = null;
-    this.roleid = null;
-    this.searchTerm = null;
-    this.alpha = null;
-    this.individualid = null;
+    this.clearFilters();
   }
 
   executeQueryParams(queryStrings): void {
     console.log("in ExecuteQuery");
     const queries = Object.entries(queryStrings);
+    this.clearFilters();
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
@@ -588,6 +583,20 @@ export class PeopleComponent implements OnInit {
 
       }
     }
+  }
+
+  clearFilters() {
+    this.staffDeptId = 0;
+    this.cityidArray = [4, 1, 2, 3, 5];
+    this.roleidArray = [13, 2, 1, 10, 20];
+    this.otherArray = [];
+    this.roleCheckAll = true;
+    this.cityid = null;
+    this.roleid = null;
+    this.searchTerm = null;
+    this.alpha = null;
+    this.individualid = null;
+    this.pageNumber = 1;
   }
 
   includeCities(cityid): void {
