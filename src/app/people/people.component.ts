@@ -307,9 +307,6 @@ export class PeopleComponent implements OnInit {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
-    //currentperson.officefloorid = this.completelocation.find( obj => {
-    //  return obj.officelocationid === currentperson.officelocationid && obj.officeid === currentperson.officeid;
-    //}).officefloorid;
   }
 
   getFloorLocation(currentperson: Person) {
@@ -318,10 +315,9 @@ export class PeopleComponent implements OnInit {
     });
     if (floorID) {
       //  The following line will be used for the internal maps 
-      //currentperson.officefloorid = floorID.officefloorid;
-      
-      // The following line adjust the maps to work with Adam's maps
-      currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
+      currentperson.officefloorid = floorID.officefloorid;
+      currentperson.officecity = floorID.city;
+      currentperson.officecityfullname = floorID.cityfullname;      
     }
   }
 

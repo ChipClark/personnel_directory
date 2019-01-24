@@ -36,6 +36,8 @@ export class Person {
   county: string;
   country: string;
   officelocationid: number;
+  officecity: string;
+  officecityfullname: string;
   hrdepartmentid: number;
   jobtitleid: number;
   officenumber: string;
