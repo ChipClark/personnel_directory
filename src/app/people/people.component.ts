@@ -316,6 +316,7 @@ export class PeopleComponent implements OnInit {
     if (floorID) {
       //  The following line will be used for the internal maps 
       currentperson.officefloorid = floorID.officefloorid;
+      currentperson.floornumber = this.officeFloor(floorID.officefloorid);
       currentperson.officecity = floorID.city;
       currentperson.officecityfullname = floorID.cityfullname;      
     }
@@ -412,46 +413,46 @@ export class PeopleComponent implements OnInit {
     return "";
   }
 
-  getOfficeFloor(id): number {
+  getOfficeFloor(id): string {
     let floorNum = id;
     return this.officeFloor(floorNum);
   }
 
-  officeFloor(id): number {
+  officeFloor(id): string {
     var floor;
     switch (id) {
       case 1:
-        floor = 11;
+        floor = "26";
         break;
       case 2:
-        floor = 16;
+        floor = "27";
         break;
       case 3:
-        floor = 12;
+        floor = "28";
         break;
       case 4:
-        floor = 13;
+        floor = "29";
         break;
       case 5:
-        floor = 2;
+        floor = "04";
         break;
       case 6:
-        floor = 3;
+        floor = "05";
         break;
       case 7:
-        floor = 14;
+        floor = "26";
         break;
       case 8:
-        floor = 15;
+        floor = "27";
         break;
       case 9:
-        floor = 7;
+        floor = "18";
         break;
       case 10:
-        floor = 1;
+        floor = "12";
         break;
       case 11:
-        floor = 6;
+        floor = "13";
         break;
     }
     return floor;
