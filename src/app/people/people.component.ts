@@ -491,11 +491,12 @@ export class PeopleComponent implements OnInit {
     this.searchTerm = null;
     switch (key) {
       case "alpha":
-        this.addQueryParams({ alpha: null });
-        console.log('alpha');
+      this.addQueryParams({ alpha: null, page: null });
         break;
       case "city":
-        this.addQueryParams({ city: null });
+        if (this.cityid) {
+          this.addQueryParams({ city: null, page: null });
+        }
         break;
       case "role":
         this.addQueryParams({ role: null });
@@ -504,7 +505,6 @@ export class PeopleComponent implements OnInit {
         this.addQueryParams({ ind: null });
         break;
     }
-    this.addQueryParams({ page: null });
   }
 
   addQueryParams(query): void {
@@ -522,22 +522,22 @@ export class PeopleComponent implements OnInit {
         break;
     }
     //console.log(query);
-    if(keys[0] === 'ind') {
+    if (keys[0] === 'ind') {
       this._router.navigate([''], {
         queryParams: {
           ...query
         }
       });
     } else {
-    if (query === "") {
-      query = null;
-    }
-    this._router.navigate([''], {
-      queryParams: {
-        ...query
-      },
-      queryParamsHandling: 'merge',
-    });
+      if (query === "") {
+        query = null;
+      }
+      this._router.navigate([''], {
+        queryParams: {
+          ...query
+        },
+        queryParamsHandling: 'merge',
+      });
     }
   }
 

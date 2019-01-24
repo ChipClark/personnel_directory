@@ -5,7 +5,7 @@
     <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
         <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
             <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value="" class="generalbtn normal-font"
-                (click)="alpha ? addQueryParams({alpha: null, page: null}) : addQueryParams({alpha: null})">&nbsp;Clear&nbsp;
+                (click)="addQueryParams({alpha: null, page: null, search: null});searchTerm = null">&nbsp;Clear&nbsp;
         </label>
         <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a" *ngFor="let a of alphabets">
             <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"
@@ -21,7 +21,7 @@
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
                 <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
-                    [value]="" (click)="cityid ? addQueryParams({city: null, page: null}) : addQueryParams({city: null})">&nbsp;All&nbsp;
+                    [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
                 <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
@@ -48,7 +48,7 @@
         <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
                 <input type="radio" name="options" id="roleoption1" class="generalbtn med-font" [(ngModel)]="roleid"
-                    [value]="" (click)="roleid ? addQueryParams({role: null, page: null}) : addQueryParams({role: null})">&nbsp;All&nbsp;
+                    [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
                 <input type="radio" name="options" id="roleoption2" class="generalbtn med-font" [(ngModel)]="roleid"
