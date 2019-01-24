@@ -492,6 +492,7 @@ export class PeopleComponent implements OnInit {
     switch (key) {
       case "alpha":
         this.addQueryParams({ alpha: null });
+        console.log('alpha');
         break;
       case "city":
         this.addQueryParams({ city: null });
@@ -503,6 +504,7 @@ export class PeopleComponent implements OnInit {
         this.addQueryParams({ ind: null });
         break;
     }
+    this.addQueryParams({ page: null });
   }
 
   addQueryParams(query): void {
