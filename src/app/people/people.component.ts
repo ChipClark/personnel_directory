@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 // datatables 
 import { PersonPage } from '../datatables/AllTextFields';
@@ -216,7 +217,8 @@ export class PeopleComponent implements OnInit {
     private http: HttpClient,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -391,7 +393,7 @@ export class PeopleComponent implements OnInit {
   }
 
   goBack(): void {
-    this.clearALL("ind");
+    this.location.back();
   }
 
   ifCPR(currentperson: any): SafeHtml {
