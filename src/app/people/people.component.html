@@ -9,7 +9,7 @@
         </label>
         <label class="normal-font btn btn-outline-secondary blur" [class.active]="alpha == a" *ngFor="let a of alphabets">
             <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"
-                (click)="addQueryParams({alpha: a})">&nbsp;{{ a }}
+                (click)="addQueryParams({alpha: a, page: null})">&nbsp;{{ a }}
         </label>
     </div>
 </div>
@@ -25,23 +25,23 @@
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
                 <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
-                    value="4" (click)="addQueryParams({city: 4})">&nbsp;CC&nbsp;
+                    value="4" (click)="addQueryParams({city: 4, page: null})">&nbsp;CC&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
                 <input type="radio" name="options" id="option3" class="generalbtn" [(ngModel)]="cityid" [value]="1"
-                    value="1" (click)="addQueryParams({city: 1})">&nbsp;LA&nbsp;
+                    value="1" (click)="addQueryParams({city: 1, page: null})">&nbsp;LA&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
                 <input type="radio" name="options" id="option4" class="generalbtn" [(ngModel)]="cityid" [value]="2"
-                    value="2" (click)="addQueryParams({city: 2})">&nbsp;OC&nbsp;
+                    value="2" (click)="addQueryParams({city: 2, page: null})">&nbsp;OC&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
                 <input type="radio" name="options" id="option5" class="generalbtn" [(ngModel)]="cityid" [value]="3"
-                    value="3" (click)="addQueryParams({city: 3})">&nbsp;SD&nbsp;
+                    value="3" (click)="addQueryParams({city: 3, page: null})">&nbsp;SD&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
                 <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
-                    value="5" (click)="addQueryParams({city: 5})">&nbsp;SF&nbsp;
+                    value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
             </label>
         </div>
 
@@ -52,19 +52,19 @@
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
                 <input type="radio" name="options" id="roleoption2" class="generalbtn med-font" [(ngModel)]="roleid"
-                    [value]="13" (click)="addQueryParams({role: 13})">&nbsp;Partners&nbsp;
+                    [value]="13" (click)="addQueryParams({role: 13, page: null})">&nbsp;Partners&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
                 <input type="radio" name="options" id="roleoption4" class="generalbtn med-font" [(ngModel)]="roleid"
-                    [value]="1" (click)="addQueryParams({role: 1})">&nbsp;Associates&nbsp;
+                    [value]="1" (click)="addQueryParams({role: 1, page: null})">&nbsp;Associates&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 10" id="Role5">
                 <input type="radio" name="options" id="roleoption5" class="generalbtn ned-font" [(ngModel)]="roleid"
-                    [value]="10" (click)="addQueryParams({role: 10})">&nbsp;Paralegal&nbsp;
+                    [value]="10" (click)="addQueryParams({role: 10, page: null})">&nbsp;Paralegal&nbsp;
             </label>&nbsp;
             <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 20" id="Role13">
                 <input type="radio" name="options" id="roleoption13" class="generalbtn med-font" [(ngModel)]="roleid"
-                    [value]="20" (click)="addQueryParams({role: 20})">&nbsp;Staff&nbsp;
+                    [value]="20" (click)="addQueryParams({role: 20, page: null})">&nbsp;Staff&nbsp;
             </label>&nbsp;
         </div>
     </div>
