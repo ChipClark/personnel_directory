@@ -42,6 +42,7 @@ export class Person {
   jobtitleid: number;
   officenumber: string;
   officefloorid: number;
+  floornumber: string;
   employmentstatus: string;
   employmentstartdate: string;
   employmentterminationdate: string;

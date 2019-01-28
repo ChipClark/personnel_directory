@@ -8,7 +8,6 @@ import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl
 import { InlineSVGModule } from 'ng-inline-svg';
 import * as Svg from 'svg.js'
 
-import { OfficeFloors, OfficeLocation } from '../datatables/officelocation';
 import { HighlightDelayBarrier } from 'blocking-proxy/built/lib/highlight_delay_barrier';
 
 @Component({
@@ -31,16 +30,6 @@ export class MapComponent implements OnInit {
   public searchTerm = null;
   public individualid = null;
 
-  public la28 = ['o2859', 'o2855', 'o2854', 'o2852', 'o2850', 'o2849', 'o2848', 'o2847', 
-    'o2846', 'o2842', 'o2839', 'o2838', 'o2837', 'o2836', 'o2835', 'o2831', 'o2830', 
-    'o2829', 'o2827', 'o2826', 'o2823', 'o2822', 'o2821', 'o2817', 'o2817', 'o2816',
-    'o2815', 'o2813', 'o2812', 'o2845', 'o2857B', 'o2857A', 'o2832D', 'o2832B', 'o2832A', 
-    'o2819D', 'o2819C', 'o2819B', 'o2819A', 'o2801', 'o2878', 'o2853', 'o2841', 'o2825',
-    'o2818', 'o2814', 'o2808', 'o2805', 'o2804', 'o2803'  
-  ]
-
-  floors: OfficeFloors[];
-  officelocations: OfficeLocation[];
   people: Person[];
   regions: any[];
 
@@ -59,26 +48,13 @@ export class MapComponent implements OnInit {
     this.executeQueryParams(queryStrings.source.value);
   }
 
-  getOfficeFloors(): void {
-    this.staffService.getOfficeFloors(this.floorURL)
-    .subscribe(floors => {
-      this.floors = floors;
-    });
-  }
-
-  getOfficeLocations(): void {
-    this.staffService.getOfficeLocations(this.officelocationURL)
-    .subscribe(officelocations => {
-      this.officelocations = officelocations;
-    });
-  }
-
   sanitizeScript(sanitizer: DomSanitizer) { }
 
 
   displayMap(): SafeHtml {
-    var mapIMG;
+    var mapIMG, floor;
     const queryStrings: any = this.route.queryParamMap;
+    //console.log(queryStrings.source);
     this.executeQueryParams(queryStrings.source.value);
     mapIMG = '<object id="svgObject" data="../../assets/' + this.cityName + '-' + this.floorID + '.svg" type="image/svg+xml" ></object>';
     return this.sanitizer.bypassSecurityTrustHtml(mapIMG);
@@ -91,31 +67,31 @@ export class MapComponent implements OnInit {
     }
   }
 
-  labelMap(city: string, floor: number): string {
+  labelMap(): string {
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
     //console.log(city);
     //console.log(floor);
     var label;
 
-    switch (city) {
-      case 'cc':
+    switch (this.cityName) {
+      case 'CC':
         label = "Century City:&nbsp;";
         break;
-      case 'la':
+      case 'LA':
         label = "Los Angeles:&nbsp;";
         break;
-      case 'oc':
+      case 'OC':
         label = "Orange County:&nbsp;";
         break;
-      case 'sd':
+      case 'SD':
         label = "Dan Diego:&nbsp;";
         break;
-      case 'sf':
+      case 'SF':
         label = "San Francisco:&nbsp;";
         break;
     }
-    label = label + floor + "th&nbsp;Floor&nbsp;";
+    label = label + this.floorID + "th&nbsp;Floor&nbsp;";
 
     return label;
   }
@@ -202,7 +178,11 @@ export class MapComponent implements OnInit {
           this.cityName = q[1];
           break;
         case 'floor':
-          this.floorID = +q[1];
+          let floor = +q[1];
+          if (floor < 10) {
+            this.floorID = "0" + floor.toString();
+          }
+          else (this.floorID = floor.toString());
           break;
         case 'offid':
           this.officeID = +q[1];
