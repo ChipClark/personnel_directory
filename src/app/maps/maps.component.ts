@@ -55,6 +55,8 @@ export class MapComponent implements OnInit {
     //this.getOfficeFloors();
     //this.getOfficeLocations();
     this.colorOffice('o2849');
+    const queryStrings: any = this.route.queryParamMap;
+    this.executeQueryParams(queryStrings.source.value);
   }
 
   getOfficeFloors(): void {
@@ -83,13 +85,10 @@ export class MapComponent implements OnInit {
   }
 
   highlightOffice(offid: string): void {
-    var highlight;
-    let a = document.getElementById('svgObject') 
-    //highlight = a.DOCUMENT_FRAGMENT_NODE; 
-    console.log(a);
-    //highlight.setAttribute("fill", "red");
-    console.log(offid);
-    //return highlight;
+    const el = document.getElementById(offid);
+    if (el && el.getAttribute('id')) {
+      el.setAttribute('fill', '#ff8a8a');
+    }
   }
 
   labelMap(city: string, floor: number): string {

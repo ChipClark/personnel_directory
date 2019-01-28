@@ -1,6 +1,6 @@
-<div id="map" [innerHTML]="displayMap()"></div>
+<div id="map" [inlineSVG]="'http://localhost:4200/assets/la-29.svg'" [onSVGLoaded]="highlightOffice('o' + officeID)" #svgEl></div>
 
-<div id="office" [innerHTML]="highlightOffice('2854')"></div>
+<div id="office"></div>
 
 <div id="map label" [innerHTML]="labelMap('la', 26)"></div>
 

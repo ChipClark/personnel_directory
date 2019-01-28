@@ -27,6 +27,7 @@ import { CityArrayPipe } from './pipes/cityArray.pipe';
 import { RoleArrayPipe } from './pipes/roleArray.pipe';
 import { StaffDeptPipe } from './pipes/staffDept.pipe';
 import { OtherPipe } from './pipes/other.pipe';
+import { InlineSVGModule } from 'ng-inline-svg';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { OtherPipe } from './pipes/other.pipe';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    InlineSVGModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
