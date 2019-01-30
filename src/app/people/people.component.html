@@ -75,35 +75,24 @@
                 <label *ngFor="let c of cities"><input type="checkbox" [value]="c.id" (change)="includeCities(c.id)" [ngModel]="cityIsChecked(c.id)">&nbsp;{{c.city}}&nbsp;</label>
             </div>
         </div>
-        <!--
-        <div id="rolecheck" class="row checkbox">
-            <label class="col-md-2" for="">Role:</label>
-            <div class="col-md-10">
-                    <label><input type="checkbox" (change)="roleIsChecked(999) ? roleidArray = [] : roleidArray = [13, 2, 1, 10, 20];addQueryParams({roles: roleidArray.toString(), page: null})" [ngModel]="roleIsChecked(999)">&nbsp;All&nbsp;</label>
-                    <label *ngFor="let r of roles"><input type="checkbox" [value]="r.id" (change)="includeRoles(r.id)" [ngModel]="roleIsChecked(r.id)">&nbsp;{{r.role}}&nbsp;</label>
-            </div>
-        </div>
-    -->
         <div class="row">
             <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
-                <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
+                <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, timekeeperdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
                     <option [ngValue]="0">All</option>
                     <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
                 </select>
             </div>
         </div>
-        <!--
         <div class="row">
-            <label class="col-md-2" for="staffdept">Timekeeper Dept:&nbsp;&nbsp; </label>
+            <label class="col-md-2" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
-                <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
+                <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, staffdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
                         <option [ngValue]="0">All</option>
                     <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
                 </select>
             </div>
         </div>
-    -->
         <div id="othercheck" class="row checkbox">
             <label class="col-md-2" for="">Other:</label>
             <div class="col-md-10">

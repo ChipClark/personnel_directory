@@ -131,7 +131,7 @@ export class PeopleComponent implements OnInit {
     },
     {
       'name': 'Paralegal',
-      'id': 2
+      'id': 10
     },
     {
       'name': 'Human Resources',
@@ -189,7 +189,7 @@ export class PeopleComponent implements OnInit {
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
-  public timekeeperDeptID = 0;
+  public timekeeperDeptId = 0;
   public cityidArray = [4, 1, 2, 3, 5];
   public roleidArray = [13, 1, 10, 20];
   public roleCheckAll = true;
@@ -380,7 +380,7 @@ export class PeopleComponent implements OnInit {
     if (currentperson.firstname == currentperson.preferredfirstname || !currentperson.preferredfirstname) {
       return null;
     }
-    else pName = '"' + currentperson.preferredfirstname; + '"';
+    else pName = '"' + currentperson.preferredfirstname + '"';
     return pName;
   }
 
@@ -538,10 +538,6 @@ export class PeopleComponent implements OnInit {
         case 'ind':
           this.individualid = values[0];
           break;
-        // case 'page':
-        //   this.page = values[0];
-        //   this.pageNumber = this.page;
-        //   break;
       }
     }
     //console.log(query);
@@ -607,10 +603,10 @@ export class PeopleComponent implements OnInit {
           this.staffDeptId = +q[1];
           this.showAdvFilter = true;
           break;
-        //case 'timekeeperDept':
-        //  this.timekeeperDeptID = +q[1];
-        //  this.showAdvFilter = true;
-        //  break;
+        case 'timekeeperdept':
+          this.timekeeperDeptId = +q[1];
+          this.showAdvFilter = true;
+          break;
         case 'other':
           this.otherArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
@@ -621,6 +617,7 @@ export class PeopleComponent implements OnInit {
 
   clearFilters() {
     this.staffDeptId = 0;
+    this.timekeeperDeptId = 0; 
     this.cityidArray = [4, 1, 2, 3, 5];
     this.roleidArray = [13, 2, 1, 10, 20];
     this.otherArray = [];
