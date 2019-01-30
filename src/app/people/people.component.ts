@@ -380,7 +380,7 @@ export class PeopleComponent implements OnInit {
     if (currentperson.firstname == currentperson.preferredfirstname || !currentperson.preferredfirstname) {
       return null;
     }
-    else pName = '"' + currentperson.preferredfirstname; + '"';
+    else pName = '"' + currentperson.preferredfirstname + '"';
     return pName;
   }
 
