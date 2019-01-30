@@ -44,7 +44,6 @@
                     value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
             </label>
         </div>
-
         <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
                 <input type="radio" name="options" id="roleoption1" class="generalbtn med-font" [(ngModel)]="roleid"
@@ -76,6 +75,7 @@
                 <label *ngFor="let c of cities"><input type="checkbox" [value]="c.id" (change)="includeCities(c.id)" [ngModel]="cityIsChecked(c.id)">&nbsp;{{c.city}}&nbsp;</label>
             </div>
         </div>
+        <!--
         <div id="rolecheck" class="row checkbox">
             <label class="col-md-2" for="">Role:</label>
             <div class="col-md-10">
@@ -83,6 +83,7 @@
                     <label *ngFor="let r of roles"><input type="checkbox" [value]="r.id" (change)="includeRoles(r.id)" [ngModel]="roleIsChecked(r.id)">&nbsp;{{r.role}}&nbsp;</label>
             </div>
         </div>
+    -->
         <div class="row">
             <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
@@ -92,6 +93,7 @@
                 </select>
             </div>
         </div>
+        <!--
         <div class="row">
             <label class="col-md-2" for="staffdept">Timekeeper Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
@@ -101,6 +103,7 @@
                 </select>
             </div>
         </div>
+    -->
         <div id="othercheck" class="row checkbox">
             <label class="col-md-2" for="">Other:</label>
             <div class="col-md-10">
@@ -142,8 +145,8 @@
                                 <strong>
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.displayname}}</button> <!--   {{person.pkpersonid}}  -->
-                                </strong>&nbsp; {{getPrefName(person.preferredfirstname)}} <br>
+                                        {{person.firstname}} {{person.lastname}}</button> <!--   {{person.pkpersonid}}  -->
+                                </strong>&nbsp; {{getPrefName(person)}} <br>
 
                             </div>
 

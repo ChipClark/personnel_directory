@@ -122,6 +122,18 @@ export class PeopleComponent implements OnInit {
 
   public staffDept = [
     {
+      'name': 'Partner',
+      'id': 13
+    },
+    {
+      'name': 'Associate',
+      'id': 1
+    },
+    {
+      'name': 'Paralegal',
+      'id': 2
+    },
+    {
       'name': 'Human Resources',
       'id': 3
     },
@@ -177,6 +189,7 @@ export class PeopleComponent implements OnInit {
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
+  public timekeeperDeptID = 0;
   public cityidArray = [4, 1, 2, 3, 5];
   public roleidArray = [13, 1, 10, 20];
   public roleCheckAll = true;
@@ -185,6 +198,7 @@ export class PeopleComponent implements OnInit {
   public roleid = null;
   public searchTerm = null;
   public alpha = null;
+  public page = null;
   public alphabets =
     ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   public individualid = null;
@@ -361,10 +375,13 @@ export class PeopleComponent implements OnInit {
     return emailString;
   }
 
-  getPrefName(prefName: string): string {
-    if (!prefName) return "";
-    prefName = '"' + prefName + '"';
-    return prefName;
+  getPrefName(currentperson: any): string {
+    let pName;
+    if (currentperson.firstname == currentperson.preferredfirstname || !currentperson.preferredfirstname) {
+      return null;
+    }
+    else pName = '"' + currentperson.preferredfirstname; + '"';
+    return pName;
   }
 
   getPhone(currentperson: any): SafeHtml | SafeValue {
@@ -499,10 +516,10 @@ export class PeopleComponent implements OnInit {
         }
         break;
       case "role":
-        this.addQueryParams({ role: null });
+        this.addQueryParams({ role: null, page: null });
         break;
       case "ind":
-        this.addQueryParams({ ind: null });
+        this.addQueryParams({ ind: null, page: null });
         break;
     }
   }
@@ -510,16 +527,22 @@ export class PeopleComponent implements OnInit {
   addQueryParams(query): void {
     const keys = Object.keys(query);
     const values = Object.values(query);
-    switch (keys[0]) {
-      case 'city':
-        this.cityid = values[0];
-        break;
-      case 'role':
-        this.roleid = values[0];
-        break;
-      case 'ind':
-        this.individualid = values[0];
-        break;
+    for(let i = 0; i < keys.length; i++) {
+      switch (keys[i]) {
+        case 'city':
+          this.cityid = values[0];
+          break;
+        case 'role':
+          this.roleid = values[0];
+          break;
+        case 'ind':
+          this.individualid = values[0];
+          break;
+        // case 'page':
+        //   this.page = values[0];
+        //   this.pageNumber = this.page;
+        //   break;
+      }
     }
     //console.log(query);
     if (keys[0] === 'ind') {
@@ -584,6 +607,10 @@ export class PeopleComponent implements OnInit {
           this.staffDeptId = +q[1];
           this.showAdvFilter = true;
           break;
+        //case 'timekeeperDept':
+        //  this.timekeeperDeptID = +q[1];
+        //  this.showAdvFilter = true;
+        //  break;
         case 'other':
           this.otherArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
