@@ -9,6 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 // datatables 
 import { PersonPage } from '../datatables/AllTextFields';
@@ -48,7 +49,7 @@ export class PeopleComponent implements OnInit {
   public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
   public roomLocationURL = './assets/location.json'
 
- 
+
   // Filters
   public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
   public All = this.activepeopleFilter;
@@ -77,7 +78,7 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
-  
+
   public cities = [
     {
       'city': 'CC',
@@ -120,6 +121,18 @@ export class PeopleComponent implements OnInit {
   ];
 
   public staffDept = [
+    {
+      'name': 'Partner',
+      'id': 13
+    },
+    {
+      'name': 'Associate',
+      'id': 1
+    },
+    {
+      'name': 'Paralegal',
+      'id': 10
+    },
     {
       'name': 'Human Resources',
       'id': 3
@@ -172,10 +185,11 @@ export class PeopleComponent implements OnInit {
       'id': '(RE)'
     }
   ];
-  
+
   @ViewChildren('nGForArray') filtered;
   public otherArray = [];
   public staffDeptId = 0;
+  public timekeeperDeptId = 0;
   public cityidArray = [4, 1, 2, 3, 5];
   public roleidArray = [13, 1, 10, 20];
   public roleCheckAll = true;
@@ -184,6 +198,7 @@ export class PeopleComponent implements OnInit {
   public roleid = null;
   public searchTerm = null;
   public alpha = null;
+  public page = null;
   public alphabets =
     ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   public individualid = null;
@@ -216,7 +231,8 @@ export class PeopleComponent implements OnInit {
     private http: HttpClient,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -283,9 +299,10 @@ export class PeopleComponent implements OnInit {
           }
         }
       });
-    const queryStrings: any = this.route.queryParamMap;
-    this.executeQueryParams(queryStrings.source.value);
-    
+      this.route.queryParamMap.subscribe(params => {
+        const queryStrings: any = this.route.queryParamMap;
+        this.executeQueryParams(queryStrings.source.value);
+      });
   }
 
   buildURL() {
@@ -311,7 +328,7 @@ export class PeopleComponent implements OnInit {
 
   getFloorLocation(currentperson: Person) {
     let floorID = this.roomLocation.find(p => {
-        return p.officelocationid === currentperson.officelocationid  && p.officenumber=== currentperson.officenumber
+      return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
     });
     if (floorID) {
       //  The following line will be used for the internal maps 
@@ -355,10 +372,13 @@ export class PeopleComponent implements OnInit {
     return emailString;
   }
 
-  getPrefName(prefName: string): string {
-    if (!prefName) return "";
-    prefName = '"' + prefName + '"';
-    return prefName;
+  getPrefName(currentperson: any): string {
+    let pName;
+    if (currentperson.firstname == currentperson.preferredfirstname || !currentperson.preferredfirstname) {
+      return null;
+    }
+    else pName = '"' + currentperson.preferredfirstname + '"';
+    return pName;
   }
 
   getPhone(currentperson: any): SafeHtml | SafeValue {
@@ -385,9 +405,9 @@ export class PeopleComponent implements OnInit {
     //phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
     //return this.sanitizer.bypassSecurityTrustHtml(phonenum);  }
   }
-  
+
   goBack(): void {
-    this.clearALL("ind");
+    this.location.back();
   }
 
   ifCPR(currentperson: any): SafeHtml {
@@ -485,16 +505,18 @@ export class PeopleComponent implements OnInit {
     this.searchTerm = null;
     switch (key) {
       case "alpha":
-        this.addQueryParams({ alpha: null });
+      this.addQueryParams({ alpha: null, page: null });
         break;
       case "city":
-        this.addQueryParams({ city: null });
+        if (this.cityid) {
+          this.addQueryParams({ city: null, page: null });
+        }
         break;
       case "role":
-        this.addQueryParams({ role: null });
+        this.addQueryParams({ role: null, page: null });
         break;
       case "ind":
-        this.addQueryParams({ ind: null });    
+        this.addQueryParams({ ind: null, page: null });
         break;
     }
   }
@@ -502,51 +524,50 @@ export class PeopleComponent implements OnInit {
   addQueryParams(query): void {
     const keys = Object.keys(query);
     const values = Object.values(query);
-    switch (keys[0]) {
-      case 'city':
-        this.cityid = values[0];
-        break;
-      case 'role':
-        this.roleid = values[0];
-        break;
-      case 'ind':
-        this.individualid = values[0];
-        break;
+    for(let i = 0; i < keys.length; i++) {
+      switch (keys[i]) {
+        case 'city':
+          this.cityid = values[0];
+          break;
+        case 'role':
+          this.roleid = values[0];
+          break;
+        case 'ind':
+          this.individualid = values[0];
+          break;
+      }
     }
     //console.log(query);
-
-    if (query === "") {
-      query = null;
+    if (keys[0] === 'ind') {
+      this._router.navigate([''], {
+        queryParams: {
+          ...query
+        }
+      });
+    } else {
+      if (query === "") {
+        query = null;
+      }
+      this._router.navigate([''], {
+        queryParams: {
+          ...query
+        },
+        queryParamsHandling: 'merge',
+      });
     }
-    this._router.navigate([''], {
-      queryParams: {
-        ...query
-      },
-      queryParamsHandling: 'merge',
-    });
   }
 
   clearQueryParams(): void {
-    //console.log('clearing params');
+    this.clearFilters();
     this._router.navigate([''], {
       queryParams: {
-      },
+      }
     });
-    this.staffDeptId = 0;
-    this.cityidArray = [4, 1, 2, 3, 5];
-    this.roleidArray = [13, 2, 1, 10, 20];
-    this.otherArray = [];
-    this.roleCheckAll = true;
-    this.cityid = null;
-    this.roleid = null;
-    this.searchTerm = null;
-    this.alpha = null;
-    this.individualid = null;
   }
 
   executeQueryParams(queryStrings): void {
-    console.log("in ExecuteQuery");
     const queries = Object.entries(queryStrings);
+    this.clearFilters();
     for (const q of queries) {
       switch (q[0]) {
         case 'page':
@@ -579,12 +600,31 @@ export class PeopleComponent implements OnInit {
           this.staffDeptId = +q[1];
           this.showAdvFilter = true;
           break;
+        case 'timekeeperdept':
+          this.timekeeperDeptId = +q[1];
+          this.showAdvFilter = true;
+          break;
         case 'other':
           this.otherArray = (q[1] as string).split(',').map(Number);
           this.showAdvFilter = true;
 
       }
     }
+  }
+
+  clearFilters() {
+    this.staffDeptId = 0;
+    this.timekeeperDeptId = 0; 
+    this.cityidArray = [4, 1, 2, 3, 5];
+    this.roleidArray = [13, 2, 1, 10, 20];
+    this.otherArray = [];
+    this.roleCheckAll = true;
+    this.cityid = null;
+    this.roleid = null;
+    this.searchTerm = null;
+    this.alpha = null;
+    this.individualid = null;
+    this.pageNumber = null;
   }
 
   includeCities(cityid): void {
@@ -632,6 +672,7 @@ export class PeopleComponent implements OnInit {
     }
     this.addQueryParams({ other: this.otherArray.length > 0 ? this.otherArray.toString() : null })
   }
+
 
   // ************************************
   //

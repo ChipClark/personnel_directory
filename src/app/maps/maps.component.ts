@@ -191,7 +191,7 @@ export class MapComponent implements OnInit {
           break;
       }
     }
-    this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`;
+    this.url = `http://localhost:3000/assets/${this.cityName}-${this.floorID}.svg`;
   }
   setToolTips(city: string, floor: number, offid: string): string {
     var officetooltip;
