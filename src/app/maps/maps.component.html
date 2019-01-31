@@ -1,6 +1,5 @@
-<div id="map" class="img-responsive" (click)="test($event)" [inlineSVG]="url" [onSVGLoaded]="highlightOffice('o' + officeID)" #svgEl></div>
+<div id="map" class="svg-container" [inlineSVG]="url" [onSVGLoaded]="highlightOffice('o' + officeID)" #svgEl></div>
 
-<!-- <div id="maps" [innerHTML]="displayMap()"></div> -->
 <div id="office"></div>
 
 <div id="map label" [innerHTML]="labelMap()"></div>

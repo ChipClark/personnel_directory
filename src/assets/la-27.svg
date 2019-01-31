@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="1025.949px" height="581.395px" viewBox="0 0 1025.949 581.395" enable-background="new 0 0 1025.949 581.395"
+	 width="100%" height="100%" class="svg-content" viewBox="0 0 1025.949 581.395" enable-background="new 0 0 1025.949 581.395"
 	 xml:space="preserve">
 <g id="floorplate">
 	<polyline fill="#EEEEEE" points="256.222,14.734 773.182,14.734 773.182,27.214 785.902,27.214 785.902,30.574 821.783,30.574 
