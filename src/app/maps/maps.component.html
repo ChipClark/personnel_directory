@@ -1,4 +1,4 @@
-<div id="selectoffice">
+<div id="selectoffice" class="officedropdown col-6">
     <div class="col-md-10">
         <select class="form-control" style="width: auto" name="offices" (change)=test($event.target.value)>
             <option [ngValue]="0" disabled>Select Floor</option>
@@ -25,6 +25,9 @@
             </optgroup>
         </select>
     </div>
+</div>
+<div class="backfrommaps col-6">
+    <a href="/">Back</a>
 </div>
 <div id="maps">
     <div id="la26" *ngIf="cityName === 'cc' && floorID == 18" class="svg-container">

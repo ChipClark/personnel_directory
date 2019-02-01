@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ViewChildren, OnChanges, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Person } from '../person';
 import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
 
@@ -40,7 +41,8 @@ export class MapComponent implements OnInit {
     private staffService: APIService,
     private route: ActivatedRoute,
     protected sanitizer: DomSanitizer,
-    private _router: Router
+    private _router: Router,
+    private location: Location
   ) { }
 
   ngOnInit() {
@@ -52,6 +54,10 @@ export class MapComponent implements OnInit {
   }
 
   sanitizeScript(sanitizer: DomSanitizer) { }
+
+  goBack(): void {
+    this.location.back();
+  }
 
   displayMap(): SafeHtml {
     var mapIMG, floor;

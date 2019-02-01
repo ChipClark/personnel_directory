@@ -21,7 +21,8 @@
     display: inline-block;
     height:100px;
     padding-right:20px;
-    padding-left:20px;
+    position: relative;
+    left: -30px;
     vertical-align: middle;
 }
 
@@ -55,3 +56,105 @@
 .rightcol {
     top:10px;
 }
+
+/* start of desktop styles */
+
+@media screen and (max-width: 991px) {
+    /* start of large tablet styles */
+        .header-bar {
+            padding-top:2px;
+            padding-bottom:5px;
+            height: 100x;
+        }
+        .header-tag {
+            width:350px;
+            font-size: 36pt;
+            top: 15px;
+        }
+        .header-img {
+            height:100px;
+            position: relative;
+            left: -30px;
+        }
+        .confidential {
+            font-size: 14pt;
+        }
+        
+    }
+    
+    @media screen and (max-width: 767px) {
+    /* start of medium tablet styles */
+        .header-bar {
+           padding:0px;
+           height: 100x;
+        }
+        .header-tag {
+            width:250px;
+            font-size: 32pt;
+            top: 15px;
+        }
+        .header-img {
+            height:100px;
+            position: relative;
+            left: 0px;
+        }
+        .confidential {
+            font-size: 14pt;
+            position: relative;
+            left: -10px;
+        }
+        .bugcontact {
+            display: none;
+        }
+    
+    }
+
+    @media screen and (max-width: 635px) {
+        /* start of phone styles */
+        .header-tag {
+            width:300px;
+            color:#fff;
+            font-size: 22pt;
+            top: 20px;
+        }
+        .header-img {
+            height:80px;
+            position: relative;
+            left: 0px;
+        }
+        .confidential {
+            font-size: 14pt;
+            position: relative;
+            left: -40px;
+        }
+        .bugcontact {
+            display: none;
+        }
+
+    }
+
+    @media screen and (max-width: 479px) {
+    /* start of phone styles */
+        .header-tag {
+            width:100px;
+            color:#fff;
+            font-size: 22pt;
+            top: 6px;
+            left: -20px;
+        }
+        .header-img {
+            height:60px;
+            position: relative;
+            left: 0px;
+        }
+        .confidential {
+            font-size: 14pt;
+            position: relative;
+            left: -40px;
+            top: -10px;
+        }
+        .bugcontact {
+            display: none;
+        }
+
+    }
