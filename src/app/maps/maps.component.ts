@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ViewChildren, OnChanges, ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { Person } from '../person';
@@ -9,6 +9,7 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import * as Svg from 'svg.js'
 
 import { HighlightDelayBarrier } from 'blocking-proxy/built/lib/highlight_delay_barrier';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-map',
@@ -30,6 +31,7 @@ export class MapComponent implements OnInit {
   public searchTerm = null;
   public individualid = null;
   public url = null;
+  public url1 = new BehaviorSubject<string>(this.url);
 
   people: Person[];
   regions: any[];
@@ -74,7 +76,7 @@ export class MapComponent implements OnInit {
     //console.log(floor);
     var label;
 
-    switch (this.cityName) {
+    switch (this.cityName.toUpperCase()) {
       case 'CC':
         label = "Century City:&nbsp;";
         break;
@@ -150,11 +152,10 @@ export class MapComponent implements OnInit {
     if (query === "") {
       query = null;
     }
-    this._router.navigate([''], {
+    this._router.navigate(['maps'], {
       queryParams: {
         ...query
-      },
-      queryParamsHandling: 'merge',
+      }
     });
   }
 
@@ -191,7 +192,9 @@ export class MapComponent implements OnInit {
           break;
       }
     }
-    this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`;
+    console.log(this.cityName);
+    console.log(this.floorID);
+    this.highlightOffice('o' + this.officeID);
   }
   setToolTips(city: string, floor: number, offid: string): string {
     var officetooltip;
@@ -263,6 +266,17 @@ export class MapComponent implements OnInit {
     }
   }
 
+  test(event) {
+    console.log(event);
+    this.cityName = event.substring(0, 2);
+    this.floorID = event.substring(2, 4);
+    console.log(this.cityName);
+    console.log(this.floorID);
+    // this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`;
+    //this.url1.next(this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`);
+    console.log(this.url);
+    this.addQueryParams({'city': this.cityName, 'floor': this.floorID});
+  }
 
 
 }
