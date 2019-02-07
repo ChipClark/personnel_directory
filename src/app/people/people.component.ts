@@ -271,6 +271,7 @@ export class PeopleComponent implements OnInit {
           if (this.people[i]) {
             this.getSubDept(this.people[i]);
             this.getFloorLocation(this.people[i]);
+            this.setPhoto(people[i]);
           }
           if (this.people[i].personrelationship) {
             const relatedArray = this.people[i].personrelationship;
@@ -353,7 +354,7 @@ export class PeopleComponent implements OnInit {
     return addHTML;
   }
 
-  getPhoto(photodata: any): SafeHtml {
+  getPhoto(currentperson: any, photodata: any): SafeHtml {
     var photoString, photoURL: any;
 
     if (photodata.length == 0) {
@@ -361,13 +362,29 @@ export class PeopleComponent implements OnInit {
     }
     else {
 
-      photoURL = photodata[0].photolocationpath + photodata[0].photofilename;
+      photoURL = photodata[0].photoURL + photodata[0].photofilename;
       photoString = '<img src="' + photoURL + '" id="' + photodata[0].photofilename + '" width="112px;" />';
+
+      //  should be the following code: 
+      photoURL = "http://amjabber/AD/" + currentperson.addomainaccount + "_sq.jpg";
+      photoString = '<img src="' + photoURL + '" id="' + photodata[0].photofilename + '" width="112px;" />';
+
     }
-
-
     return this.sanitizer.bypassSecurityTrustHtml(photoString);
   }
+
+  setPhoto(currentperson: any): void {
+    if(currentperson.photo.length == 0) {
+      currentperson.photo[0].photofilename = "http://amjabber/nophoto.gif"
+    }
+    let path = "http://amjabber/AD/" ;
+    let pfile = currentperson.addomainaccount + "_sq.jpg"
+
+    let preturn = this.staffService.getPhoto(path + pfile);
+    
+    console.log(preturn);
+  }
+
 
   getEmail(EMAIL: string, personName: string): string {
     var emailString = '<a href=mailto:' + EMAIL + ' id=' + personName + ' >' + EMAIL + '</a>';

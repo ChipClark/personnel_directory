@@ -86,9 +86,9 @@ export class StaffDetailComponent implements OnInit {
     
   }
 
-  photo(photo: any): SafeHtml {
-    return this.personService.getPhoto(photo);
-  }
+  //photo(photo: any): SafeHtml {
+  //  return this.personService.getPhoto(photo);
+  //}
 
   relationships(currentperson: any): SafeHtml {
     if (currentperson.personrelationship.length == 0) return null;
