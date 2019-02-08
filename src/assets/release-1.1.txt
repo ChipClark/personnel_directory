@@ -1,5 +1,5 @@
 Release Notes 
-v 1 - February 7, 2019
+v 1.1 - February 7, 2019
 
 Known Issues: 
 
