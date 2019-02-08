@@ -307,7 +307,6 @@ export class PeopleComponent implements OnInit {
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-    console.log(this.personURL);
   }
 
   getPerson(id): string {
@@ -335,10 +334,6 @@ export class PeopleComponent implements OnInit {
       return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
     });
     if (floorID) {
-      //  The following line will be used for the internal maps 
-      //currentperson.officefloorid = floorID.officefloorid;
-
-      // The following line adjust the maps to work with Adam's maps
       currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
     }
   }
@@ -362,7 +357,6 @@ export class PeopleComponent implements OnInit {
     }
     else {
       photoURL = photodata[0].photolocationpath + photodata[0].photofilename;
-      console.log(photoURL);
       photoString = '<img src="' + photoURL + '" id="' + photodata[0].photofilename + '" width="112px;" />';
 
     }
