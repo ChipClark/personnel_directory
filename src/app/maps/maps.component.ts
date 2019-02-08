@@ -19,10 +19,18 @@ import { Subject, BehaviorSubject } from 'rxjs';
 })
 export class MapComponent implements OnInit {
 
+  public baseURL = 'http://am-web05:3030/api/v1/people';
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},';
+  private order = '"order":"lastname ASC",';
+  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
+  private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
+  public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
+  public endRequest = '}';
+  public personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;
+
   public floorURL = 'http://am-api:3030/api/v1/officefloors';
   public officelocationURL = 'http://am-api:3030/api/v1/officelocations';
 
-  @ViewChildren('nGForArray') filtered;
   public floor = ['04', '05', '12', '13', '18', '26', '27', '28', '29'];
   public floorID = null;
   public cities = ['CC', 'LA', 'OC', 'SD', 'SF'];
@@ -49,6 +57,10 @@ export class MapComponent implements OnInit {
     this.colorOffice('o2849');
     const queryStrings: any = this.route.queryParamMap;
     this.executeQueryParams(queryStrings.source.value);
+    this.staffService.getDATA(this.personURL)
+      .subscribe(people => {
+        this.people = people;
+      });
   }
 
   sanitizeScript(sanitizer: DomSanitizer) { }
@@ -271,7 +283,22 @@ export class MapComponent implements OnInit {
   onChangeFloor(event) {
     this.cityName = event.substring(0, 2);
     this.floorID = event.substring(2, 4);
-    this.addQueryParams({'city': this.cityName, 'floor': this.floorID});
+    this.addQueryParams({ 'city': this.cityName, 'floor': this.floorID });
+  }
+
+  goToPerson(event) {
+    let person;
+    let id;
+    const room = event.substring(1);
+    if (room) {
+      person = this.people.find(p => p.officenumber == room && p.officelocation.officelocationcode.toLowerCase() == this.cityName);
+      if (person) {
+        id = person.pkpersonid;
+      }
+    }
+    if (id) {
+      this._router.navigate(['/'], { queryParams: { 'ind': id } });
+    }
   }
 
 

@@ -72,7 +72,7 @@ export class Person {
   phones: Phones[];
   supportrelationships: boolean;
   personrelationship: PersonRelationship[];
-  officelocation: OfficeLocation[];
+  officelocation: OfficeLocation;
   hrdepartment: HRDepartments[];
   legaldepts: LegalDepartments[];
   legalsubs: LegalSubDepartments[];
