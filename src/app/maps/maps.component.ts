@@ -31,8 +31,6 @@ export class MapComponent implements OnInit {
   public showAdvFilter = false;
   public searchTerm = null;
   public individualid = null;
-  public url = null;
-  public url1 = new BehaviorSubject<string>(this.url);
 
   people: Person[];
   regions: any[];
@@ -198,8 +196,6 @@ export class MapComponent implements OnInit {
           break;
       }
     }
-    console.log(this.cityName);
-    console.log(this.floorID);
     this.highlightOffice('o' + this.officeID);
   }
   setToolTips(city: string, floor: number, offid: string): string {
@@ -272,15 +268,9 @@ export class MapComponent implements OnInit {
     }
   }
 
-  test(event) {
-    console.log(event);
+  onChangeFloor(event) {
     this.cityName = event.substring(0, 2);
     this.floorID = event.substring(2, 4);
-    console.log(this.cityName);
-    console.log(this.floorID);
-    // this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`;
-    //this.url1.next(this.url = `http://localhost:4200/assets/${this.cityName}-${this.floorID}.svg`);
-    console.log(this.url);
     this.addQueryParams({'city': this.cityName, 'floor': this.floorID});
   }
 
