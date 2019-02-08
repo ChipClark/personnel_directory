@@ -1,0 +1,11 @@
+Release Notes 
+v b1.2 - February 8, 2019
+
+Known Issues: 
+
+ - Some people have the wrong office number, office, and/or phone number listed in their records. 
+ This is a data issue and is being addressed. 
+
+Please report any issues to the application at: 
+https://app.smartsheet.com/b/form/e41d7d1cc9e24549a69b3ca9218ea3bc 
+

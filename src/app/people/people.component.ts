@@ -357,12 +357,10 @@ export class PeopleComponent implements OnInit {
       photoString = '<img src="http://amjabber/nophoto.gif" id="no photo" width="112px;" />'
     }
     else {
-
       photoURL = photodata[0].photolocationpath + photodata[0].photofilename;
       photoString = '<img src="' + photoURL + '" id="' + photodata[0].photofilename + '" width="112px;" />';
+
     }
-
-
     return this.sanitizer.bypassSecurityTrustHtml(photoString);
   }
 

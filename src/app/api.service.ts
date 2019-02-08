@@ -12,6 +12,7 @@ import { OfficeLocation, RoomLocation } from './datatables/officelocation';
 import { JobTitle } from './datatables/jobs';
 import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
 import { LegalSubDepartments } from './datatables/departmenttables';
+import { promise } from 'protractor';
 
 
 const httpOptions = {
@@ -65,9 +66,9 @@ export class APIService {
     return this.http.get<LegalSubDepartments[]>(url);
   }
   
-  getPhoto(photoUrl: string): boolean {
+  getPhoto(photoUrl: string): Promise<object> {
     var request = this.http.get(photoUrl).toPromise();
-    return false;
+    return request;
   }
 
   getSchools(url): Observable<Schools[]> {
@@ -87,7 +88,6 @@ export class APIService {
   getLocation(url): Observable<RoomLocation[]> {
     return this.http.get<RoomLocation[]>(url)
   }
-
 
 
   /** GET person by id. Will 404 if id not found */
