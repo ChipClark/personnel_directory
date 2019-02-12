@@ -15,9 +15,7 @@
 </div>
 
 <div class='optionsbar col-md-5 d-md-block d-none'>
-        <a routerLink="" *ngIf="!showAdvFilter" (click)="showAdvFilter = !showAdvFilter; clearQueryParams()"><small>show advanced filter</small></a>
-        <a routerLink="" *ngIf="showAdvFilter" (click)="showAdvFilter = !showAdvFilter; clearQueryParams()"><small>hide advanced filter</small></a>
-    <div id="basicfilter" *ngIf="!showAdvFilter">
+    <div id="basicfilter">
         <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
                 <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
@@ -44,7 +42,7 @@
                     value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
             </label>
         </div>
-        <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
+        <!-- <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
                 <input type="radio" name="options" id="roleoption1" class="generalbtn med-font" [(ngModel)]="roleid"
                     [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
@@ -65,16 +63,7 @@
                 <input type="radio" name="options" id="roleoption13" class="generalbtn med-font" [(ngModel)]="roleid"
                     [value]="20" (click)="addQueryParams({role: 20, page: null})">&nbsp;Staff&nbsp;
             </label>&nbsp;
-        </div>
-    </div>
-    <div id="advfilter" *ngIf="showAdvFilter">
-        <div id="officecheck" class="row checkbox">
-            <label class="col-md-2" for="">Office:</label>
-            <div class="col-md-10">
-                <label><input type="checkbox" (change)="cityIsChecked(6) ? cityidArray = [] : cityidArray = [4,1,2,3,5];addQueryParams({cities: cityidArray.toString(), page: null})" [ngModel]="cityIsChecked(6)">&nbsp;All&nbsp;</label>
-                <label *ngFor="let c of cities"><input type="checkbox" [value]="c.id" (change)="includeCities(c.id)" [ngModel]="cityIsChecked(c.id)">&nbsp;{{c.city}}&nbsp;</label>
-            </div>
-        </div>
+        </div> -->
         <div class="row">
             <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
             <div class="col-md-10">
