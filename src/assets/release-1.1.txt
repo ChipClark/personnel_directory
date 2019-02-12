@@ -3,6 +3,8 @@ v 1.1 - February 7, 2019
 
 Known Issues: 
 
+ - Epiq personnel are not listed.
+
  - Some people have the wrong office number, office, and/or phone number listed in their records. 
  This is a data issue and is being addressed. 
 
