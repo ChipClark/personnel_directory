@@ -28,6 +28,17 @@ import { RoleArrayPipe } from './pipes/roleArray.pipe';
 import { StaffDeptPipe } from './pipes/staffDept.pipe';
 import { OtherPipe } from './pipes/other.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
+import { La26Component } from './maps/la26/la26.component';
+import { La27Component } from './maps/la27/la27.component';
+import { La28Component } from './maps/la28/la28.component';
+import { La29Component } from './maps/la29/la29.component';
+import { Oc04Component } from './maps/oc04/oc04.component';
+import { Oc05Component } from './maps/oc05/oc05.component';
+import { Sd26Component } from './maps/sd26/sd26.component';
+import { Sd27Component } from './maps/sd27/sd27.component';
+import { Sf12Component } from './maps/sf12/sf12.component';
+import { Sf13Component } from './maps/sf13/sf13.component';
+import { Cc18Component } from './maps/cc18/cc18.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +61,18 @@ import { InlineSVGModule } from 'ng-inline-svg';
     CityArrayPipe,
     RoleArrayPipe,
     StaffDeptPipe,
-    OtherPipe
+    OtherPipe,
+    La26Component,
+    La27Component,
+    La28Component,
+    La29Component,
+    Oc04Component,
+    Oc05Component,
+    Sd26Component,
+    Sd27Component,
+    Sf12Component,
+    Sf13Component,
+    Cc18Component
   ],
   imports: [
     BrowserModule,
