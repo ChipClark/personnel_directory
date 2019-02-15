@@ -155,7 +155,7 @@
                                         &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 </div><br>
                                 {{person.officelocation.officelocationcode}} Office Number: 
-                                <a *ngIf="person.floornumber" href="/maps?city={{person.officecity}}&floor={{person.floornumber}}&offid={{person.officenumber}}"
+                                <a *ngIf="person.floornumber" href="/maps/{{person.officecity}}{{person.floornumber}}?offid={{person.officenumber}}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a>
                                     <span *ngIf="!person.floornumber">{{person.officenumber}}</span><br>
                                 

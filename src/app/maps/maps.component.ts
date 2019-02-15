@@ -86,32 +86,33 @@ export class MapComponent implements OnInit {
   }
 
   labelMap(): string {
-    const queryStrings: any = this.route.queryParamMap;
-    this.executeQueryParams(queryStrings.source.value);
-    //console.log(city);
-    //console.log(floor);
-    var label;
+    // const queryStrings: any = this.route.queryParamMap;
+    // this.executeQueryParams(queryStrings.source.value);
+    // //console.log(city);
+    // //console.log(floor);
+    // var label;
 
-    switch (this.cityName.toUpperCase()) {
-      case 'CC':
-        label = "Century City:&nbsp;";
-        break;
-      case 'LA':
-        label = "Los Angeles:&nbsp;";
-        break;
-      case 'OC':
-        label = "Orange County:&nbsp;";
-        break;
-      case 'SD':
-        label = "Dan Diego:&nbsp;";
-        break;
-      case 'SF':
-        label = "San Francisco:&nbsp;";
-        break;
-    }
-    label = label + this.floorID + "th&nbsp;Floor&nbsp;";
+    // switch (this.cityName.toUpperCase()) {
+    //   case 'CC':
+    //     label = "Century City:&nbsp;";
+    //     break;
+    //   case 'LA':
+    //     label = "Los Angeles:&nbsp;";
+    //     break;
+    //   case 'OC':
+    //     label = "Orange County:&nbsp;";
+    //     break;
+    //   case 'SD':
+    //     label = "Dan Diego:&nbsp;";
+    //     break;
+    //   case 'SF':
+    //     label = "San Francisco:&nbsp;";
+    //     break;
+    // }
+    // label = label + this.floorID + "th&nbsp;Floor&nbsp;";
 
-    return label;
+    // return label;
+    return 'tat';
   }
 
   generateMap(): string {
@@ -226,9 +227,10 @@ export class MapComponent implements OnInit {
   }
 
   onChangeFloor(event) {
-    this.cityName = event.substring(0, 2);
-    this.floorID = event.substring(2, 4);
-    this.addQueryParams({ 'city': this.cityName, 'floor': this.floorID });
+    // this.cityName = event.substring(0, 2);
+    // this.floorID = event.substring(2, 4);
+    // this.addQueryParams({ 'city': this.cityName, 'floor': this.floorID });
+    this._router.navigate([event], {relativeTo: this.route});
   }
 
   goToPerson(event) {
