@@ -56,6 +56,7 @@ export class MapComponent implements OnInit {
     //this.getOfficeLocations();
     this.colorOffice('o2849');
     const queryStrings: any = this.route.queryParamMap;
+    console.log(this.route);
     this.executeQueryParams(queryStrings.source.value);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
@@ -83,36 +84,6 @@ export class MapComponent implements OnInit {
     if (el && el.getAttribute('id')) {
       el.setAttribute('fill', '#ff8a8a');
     }
-  }
-
-  labelMap(): string {
-    // const queryStrings: any = this.route.queryParamMap;
-    // this.executeQueryParams(queryStrings.source.value);
-    // //console.log(city);
-    // //console.log(floor);
-    // var label;
-
-    // switch (this.cityName.toUpperCase()) {
-    //   case 'CC':
-    //     label = "Century City:&nbsp;";
-    //     break;
-    //   case 'LA':
-    //     label = "Los Angeles:&nbsp;";
-    //     break;
-    //   case 'OC':
-    //     label = "Orange County:&nbsp;";
-    //     break;
-    //   case 'SD':
-    //     label = "Dan Diego:&nbsp;";
-    //     break;
-    //   case 'SF':
-    //     label = "San Francisco:&nbsp;";
-    //     break;
-    // }
-    // label = label + this.floorID + "th&nbsp;Floor&nbsp;";
-
-    // return label;
-    return 'tat';
   }
 
   generateMap(): string {
