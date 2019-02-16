@@ -1,10 +1,10 @@
-var serverType = 'Dev';
+var serverType = 'maps';
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8083;
 
 app.use(function(req,res,next){
     res.header("Access-Control-Allow-Origin","*");

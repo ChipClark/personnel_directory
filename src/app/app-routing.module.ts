@@ -12,7 +12,8 @@ import { Oc04Component } from './maps/oc04/oc04.component';
 import { Oc05Component } from './maps/oc05/oc05.component';
 import { Sd26Component } from './maps/sd26/sd26.component';
 import { Sd27Component } from './maps/sd27/sd27.component';
-
+import { Sf12Component } from './maps/sf12/sf12.component';
+import { Sf13Component } from './maps/sf13/sf13.component';
 
 const routes: Routes = [
   { path: 'root', component: PeopleComponent },
@@ -26,7 +27,9 @@ const routes: Routes = [
     { path: 'oc04', component: Oc04Component },
     { path: 'oc05', component: Oc05Component },
     { path: 'sd26', component: Sd26Component },
-    { path: 'sd27', component: Sd27Component }
+    { path: 'sd27', component: Sd27Component },
+    { path: 'sf12', component: Sf12Component },
+    { path: 'sf13', component: Sf13Component }
   ] },
   { path: 'people', component: PeopleComponent }
 ];
