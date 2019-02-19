@@ -132,7 +132,9 @@
                                 <div class="jobdetails">
                                     <div id="jobtitle" [innerHTML]="getTitles(person)"></div>
                                 </div>
-                                <div class="contacticons"><a href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
+                                <div class="contacticons">
+                                    
+                                    <a *ngIf="person.emails[0]" href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
                                         <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}"
                                             width="20px;"></a>
                                         &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"

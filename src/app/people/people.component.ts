@@ -51,7 +51,7 @@ export class PeopleComponent implements OnInit {
 
 
   // Filters
-  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"}]},'
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"},{"employmentstatus":"C"}]},'
   public All = this.activepeopleFilter;
   public addFilter = this.All;
 
@@ -307,6 +307,7 @@ export class PeopleComponent implements OnInit {
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
+    console.log(this.personURL);
   }
 
   getPerson(id): string {
@@ -390,8 +391,9 @@ export class PeopleComponent implements OnInit {
     }
 
     var pnum = officePhone.phonenumber;
+    //console.log(pnum);
     pnum = pnum.replace(/\D+/g, '')
-      .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+     .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
     var phonenum = 'x' + officePhone.phoneextension;
     phonenum = phonenum + '&nbsp;Phone: ' + pnum + '<br>';
