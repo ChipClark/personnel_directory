@@ -1,9 +1,11 @@
 Release Notes 
-v 1.1 - February 7, 2019
+v 1.1 - February 21, 2019
 
 Known Issues: 
 
- - Epiq personnel are not listed.
+ - Officer Services staff cna be found by searching for "Office Services"
+
+ - Epiq and contractors are available. 
 
  - Some people have the wrong office number, office, and/or phone number listed in their records. 
  This is a data issue and is being addressed. 
