@@ -1,7 +1,15 @@
 Release Notes 
+<<<<<<< HEAD:src/assets/beta-1.2.txt
 v b1.2 - February 8, 2019
+=======
+v 1.1 - February 21, 2019
+>>>>>>> 90c029e982f4e6eab4e1fb4d15633baba0a88e1a:src/assets/release-1.1.txt
 
 Known Issues: 
+
+ - Officer Services staff cna be found by searching for "Office Services"
+
+ - Epiq and contractors are available. 
 
  - Some people have the wrong office number, office, and/or phone number listed in their records. 
  This is a data issue and is being addressed. 

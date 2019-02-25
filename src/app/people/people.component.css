@@ -6,12 +6,13 @@
 }
 
 .container { 
-  width:100%;
+  max-width: 1800px;
   padding-left: 0px;
   padding-right: 0px;
 }
 
 .row {
+  max-width: 1800px;
   margin-left:-30px;
   margin-right:0px;
   padding-left: 0px;
@@ -19,9 +20,11 @@
 }
 
 .col {
+  max-width: 450px;
   padding-left: 0px;
   padding-right: 0px;
 }
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   /* IE Edge 12+ CSS styles go here */ 
   .people {
