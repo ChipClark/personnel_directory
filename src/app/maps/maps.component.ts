@@ -56,7 +56,7 @@ export class MapComponent implements OnInit {
     //this.getOfficeLocations();
     this.colorOffice('o2849');
     const queryStrings: any = this.route.queryParamMap;
-    console.log(this.route);
+    //console.log(this.route);
     this.executeQueryParams(queryStrings.source.value);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
@@ -193,7 +193,7 @@ export class MapComponent implements OnInit {
   showconsole(obj) {
     var keys = [];
     for (var key in obj) {
-      console.log(key, " ", obj[key]);
+      //console.log(key, " ", obj[key]);
     }
   }
 

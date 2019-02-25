@@ -1,0 +1,18 @@
+February 2019 (version beta 1.3)
+Update 1.3: The update addresses these issues.
+
+
+Known Issues: 
+ 
+ - filters are now always available. There is no need to click on "Advance Search."
+ 
+ - Officer Services staff can be found by searching for "Office Services"
+
+ - Some people have the wrong office number, office, and/or phone number listed in their records. 
+   This is a data issue and is being addressed. 
+
+ - Hover over office no longer works, but location of the person is highlighted. 
+
+Please report any issues to the application at: 
+https://app.smartsheet.com/b/form/e41d7d1cc9e24549a69b3ca9218ea3bc 
+
