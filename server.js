@@ -1,10 +1,10 @@
-var serverType = 'Dev';
+var serverType = 'maps';
 var express = require('express');
 var http = require('http');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8083;
 
 app.use(function(req,res,next){
     res.header("Access-Control-Allow-Origin","*");
@@ -22,7 +22,10 @@ app.use(bodyParser.urlencoded({ limit: '50mb',extended: true }))
 
 // parse application/json
 app.use(bodyParser.json({limit: '50mb', extended: true}))
-app.get('/*', (req,res) => res.sendFile(path.join(__dirname)));
+app.all('/*', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('/dist/personneldirectory/index.html', { root: __dirname });
+});
 
 // Handle 404
 app.use(function(req, res) {
