@@ -209,7 +209,8 @@ export class MapComponent implements OnInit {
     let id;
     const room = event.substring(1);
     if (room) {
-      person = this.people.find(p => p.officenumber == room && p.officelocation.officelocationcode.toLowerCase() == this.cityName);
+      person = this.people.find(p => p.officenumber == room); //&& p.officelocation.officelocationcode.toLowerCase() == this.cityName
+      console.log(person);
       if (person) {
         id = person.pkpersonid;
       }

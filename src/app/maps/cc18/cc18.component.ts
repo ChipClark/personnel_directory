@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MappingsContext } from 'source-list-map';
 
 @Component({
   selector: 'app-cc18',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Cc18Component implements OnInit {
 
-  constructor() { }
+  constructor( ) { }
 
   ngOnInit() {
   }
+
+  
 
 }
