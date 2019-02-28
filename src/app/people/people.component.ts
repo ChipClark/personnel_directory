@@ -332,11 +332,89 @@ export class PeopleComponent implements OnInit {
       return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
     });
     if (floorID) {
-      //  The following line will be used for the internal maps 
       currentperson.officefloorid = floorID.officefloorid;
       currentperson.floornumber = this.officeFloor(floorID.officefloorid);
       currentperson.officecity = floorID.city.toLowerCase();
       currentperson.officecityfullname = floorID.cityfullname;      
+    }
+    else {
+      let floorNum;
+      if (!currentperson.officenumber) {
+        return;
+      }
+      switch (currentperson.officelocationid) {
+        case 1:
+          floorNum = currentperson.officenumber.slice(0,2);
+          currentperson.officecity = "la";
+          currentperson.officecityfullname = "Los Angeles";      
+          break;
+        case 2: 
+          floorNum = currentperson.officenumber.slice(0,1);
+          currentperson.officecity = "oc";
+          currentperson.officecityfullname = "Orange County";      
+          break;
+        case 3:
+          floorNum = currentperson.officenumber.slice(0,1);
+          currentperson.officecity = "sd";
+          currentperson.officecityfullname = "San Diego";      
+          break;
+        case 4:
+          floorNum = currentperson.officenumber.slice(0,2);
+          currentperson.officecity = "cc";
+          currentperson.officecityfullname = "Century City";      
+          break;
+        case 5:
+          floorNum = currentperson.officenumber.slice(0,2);
+          currentperson.officecity = "sf";
+          currentperson.officecityfullname = "San Francisco";      
+          break;
+      }
+      switch (floorNum) {
+        case "4":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 5;
+          break;
+        case "5":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 6;
+          break;
+        case "6":
+          currentperson.floornumber = "26";
+          currentperson.officefloorid = 7;
+          break;
+        case "7": 
+          currentperson.floornumber = "27";
+          currentperson.officefloorid = 8;
+          break;
+        case "26":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 1;
+          break;
+        case "27":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 2;
+          break;
+        case "28":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 3;
+          break;
+        case "29":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 4;
+          break;
+        case "12":
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 10;
+          break;
+        case "13": 
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 11;
+          break;
+        case "18": 
+          currentperson.floornumber = floorNum;
+          currentperson.officefloorid = 9;
+          break;
+      }
     }
   }
 
