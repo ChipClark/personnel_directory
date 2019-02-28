@@ -173,7 +173,7 @@ export class MapComponent implements OnInit {
           } else { this.floorID = floor.toString(); }
           break;
         case 'offid':
-          this.officeID = +q[1];
+          this.officeID = q[1];
           break;
         case 'ind':
           this.individualid = +q[1];
