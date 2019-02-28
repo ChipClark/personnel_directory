@@ -13,7 +13,7 @@ Known Issues:
  - Some people have the wrong office number, office, and/or phone number listed in their records. 
    This is a data issue and is being addressed. 
 
- - Hover over office no longer works, but location of the person is highlighted. 
+ - Hover over office no longer works, but location of the person is highlighted on the map. 
 
 Please report any issues to the application at: 
 https://app.smartsheet.com/b/form/e41d7d1cc9e24549a69b3ca9218ea3bc 
