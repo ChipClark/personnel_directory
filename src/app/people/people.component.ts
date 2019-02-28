@@ -365,17 +365,20 @@ export class PeopleComponent implements OnInit {
           break;
         case 5:
           floorNum = currentperson.officenumber.slice(0,2);
+          if (floorNum == "c1") {
+            floorNum = currentperson.officenumber.slice(0,3);
+          }
           currentperson.officecity = "sf";
           currentperson.officecityfullname = "San Francisco";      
           break;
       }
       switch (floorNum) {
         case "4":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "04";
           currentperson.officefloorid = 5;
           break;
         case "5":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "05";
           currentperson.officefloorid = 6;
           break;
         case "6":
@@ -387,33 +390,39 @@ export class PeopleComponent implements OnInit {
           currentperson.officefloorid = 8;
           break;
         case "26":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "26";
           currentperson.officefloorid = 1;
           break;
         case "27":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "27";
           currentperson.officefloorid = 2;
           break;
         case "28":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "28";
           currentperson.officefloorid = 3;
           break;
         case "29":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "29";
           currentperson.officefloorid = 4;
           break;
         case "12":
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "12";
           currentperson.officefloorid = 10;
           break;
         case "13": 
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "13";
           currentperson.officefloorid = 11;
           break;
         case "18": 
-          currentperson.floornumber = floorNum;
+          currentperson.floornumber = "18";
           currentperson.officefloorid = 9;
           break;
+        case "c12":
+          currentperson.floornumber = "12";
+          currentperson.officefloorid = 9;
+        case "c13":
+          currentperson.floornumber = "13";
+          currentperson.officefloorid = 10;
       }
     }
   }

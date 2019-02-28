@@ -147,9 +147,9 @@
                                         &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 </div><br>
                                 {{person.officelocation.officelocationcode}} Office Number: 
-                                <a *ngIf="person.officenumber" routerLink="/maps/{{person.officecity}}{{person.floornumber}}" [queryParams]="{offid: person.officenumber}"
+                                <a *ngIf="person.floornumber" routerLink="/maps/{{person.officecity}}{{person.floornumber}}" [queryParams]="{offid: person.officenumber}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a>
-                                    <span *ngIf="!person.floornumber">{{person.officenumber}}</span><br>
+                                    <span *ngIf="!person.floornumber">{{person.officenumber}} {{console.log(person.displayname)}}</span><br>
                                 
                                 <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
 
