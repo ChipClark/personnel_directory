@@ -25,6 +25,7 @@ import { IndividualPipe } from './pipes/individual.pipe';
 import { CityArrayPipe } from './pipes/cityArray.pipe';
 import { RoleArrayPipe } from './pipes/roleArray.pipe';
 import { StaffDeptPipe } from './pipes/staffDept.pipe';
+import { TimekeeperDeptPipe } from './pipes/timekeeperDept.pipe';
 import { OtherPipe } from './pipes/other.pipe';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { OtherPipe } from './pipes/other.pipe';
     CityArrayPipe,
     RoleArrayPipe,
     StaffDeptPipe,
+    TimekeeperDeptPipe,
     OtherPipe
   ],
   imports: [

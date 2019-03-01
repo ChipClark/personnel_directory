@@ -12,6 +12,8 @@
                 <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"
                     (click)="addQueryParams({alpha: a, page: null})">&nbsp;{{ a }}
             </label>
+            <br><br>
+            <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear All&nbsp;</label>
         </div>
     </div>
 
@@ -41,43 +43,23 @@
                 <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
                     <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
                         value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
-                </label>
+                </label>&nbsp;&nbsp;
+                
+
             </div>
-            <!-- <div class="btn-group-toggle locationbar d-none d-md-block" data-toggle="rolebuttons">
-                <label class="normal-font btn btn-outline-secondary" [class.active]="!roleid" id="Role1">
-                    <input type="radio" name="options" id="roleoption1" class="generalbtn med-font" [(ngModel)]="roleid"
-                        [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
-                </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 13" id="Role2">
-                    <input type="radio" name="options" id="roleoption2" class="generalbtn med-font" [(ngModel)]="roleid"
-                        [value]="13" (click)="addQueryParams({role: 13, page: null})">&nbsp;Partners&nbsp;
-                </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 1" id="Role4">
-                    <input type="radio" name="options" id="roleoption4" class="generalbtn med-font" [(ngModel)]="roleid"
-                        [value]="1" (click)="addQueryParams({role: 1, page: null})">&nbsp;Associates&nbsp;
-                </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 10" id="Role5">
-                    <input type="radio" name="options" id="roleoption5" class="generalbtn ned-font" [(ngModel)]="roleid"
-                        [value]="10" (click)="addQueryParams({role: 10, page: null})">&nbsp;Paralegal&nbsp;
-                </label>&nbsp;
-                <label class="normal-font btn btn-outline-secondary blur" [class.active]="roleid == 20" id="Role13">
-                    <input type="radio" name="options" id="roleoption13" class="generalbtn med-font" [(ngModel)]="roleid"
-                        [value]="20" (click)="addQueryParams({role: 20, page: null})">&nbsp;Staff&nbsp;
-                </label>&nbsp;
-            </div> -->
             <div class="row">
-                <label class="col-md-2" for="staffdept">Staff Dept:&nbsp;&nbsp; </label>
-                <div class="col-md-10">
-                    <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, timekeeperdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
+                <label class="col-md-3" for="staffdept">Roles or Department:&nbsp;</label>
+                <div class="col-md-9">
+                    <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
                         <option [ngValue]="0">All</option>
                         <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
                     </select>
                 </div>
             </div>
             <div class="row">
-                <label class="col-md-2" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp; </label>
-                <div class="col-md-10">
-                    <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="staffDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, staffdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
+                <label class="col-md-3" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
+                <div class="col-md-9">
+                    <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
                             <option [ngValue]="0">All</option>
                         <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
                     </select>
@@ -107,7 +89,7 @@
 <div class="container">
     
         <div class="row">
-            <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId| other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+            <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId | timekeeperDept: timekeeperDeptId | other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 trackBy: person?.pkpersonid"
                 #nGForArray>

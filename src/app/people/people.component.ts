@@ -307,7 +307,7 @@ export class PeopleComponent implements OnInit {
 
   buildURL() {
     this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-    console.log(this.personURL);
+    //console.log(this.personURL);
   }
 
   getPerson(id): string {
