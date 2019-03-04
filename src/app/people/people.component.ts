@@ -325,9 +325,6 @@ export class PeopleComponent implements OnInit {
     if (currentperson.isattorney == true) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
-    //currentperson.officefloorid = this.completelocation.find( obj => {
-    //  return obj.officelocationid === currentperson.officelocationid && obj.officeid === currentperson.officeid;
-    //}).officefloorid;
   }
 
   getFloorLocation(currentperson: Person) {
@@ -516,6 +513,9 @@ export class PeopleComponent implements OnInit {
         break;
       case "ind":
         this.addQueryParams({ ind: null, page: null });
+        break;
+      case "all":
+        this.addQueryParams({ alpha: null, city: null, role: null, ind: null, page: null });
         break;
     }
   }

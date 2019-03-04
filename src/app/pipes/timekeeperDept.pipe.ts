@@ -10,14 +10,13 @@ export class TimekeeperDeptPipe implements PipeTransform {
             return items;
         }
         if (isNaN(roleid)) {
+            
             return items.filter(item => {
                 if (item.legalsubdepartments) {
                     return item.legalsubdepartments.legalsubdeptfriendlyname.includes(roleid);
                 }
             });
-        } else {
-            return items.filter(item => item.hrdepartmentid === roleid || item.hr);
-        }
+        } 
     }
 
 }

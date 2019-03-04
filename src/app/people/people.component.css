@@ -6,13 +6,12 @@
 }
 
 .container { 
-  max-width: 1800px;
+
   padding-left: 0px;
   padding-right: 0px;
 }
 
 .row {
-  max-width: 1800px;
   margin-left:-30px;
   margin-right:0px;
   padding-left: 0px;

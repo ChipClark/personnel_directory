@@ -56,7 +56,7 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row"> 
                 <label class="col-md-3" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
                 <div class="col-md-9">
                     <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
