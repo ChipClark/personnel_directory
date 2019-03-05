@@ -59,10 +59,19 @@
             <div class="row"> 
                 <label class="col-md-3" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
                 <div class="col-md-9">
-                    <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
+                    <!-- <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
                             <option [ngValue]="0">All</option>
                         <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
-                    </select>
+                    </select> -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          {{timekeeperStatus()}}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
+                          <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                        </div>
+                      </div>
                 </div>
             </div>
             <div id="othercheck" class="row checkbox">

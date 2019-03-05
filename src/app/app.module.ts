@@ -27,6 +27,9 @@ import { RoleArrayPipe } from './pipes/roleArray.pipe';
 import { StaffDeptPipe } from './pipes/staffDept.pipe';
 import { TimekeeperDeptPipe } from './pipes/timekeeperDept.pipe';
 import { OtherPipe } from './pipes/other.pipe';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -56,7 +59,10 @@ import { OtherPipe } from './pipes/other.pipe';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
 
   ],
   providers: [],
