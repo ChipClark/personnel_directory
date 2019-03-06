@@ -1,7 +1,7 @@
 <div id="filters">
     <div class="searchbar col-md-7 col-sm-12">
-        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" onfocus="this.value=''"
-            [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
+        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus (mouseover)="searchFocus()"
+        [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
