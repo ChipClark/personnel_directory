@@ -13,7 +13,8 @@
                     (click)="addQueryParams({alpha: a, page: null})">&nbsp;{{ a }}
             </label>
             <br><br>
-            <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear All&nbsp;</label>
+            <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear
+                All&nbsp;</label>
         </div>
     </div>
 
@@ -44,19 +45,29 @@
                     <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
                         value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
                 </label>&nbsp;&nbsp;
-                
+
 
             </div>
             <div class="row">
                 <label class="col-md-3" for="staffdept">Roles or Department:&nbsp;</label>
                 <div class="col-md-9">
-                    <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
+                    <!-- <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
                         <option [ngValue]="0">All</option>
                         <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
-                    </select>
+                    </select> -->
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{staffDeptStatus()}}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
+                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row"> 
+            <div class="row">
                 <label class="col-md-3" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
                 <div class="col-md-9">
                     <!-- <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
@@ -64,14 +75,15 @@
                         <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
                     </select> -->
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          {{timekeeperStatus()}}
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{timekeeperStatus()}}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
-                          <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                            <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
+                            <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
             <div id="othercheck" class="row checkbox">
@@ -95,8 +107,8 @@
             {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
     </div>
     <br clear=all>
-<div class="container">
-    
+    <div class="container">
+
         <div class="row">
             <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId | timekeeperDept: timekeeperDeptId | other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
@@ -115,7 +127,8 @@
                                 <strong>
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.firstname}} {{person.lastname}}</button> <!--   {{person.pkpersonid}}  -->
+                                        {{person.firstname}} {{person.lastname}}</button>
+                                    <!--   {{person.pkpersonid}}  -->
                                 </strong>&nbsp; {{getPrefName(person)}} <br>
 
                             </div>
@@ -125,17 +138,18 @@
                                     <div id="jobtitle" [innerHTML]="getTitles(person)"></div>
                                 </div>
                                 <div class="contacticons">
-                                    
+
                                     <a *ngIf="person.emails[0]" href="mailto:{{person.emails[0].emailaddress}}" id="{{person.displayname}}">
                                         <img src="../../assets/email.jpg" data-toggle="tooltip" title="email {{person.displayname}}"
                                             width="20px;"></a>
-                                        &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
+                                    &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
                                         id="{{person.interactionid}}">
                                         <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                                        <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"  target="_blank">
-                                        <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
-                                        &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
-                                        &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
+                                    <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"
+                                            target="_blank">
+                                            <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
+                                    &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
+                                    &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 </div><br>
                                 {{person.officelocation.officelocationcode}} Office Number:
                                 <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officefloorid}}"
@@ -158,7 +172,7 @@
                                 </span>
                                 <div *ngIf="person.isattorney" [innerHTML]="getBAR(person)"></div>
                                 TK #:{{person.timekeepernumber}}
-                                
+
                                 <!--<div *ngIf="filtered?.length == 1">
                                     <strong>More:</strong><br>
                                     <div id="Education" [innerHTML="getEducation(person)"]></div>
@@ -172,10 +186,10 @@
             </span>
         </div>
         <div class="PaginationBar">
-                <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
-                <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} -
-                    {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
-            </div>
+            <pagination-controls class="pagecontrols" (pageChange)="pageNumber = $event;addQueryParams({page: pageNumber})"></pagination-controls>
+            <pagination-template class="numoftotal" #p="paginationApi">Items {{limit * (p.getCurrent() - 1) + 1}} -
+                {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
+        </div>
     </div>
 
 </div>
