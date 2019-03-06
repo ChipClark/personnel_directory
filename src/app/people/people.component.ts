@@ -601,7 +601,7 @@ export class PeopleComponent implements OnInit {
           this.showAdvFilter = true;
           break;
         case 'timekeeperdept':
-          this.timekeeperDeptId = q[1];
+          this.timekeeperDeptId = (q[1] as string);
           this.showAdvFilter = true;
           break;
         case 'other':

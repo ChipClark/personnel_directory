@@ -24,6 +24,11 @@
   padding-right: 0px;
 }
 
+
+.staffdept {
+  padding-top: 10px;
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   /* IE Edge 12+ CSS styles go here */ 
   .people {

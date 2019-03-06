@@ -20,7 +20,7 @@
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
         <div id="basicfilter">
-            <div class="btn-group-toggle locationbar d-none d-sm-block " data-toggle="locationbuttons">
+            <div class="btn-group-toggle locationbar d-none d-sm-block cityfilter" data-toggle="locationbuttons">
                 <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
                     <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
                         [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
@@ -48,9 +48,9 @@
 
 
             </div>
-            <div class="row">
-                <label class="col-md-3" for="staffdept">Roles or Department:&nbsp;</label>
-                <div class="col-md-9">
+            <div class="row staffdept">
+                <label class="col-md-4" for="staffdept">Roles or Department:&nbsp;</label>
+                <div class="col-md-8">
                     <!-- <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
                         <option [ngValue]="0">All</option>
                         <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
@@ -68,8 +68,8 @@
                 </div>
             </div>
             <div class="row">
-                <label class="col-md-3" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
-                <div class="col-md-9">
+                <label class="col-md-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
+                <div class="col-md-8">
                     <!-- <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
                             <option [ngValue]="0">All</option>
                         <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
