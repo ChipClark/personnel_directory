@@ -2,10 +2,10 @@
     <div class="searchbar col-md-7 col-sm-12">
         <input *ngIf="!mobile" class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
         [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
-        <div *ngIf="mobile" class="input-group mb-3">
+        <div *ngIf="mobile" class="input-group col">
             <input type="text" class="form-control" placeholder="Search by keyword" #search>
             <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search.value)">Search</button>
+              &nbsp;<button class="btn btn-outline-secondary" type="button" (click)="onSearch(search.value)">Search</button>
             </div>
           </div>
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
@@ -17,11 +17,10 @@
                 <input type="radio" name="options" class="generalbtn normal-font" [(ngModel)]="alpha" [value]="a" value="{{a}}"
                     (click)="addQueryParams({alpha: a, page: null})">&nbsp;{{ a }}
             </label>
-            <br><br>
-            <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear
-                All&nbsp;</label>
         </div>
-    </div>
+        <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear
+            <span *ngIf="!mobile" >All</span>&nbsp;</label>
+</div>
 
     <div class='optionsbar col-md-5 d-md-block d-none'>
         <div id="basicfilter">
@@ -53,13 +52,9 @@
 
 
             </div>
-            <div class="row staffdept">
-                <label class="col-md-4" for="staffdept">Roles or Department:&nbsp;</label>
-                <div class="col-md-8">
-                    <!-- <select class="form-control" style="width: auto" name="staffdept" id="staffdept" [(ngModel)]="staffDeptId" (change)="staffDeptId == 0 ? addQueryParams({staffdept: null, page: null}) : addQueryParams({staffdept: staffDeptId, page: null})">
-                        <option [ngValue]="0">All</option>
-                        <option *ngFor="let s of staffDept" [ngValue]="s.id">{{ s.name }}</option>
-                    </select> -->
+            <div id="staffdept" class="row">
+                <label class="col-md-5 col-lg-4" for="staffdept">Roles or Department:&nbsp;</label>
+                <div class="col-md-7 col-lg-8">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -72,13 +67,9 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <label class="col-md-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
-                <div class="col-md-8">
-                    <!-- <select class="form-control" style="width: auto" name="timekeeperdept" id="timekeeperdept" [(ngModel)]="timekeeperDeptId" (change)="timekeeperDeptId == 0 ? addQueryParams({timekeeperdept: null, page: null}) : addQueryParams({timekeeperdept: timekeeperDeptId, page: null})">
-                            <option [ngValue]="0">All</option>
-                        <option *ngFor="let t of timekeeperDept" [value]="t.id">{{ t.name }}</option>
-                    </select> -->
+            <div id="timekeeper" class="row ">
+                <label class="col-md-5 col-lg-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
+                <div class="col-md-7 col-lg-8">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
