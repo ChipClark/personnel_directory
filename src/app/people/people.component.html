@@ -1,6 +1,6 @@
 <div id="filters">
     <div class="searchbar col-md-7 col-sm-12">
-        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus (mouseover)="searchFocus()"
+        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
         [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
 
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
