@@ -1,8 +1,13 @@
 <div id="filters">
     <div class="searchbar col-md-7 col-sm-12">
-        <input class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
+        <input *ngIf="!mobile" class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
         [(ngModel)]="searchTerm" (input)="searchTerm ? addQueryParams({search: searchTerm}) : addQueryParams({search: null})">
-
+        <div *ngIf="mobile" class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search by keyword" #search>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="onSearch(search.value)">Search</button>
+            </div>
+          </div>
         <div class="btn-group-toggle rolebar d-none d-md-block" data-toggle="alphabuttons">
             <label class="normal-font btn btn-outline-secondary" [class.active]="!alpha" id="alphaAll">
                 <input type="radio" name="options" [(ngModel)]="alpha" [value]="" value="" class="generalbtn normal-font"

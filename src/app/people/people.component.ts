@@ -203,6 +203,7 @@ export class PeopleComponent implements OnInit {
     ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
   public individualid = null;
   public currentStaffDept = 'All';
+  public mobile = false;
 
   url: string;
   people: Person[];
@@ -241,6 +242,9 @@ export class PeopleComponent implements OnInit {
     this.getRoomLocation();
     this.getPeople();
     //this.getSchools();
+    if (window.screen.width < 768) {
+      this.mobile = true;
+    }
   }
 
   getLegalSubDepts(): any {
@@ -714,6 +718,15 @@ export class PeopleComponent implements OnInit {
         return 'Secretary';
       case 12:
         return 'Word Processing';
+    }
+  }
+
+  onSearch(searchVal) {
+    this.searchTerm = searchVal;
+    if (this.searchTerm) {
+      this.addQueryParams({ search: this.searchTerm });
+    } else {
+      this.addQueryParams({ search: null });
     }
   }
 
