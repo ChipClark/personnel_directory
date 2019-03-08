@@ -26,6 +26,7 @@ import { IndividualPipe } from './pipes/individual.pipe';
 import { CityArrayPipe } from './pipes/cityArray.pipe';
 import { RoleArrayPipe } from './pipes/roleArray.pipe';
 import { StaffDeptPipe } from './pipes/staffDept.pipe';
+import { TimekeeperDeptPipe } from './pipes/timekeeperDept.pipe';
 import { OtherPipe } from './pipes/other.pipe';
 import { InlineSVGModule } from 'ng-inline-svg';
 import { La26Component } from './maps/la26/la26.component';
@@ -39,6 +40,9 @@ import { Sd27Component } from './maps/sd27/sd27.component';
 import { Sf12Component } from './maps/sf12/sf12.component';
 import { Sf13Component } from './maps/sf13/sf13.component';
 import { Cc18Component } from './maps/cc18/cc18.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -72,7 +76,9 @@ import { Cc18Component } from './maps/cc18/cc18.component';
     Sd27Component,
     Sf12Component,
     Sf13Component,
-    Cc18Component
+    Cc18Component,
+    TimekeeperDeptPipe,
+    OtherPipe
   ],
   imports: [
     BrowserModule,
@@ -80,7 +86,11 @@ import { Cc18Component } from './maps/cc18/cc18.component';
     AppRoutingModule,
     HttpClientModule,
     NgxPaginationModule,
-    InlineSVGModule.forRoot()
+    InlineSVGModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    TooltipModule.forRoot(),
+    ModalModule.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]

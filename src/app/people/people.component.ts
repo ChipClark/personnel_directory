@@ -28,6 +28,7 @@ import { PersonSearchComponent } from '../person-search/person-search.component'
 import { identifierModuleUrl } from '@angular/compiler';
 import { forEach } from '@angular/router/src/utils/collection';
 import { filterQueryId } from '@angular/core/src/view/util';
+import { SearchPipe } from '../pipes/search.pipe';
 
 
 @Component({
@@ -119,7 +120,6 @@ export class PeopleComponent implements OnInit {
       'id': 20
     }
   ];
-
   public staffDept = [
     {
       'name': 'Partner',
@@ -170,7 +170,6 @@ export class PeopleComponent implements OnInit {
       'id': 12
     }
   ];
-
   public timekeeperDept = [
     {
       'name': 'Corporate & Finance',
@@ -187,21 +186,23 @@ export class PeopleComponent implements OnInit {
   ];
 
   @ViewChildren('nGForArray') filtered;
-  public otherArray = [];
-  public staffDeptId = 0;
-  public timekeeperDeptId = 0;
-  public cityidArray = [4, 1, 2, 3, 5];
-  public roleidArray = [13, 1, 10, 20];
-  public roleCheckAll = true;
-  public showAdvFilter = false;
-  public cityid = null;
-  public roleid = null;
-  public searchTerm = null;
-  public alpha = null;
-  public page = null;
-  public alphabets =
-    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
-  public individualid = null;
+    public otherArray = [];
+    public staffDeptId = 0;
+    public timekeeperDeptId = '';
+    public cityidArray = [4, 1, 2, 3, 5];
+    public roleidArray = [13, 1, 10, 20];
+    public roleCheckAll = true;
+    public showAdvFilter = false;
+    public cityid = null;
+    public roleid = null;
+    public searchTerm = null;
+    public alpha = null;
+    public page = null;
+    public alphabets =
+      ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    public individualid = null;
+    public currentStaffDept = 'All';
+    public mobile = false;
 
   url: string;
   people: Person[];
@@ -240,6 +241,9 @@ export class PeopleComponent implements OnInit {
     this.getRoomLocation();
     this.getPeople();
     //this.getSchools();
+    if (window.screen.width < 1000) {
+      this.mobile = true;
+    }
   }
 
   getLegalSubDepts(): any {
@@ -299,10 +303,10 @@ export class PeopleComponent implements OnInit {
           }
         }
       });
-      this.route.queryParamMap.subscribe(params => {
-        const queryStrings: any = this.route.queryParamMap;
-        this.executeQueryParams(queryStrings.source.value);
-      });
+    this.route.queryParamMap.subscribe(params => {
+      const queryStrings: any = this.route.queryParamMap;
+      this.executeQueryParams(queryStrings.source.value);
+    });
   }
 
   buildURL() {
@@ -481,7 +485,7 @@ export class PeopleComponent implements OnInit {
     var pnum = officePhone.phonenumber;
     //console.log(pnum);
     pnum = pnum.replace(/\D+/g, '')
-     .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+      .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
     var phonenum = 'x' + officePhone.phoneextension;
     phonenum = phonenum + '&nbsp;Phone: ' + pnum + '<br>';
@@ -592,7 +596,7 @@ export class PeopleComponent implements OnInit {
     this.searchTerm = null;
     switch (key) {
       case "alpha":
-      this.addQueryParams({ alpha: null, page: null });
+        this.addQueryParams({ alpha: null, page: null });
         break;
       case "city":
         if (this.cityid) {
@@ -605,13 +609,16 @@ export class PeopleComponent implements OnInit {
       case "ind":
         this.addQueryParams({ ind: null, page: null });
         break;
+      case "all":
+        this.addQueryParams({ alpha: null, city: null, role: null, ind: null, page: null, search: null  });
+        break;
     }
   }
 
   addQueryParams(query): void {
     const keys = Object.keys(query);
     const values = Object.values(query);
-    for(let i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
       switch (keys[i]) {
         case 'city':
           this.cityid = values[0];
@@ -688,7 +695,7 @@ export class PeopleComponent implements OnInit {
           this.showAdvFilter = true;
           break;
         case 'timekeeperdept':
-          this.timekeeperDeptId = +q[1];
+          this.timekeeperDeptId = (q[1] as string);
           this.showAdvFilter = true;
           break;
         case 'other':
@@ -701,7 +708,7 @@ export class PeopleComponent implements OnInit {
 
   clearFilters() {
     this.staffDeptId = 0;
-    this.timekeeperDeptId = 0; 
+    this.timekeeperDeptId = '';
     this.cityidArray = [4, 1, 2, 3, 5];
     this.roleidArray = [13, 2, 1, 10, 20];
     this.otherArray = [];
@@ -760,97 +767,58 @@ export class PeopleComponent implements OnInit {
     this.addQueryParams({ other: this.otherArray.length > 0 ? this.otherArray.toString() : null })
   }
 
-
-  // ************************************
-  //
-  //  additional functions not yet implemented 
-  //
-  // ************************************
-
-  /*  comment out to the end  
-  buildCompletePerson(): any {
-
-    var tempTable: any;
-
-    if (!this.people) console.log("No People[]");
-
-    for (let i = 0; i < 1; i++) {
-      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
-      this.completePerson[i].pkpersonid = this.people[i].pkpersonid;
-      this.completePerson[i].lastname = this.people[i].lastname;
-      this.completePerson[i].firstname = this.people[i].firstname;
-      this.completePerson[i].middlename = this.people[i].middlename;
-      this.completePerson[i].preferredfirstname = this.people[i].preferredfirstname;
-      this.completePerson[i].displayname = this.people[i].displayname;
-      this.completePerson[i].initials = this.people[i].initials;
-      this.completePerson[i].prefix = this.people[i].prefix;
-      this.completePerson[i].suffix = this.people[i].suffix;
-      this.completePerson[i].timekeepernumber = this.people[i].timekeepernumber;
-      this.completePerson[i].ultiproemployeeid = this.people[i].ultiproemployeeid;
-      this.completePerson[i].addomainaccount = this.people[i].addomainaccount;
-      this.completePerson[i].adprincipaldomainaccount = this.people[i].adprincipaldomainaccount;
-      this.completePerson[i].officenumber = this.people[i].officenumber;
-
-      tempTable = this.hrdepts.find(obj => obj.hrdepartmentid === this.people[i].hrdepartmentid);
-      this.completePerson[i].hrdepartmentname = tempTable.hrdepartmentname;
-
-      tempTable = this.jobs.find(obj => obj.jobtitleid === this.people[i].jobtitleid);
-      this.completePerson[i].jobtitle = tempTable.jobtitle;
-
-      //tempTable = this.
-      //this.completePerson[i].officelocationname = this.people[i].addomainaccount;
-
+  timekeeperStatus() {
+    switch (this.timekeeperDeptId) {
+      case '':
+        return 'All';
+      case '(C&F)':
+        return 'Corporate & Finance';
+      case '(LIT)':
+        return 'Litigation';
+      case '(RE)':
+        return 'Real Estate';
     }
-
   }
 
-  usePeople(): any {
-    return this.people;
-  }
-  getSchools(): any {
-    this.staffService.getSchools(this.schoolURL)
-      .subscribe(schools => {
-        this.schools = schools;
-      });
-    this.staffService.getEducation(this.schoolURL)
-      .subscribe(education => {
-        this.education = education;
-      });
-    this.staffService.getDegrees(this.degreeTypesURL)
-      .subscribe(degrees => {
-        this.degrees = degrees;
-      });
-  }
-
-  getEducation(currentperson: Person): string {
-    let attorneyeducation = null;
-    if (currentperson.isattorney == true) {
-      attorneyeducation = "Education: ";
-
-      currentperson.education = this.education.filter(obj => {
-        return obj.pkpersonid === currentperson.pkpersonid;
-      })
-      for (let i = 0; i < this.education.length; i++) {
-        let aDegree = this.degrees.find(obj => {
-          return obj.degreetypeid === this.education[i].degreetypeid;
-        });
-        this.education[i].degreename = aDegree.degreetypename;
-
-        let aSchool = this.schools.find(obj => {
-          return obj.schoolid === this.education[i].schoolid;
-        });
-        this.education[i].schoolname = aSchool.schoolname;
-
-        attorneyeducation = attorneyeducation + this.education[i].degreename
-          + '&nbsp;' + this.education[i].schoolname
-          + '&nbsp;' + this.education[i].graduationyear + '<br>';
-      }
+  staffDeptStatus() {
+    switch (this.staffDeptId) {
+      case 0:
+        return 'All';
+      case 13:
+        return 'Partner';
+      case 1:
+        return 'Associate';
+      case 10:
+        return 'Paralegal';
+      case 3:
+        return 'Human Resources';
+      case 4:
+        return 'Library';
+      case 5:
+        return 'Recruiting';
+      case 6:
+        return 'Marketing';
+      case 7:
+        return 'Technology';
+      case 8:
+        return 'Finance';
+      case 9:
+        return 'Administration';
+      case 11:
+        return 'Secretary';
+      case 12:
+        return 'Word Processing';
     }
-
-    return attorneyeducation;
   }
-  */
 
+  onSearch(searchVal) {
+    this.searchTerm = searchVal;
+    if (this.searchTerm) {
+      this.addQueryParams({ search: this.searchTerm });
+    } else {
+      this.addQueryParams({ search: null });
+    }
+  }
 
 
 }
