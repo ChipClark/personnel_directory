@@ -8,7 +8,7 @@ Known Issues:
 
  - Filters are accessible on mobile devices (via Filter button)
 
- - layout changed to accomodate wide screens.
+ - layout changed to accommodate wide screens.
  
  - filters are now always available (except on mobile). There is no need to click on "Advance Search".
 
