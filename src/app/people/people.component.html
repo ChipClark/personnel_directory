@@ -62,12 +62,12 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
-                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null}); setTimekeeper(s.id)">{{s.name}}</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="timekeeper" class="row ">
+            <div id="timekeeper" class="row " >
                 <label class="col-md-5 col-lg-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
                 <div class="col-md-7 col-lg-8">
                     <div class="dropdown">
@@ -77,7 +77,9 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
-                            <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                            <span *ngIf="timekeeperon">
+                                    <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                            </span>
                         </div>
                     </div>
                 </div>
