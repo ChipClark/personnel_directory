@@ -325,7 +325,8 @@ export class PeopleComponent implements OnInit {
     if (!findPerson) {
       return "No name found";
     }
-    return findPerson.displayname;
+    let personname = findPerson.firstname + " " + findPerson.lastname;
+    return personname;
   }
 
   getSubDept(currentperson: any) {
