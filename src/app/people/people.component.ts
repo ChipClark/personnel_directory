@@ -581,6 +581,9 @@ export class PeopleComponent implements OnInit {
       queryParams: {
       }
     });
+    document.getElementById("CPRbox")
+    document.getElementById("Notarybox")
+
   }
 
   executeQueryParams(queryStrings): void {

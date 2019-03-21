@@ -165,20 +165,8 @@
   display: inline-block;
 }
 
-.dropdown {
-  padding: 5px 5px 1px 1px;
-  border: #999;
-  border-bottom-width: thin;
-  border-bottom-style: solid;
-  border-top-width: thin;
-  border-top-style: solid;
-  border-left-width: thin;
-  border-left-style: solid;
-  border-right-width: thin;
-  border-right-style: solid;
-}
-
 .dropdownbox {
+  padding: 5px 5px 1px 1px;
   position: relative;
   width:200px;
   top: 3px;
@@ -186,6 +174,8 @@
   padding-left:5px;
   padding-bottom:10px;
   display: inline-block;
+  /*
+  background-color: #999;
   border: #999;
   border-bottom-width: thin;
   border-bottom-style: solid;
@@ -195,6 +185,7 @@
   border-left-style: solid;
   border-right-width: thin;
   border-right-style: solid;
+  */
 }
 
 .otherfilters {
