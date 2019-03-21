@@ -269,47 +269,46 @@ export class PeopleComponent implements OnInit {
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
-
-        // **************************
-        // build list of supportedpeople;
-        // build officefloorid for each person
-
-        for (let i = 0; i < this.people.length; i++) {
-          if (this.people[i]) {
-            this.getSubDept(this.people[i]);
-            this.getFloorLocation(this.people[i]);
-          }
-          if (this.people[i].personrelationship) {
-            const relatedArray = this.people[i].personrelationship;
-            for (let j = 0; j < relatedArray.length; j++) {
-              for (let k = 0; k < this.people.length; k++) {
-                if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
-                  this.people[k].supportrelationships = true;
-                  const relatedPerson = {
-                    relatedpersonid: null,
-                    personrelationshipid: null,
-                    pkpersonid: null,
-                    relationshiptypeid: null,
-                    supportedpersonid: relatedArray[j].pkpersonid,
-                    description: null,
-                    active: null,
-                    activefromdate: null,
-                    modifieddate: null,
-                    modifiedby: null,
-                    validfromdate: null,
-                    validtodate: null
-                  };
-                  this.people[k].personrelationship.push(relatedPerson);
-                }
-              }
-            }
-          }
-        }
+        this.buildAllPeopleData();
       });
     this.route.queryParamMap.subscribe(params => {
       const queryStrings: any = this.route.queryParamMap;
       this.executeQueryParams(queryStrings.source.value);
     });
+  }
+
+  buildAllPeopleData(): void {
+    for (let i = 0; i < this.people.length; i++) {
+      if (this.people[i]) {
+        this.getSubDept(this.people[i]);
+        this.getFloorLocation(this.people[i]);
+      }
+      if (this.people[i].personrelationship) {
+        const relatedArray = this.people[i].personrelationship;
+        for (let j = 0; j < relatedArray.length; j++) {
+          for (let k = 0; k < this.people.length; k++) {
+            if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
+              this.people[k].supportrelationships = true;
+              const relatedPerson = {
+                relatedpersonid: null,
+                personrelationshipid: null,
+                pkpersonid: null,
+                relationshiptypeid: null,
+                supportedpersonid: relatedArray[j].pkpersonid,
+                description: null,
+                active: null,
+                activefromdate: null,
+                modifieddate: null,
+                modifiedby: null,
+                validfromdate: null,
+                validtodate: null
+              };
+              this.people[k].personrelationship.push(relatedPerson);
+            }
+          }
+        }
+      }
+    }
   }
 
   buildURL() {
