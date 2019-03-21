@@ -155,3 +155,35 @@
 .button {
   box-sizing: none;
 }
+
+.filterlable { 
+  position: relative;
+  width:200px;
+  top: 3px;
+  left:10px;
+  padding-right:5px;
+  display: inline-block;
+}
+
+.dropdownbox {
+  position: relative;
+  width:200px;
+  top: 3px;
+  left:10px;
+  padding-left:5px;
+  padding-bottom:10px;
+  display: inline-block;
+  border: #999;
+  border-bottom-width: thin;
+  border-bottom-style: solid;
+  border-top-width: thin;
+  border-top-style: solid;
+  border-left-width: thin;
+  border-left-style: solid;
+  border-right-width: thin;
+  border-right-style: solid;
+}
+
+.otherfilters {
+  padding-top: 10px;
+}

@@ -53,8 +53,8 @@
 
             </div>
             <div id="staffdept" class="row">
-                <label class="col-md-5 col-lg-4" for="staffdept">Roles or Department:&nbsp;</label>
-                <div class="col-md-7 col-lg-8">
+                <label class="filterlable" for="staffdept">Roles or Department:&nbsp;</label>
+                <div class="dropdownbox">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,8 +68,8 @@
                 </div>
             </div>
             <div id="timekeeper" class="row " >
-                <label class="col-md-5 col-lg-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
-                <div class="col-md-7 col-lg-8">
+                <label class="filterlable" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
+                <div class="dropdownbox">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -84,9 +84,9 @@
                     </div>
                 </div>
             </div>
-            <div id="othercheck" class="row checkbox">
-                <label class="col-md-2" for="">Other:</label>
-                <div class="col-md-10">
+            <div id="othercheck" class="row checkbox otherfilters">
+                <label class="filterlable" for="">Other:</label>
+                <div class="">
                     <label><input type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
                     <label><input type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
                 </div>
