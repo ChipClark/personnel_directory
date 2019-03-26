@@ -189,6 +189,7 @@ export class PeopleComponent implements OnInit {
     public otherArray = [];
     public staffDeptId = 0;
     public timekeeperDeptId = '';
+    public timekeeperon = true;
     public cityidArray = [4, 1, 2, 3, 5];
     public roleidArray = [13, 1, 10, 20];
     public roleCheckAll = true;
@@ -266,47 +267,46 @@ export class PeopleComponent implements OnInit {
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
-
-        // **************************
-        // build list of supportedpeople;
-        // build officefloorid for each person
-
-        for (let i = 0; i < this.people.length; i++) {
-          if (this.people[i]) {
-            this.getSubDept(this.people[i]);
-            this.getFloorLocation(this.people[i]);
-          }
-          if (this.people[i].personrelationship) {
-            const relatedArray = this.people[i].personrelationship;
-            for (let j = 0; j < relatedArray.length; j++) {
-              for (let k = 0; k < this.people.length; k++) {
-                if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
-                  this.people[k].supportrelationships = true;
-                  const relatedPerson = {
-                    relatedpersonid: null,
-                    personrelationshipid: null,
-                    pkpersonid: null,
-                    relationshiptypeid: null,
-                    supportedpersonid: relatedArray[j].pkpersonid,
-                    description: null,
-                    active: null,
-                    activefromdate: null,
-                    modifieddate: null,
-                    modifiedby: null,
-                    validfromdate: null,
-                    validtodate: null
-                  };
-                  this.people[k].personrelationship.push(relatedPerson);
-                }
-              }
-            }
-          }
-        }
+        this.buildAllPeopleData();
       });
     this.route.queryParamMap.subscribe(params => {
       const queryStrings: any = this.route.queryParamMap;
       this.executeQueryParams(queryStrings.source.value);
     });
+  }
+
+  buildAllPeopleData(): void {
+    for (let i = 0; i < this.people.length; i++) {
+      if (this.people[i]) {
+        this.getSubDept(this.people[i]);
+        this.getFloorLocation(this.people[i]);
+      }
+      if (this.people[i].personrelationship) {
+        const relatedArray = this.people[i].personrelationship;
+        for (let j = 0; j < relatedArray.length; j++) {
+          for (let k = 0; k < this.people.length; k++) {
+            if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
+              this.people[k].supportrelationships = true;
+              const relatedPerson = {
+                relatedpersonid: null,
+                personrelationshipid: null,
+                pkpersonid: null,
+                relationshiptypeid: null,
+                supportedpersonid: relatedArray[j].pkpersonid,
+                description: null,
+                active: null,
+                activefromdate: null,
+                modifieddate: null,
+                modifiedby: null,
+                validfromdate: null,
+                validtodate: null
+              };
+              this.people[k].personrelationship.push(relatedPerson);
+            }
+          }
+        }
+      }
+    }
   }
 
   buildURL() {
@@ -322,11 +322,12 @@ export class PeopleComponent implements OnInit {
     if (!findPerson) {
       return "No name found";
     }
-    return findPerson.displayname;
+    let personname = findPerson.firstname + " " + findPerson.lastname;
+    return personname;
   }
 
   getSubDept(currentperson: any) {
-    if (currentperson.isattorney == true) {
+    if (currentperson.isattorney == true && currentperson.legalsubdepartments ) {
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
   }
@@ -436,8 +437,9 @@ export class PeopleComponent implements OnInit {
 
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
-    if (currentperson.isattorney == true) {
-      addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
+    if (currentperson.isattorney == true ) {
+      if (!currentperson.legalsubdeptfriendlyname) { }
+      else addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
     }
     return addHTML;
   }
@@ -592,6 +594,17 @@ export class PeopleComponent implements OnInit {
 
   sanitizeScript(sanitizer: DomSanitizer) { }
 
+  setTimekeeper(id): void {
+    if (id == 0 || id== 1 || id == 10 || id == 13){
+      this.timekeeperon = true;
+    }
+    else {
+      this.timekeeperon = false;
+      this.timekeeperDeptId = null;
+      this.addQueryParams({ timekeeperDeptId: null });
+    }
+  }
+
   clearALL(key): void {
     this.searchTerm = null;
     switch (key) {
@@ -657,6 +670,9 @@ export class PeopleComponent implements OnInit {
       queryParams: {
       }
     });
+    document.getElementById("CPRbox")
+    document.getElementById("Notarybox")
+
   }
 
   executeQueryParams(queryStrings): void {
@@ -791,22 +807,31 @@ export class PeopleComponent implements OnInit {
       case 10:
         return 'Paralegal';
       case 3:
+        this.timekeeperDeptId = ""
         return 'Human Resources';
       case 4:
+        this.timekeeperDeptId = ""
         return 'Library';
       case 5:
+        this.timekeeperDeptId = ""
         return 'Recruiting';
       case 6:
+        this.timekeeperDeptId = ""
         return 'Marketing';
       case 7:
+        this.timekeeperDeptId = ""
         return 'Technology';
       case 8:
+        this.timekeeperDeptId = ""
         return 'Finance';
       case 9:
+        this.timekeeperDeptId = ""
         return 'Administration';
       case 11:
+        this.timekeeperDeptId = ""
         return 'Secretary';
       case 12:
+        this.timekeeperDeptId = ""
         return 'Word Processing';
     }
   }

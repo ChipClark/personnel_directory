@@ -1,3 +1,61 @@
+<nav role="filters for mobile" class="mobile-menu">
+    <label class="navbar-toggle collapsed normal-font btn btn-outline active" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle Filters</span>
+        <span class="large-font">Filters</span>
+    </label>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <div id="basicfilter">
+            <div id="Office Locations" class="btn-group-toggle locationbar cityfilter" data-toggle="locationbuttons">
+                <label class=" large-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
+                    <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
+                        [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
+                    <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
+                        value="4" (click)="addQueryParams({city: 4, page: null})">&nbsp;CC&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
+                    <input type="radio" name="options" id="option3" class="generalbtn" [(ngModel)]="cityid" [value]="1"
+                        value="1" (click)="addQueryParams({city: 1, page: null})">&nbsp;LA&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
+                    <input type="radio" name="options" id="option4" class="generalbtn" [(ngModel)]="cityid" [value]="2"
+                        value="2" (click)="addQueryParams({city: 2, page: null})">&nbsp;OC&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
+                    <input type="radio" name="options" id="option5" class="generalbtn" [(ngModel)]="cityid" [value]="3"
+                        value="3" (click)="addQueryParams({city: 3, page: null})">&nbsp;SD&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
+                    <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
+                        value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
+                </label>&nbsp;&nbsp;
+            </div>
+            <div id="staffdept-nav" class="row">
+                <label class="col-8 dropdown-toggle normal-font filter-mobile-nav" for="staffdept"
+                id="dropdownMenuButton-nav" (click)="stafflist = !stafflist" >Roles or Department:&nbsp;&nbsp;{{staffDeptStatus()}}</label>
+                <div class="dropdown-toggle" aria-labelledby="dropdownMenuButton-nav" *ngIf="stafflist">
+                    <a class="dropdown-item normal-font" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
+                    <a class="dropdown-item normal-font" *ngFor="let s of staffDept" (click)="stafflist; staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                </div>
+            </div>
+            <div id="timekeeper-nav" class="row ">
+                <label class="col-8 dropdown-toggle normal-font filter-mobile-nav" for="timekeeperdept" 
+                    id="dropdownMenuButton-nav" 
+                    (click)="tklist = !tklist" >Timekeeper Dept:&nbsp;&nbsp;{{timekeeperStatus()}}</label>
+                    
+                <div class="dropdown-toggle" aria-labelledby="dropdownMenuButton-nav" *ngIf="tklist">
+                    <a class="dropdown-item normal-font" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
+                    <a class="dropdown-item normal-font" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</nav>
+
+
 <div id="filters">
     <div class="searchbar col-md-7 col-sm-12">
         <input *ngIf="!mobile" class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
@@ -20,79 +78,8 @@
         </div>
         <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear
             <span *ngIf="!mobile" >All</span>&nbsp;</label>
-        <nav role="filters for mobile" *ngIf="mobile">
-            <label class="navbar-toggle collapsed normal-font btn btn-outline active" data-toggle="collapse" data-target="#navbar-collapse-1">
-                <span class="sr-only">Toggle Filters</span>
-                Filters
-            </label>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-collapse-1">
-                <div id="basicfilter">
-                    <div id="Office Locations" class="btn-group-toggle locationbar cityfilter" data-toggle="locationbuttons">
-                        <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
-                            <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
-                                [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
-                        </label>&nbsp;
-                        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
-                            <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
-                                value="4" (click)="addQueryParams({city: 4, page: null})">&nbsp;CC&nbsp;
-                        </label>&nbsp;
-                        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
-                            <input type="radio" name="options" id="option3" class="generalbtn" [(ngModel)]="cityid" [value]="1"
-                                value="1" (click)="addQueryParams({city: 1, page: null})">&nbsp;LA&nbsp;
-                        </label>&nbsp;
-                        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
-                            <input type="radio" name="options" id="option4" class="generalbtn" [(ngModel)]="cityid" [value]="2"
-                                value="2" (click)="addQueryParams({city: 2, page: null})">&nbsp;OC&nbsp;
-                        </label>&nbsp;
-                        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
-                            <input type="radio" name="options" id="option5" class="generalbtn" [(ngModel)]="cityid" [value]="3"
-                                value="3" (click)="addQueryParams({city: 3, page: null})">&nbsp;SD&nbsp;
-                        </label>&nbsp;
-                        <label class="normal-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
-                            <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
-                                value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
-                        </label>&nbsp;&nbsp;
-                    </div>
-                    <div id="staffdept" class="row">
-                        <label class="col-6" for="staffdept">Roles or Department:&nbsp;</label>
-                        <div class="col-3">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{staffDeptStatus()}}
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
-                                    <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="timekeeper" class="row ">
-                        <label class="col-6" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
-                        <div class="col-4">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{timekeeperStatus()}}
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
-                                    <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="othercheck" class="row checkbox">
-                        <label class="col-7" ><input type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
-                        <label class="col-5" ><input type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
-                    </div>
-                </div>
-            </div>
-        </nav>
     </div>    
-    <div class='optionsbar col-md-5 d-md-block d-none' *ngIf="!mobile">
+    <div class='optionsbar col-md-5 d-md-block d-none' >
         <div id="basicfilter">
             <div class="btn-group-toggle locationbar d-none d-sm-block cityfilter" data-toggle="locationbuttons">
                 <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
@@ -123,8 +110,8 @@
 
             </div>
             <div id="staffdept" class="row">
-                <label class="col-md-5 col-lg-4" for="staffdept">Roles or Department:&nbsp;</label>
-                <div class="col-md-7 col-lg-8">
+                <label class="filterlable" for="staffdept">Roles or Department:&nbsp;</label>
+                <div class="dropdownbox">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -132,31 +119,33 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
-                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null}); setTimekeeper(s.id)">{{s.name}}</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="timekeeper" class="row ">
-                <label class="col-md-5 col-lg-4" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
-                <div class="col-md-7 col-lg-8">
+            <div id="timekeeper" class="row " >
+                <label class="filterlable" for="timekeeperdept">Timekeeper Dept:&nbsp;&nbsp;</label>
+                <div class="dropdownbox">
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        <button class="btn btn-secondary  btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{timekeeperStatus()}}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
-                            <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                            <span *ngIf="timekeeperon">
+                                    <a class="dropdown-item" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="othercheck" class="row checkbox">
-                <label class="col-md-2" for="">Other:</label>
-                <div class="col-md-10">
-                    <label><input type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
-                    <label><input type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
+            <div id="othercheck" class="row checkbox otherfilters">
+                <label class="col-md-3" for="">Other:</label>
+                <div class="col-md-8">
+                    <label><input id="CPRBox" type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
+                    <label><input id="NotaryBox" type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
                 </div>
             </div>
         </div>
