@@ -78,9 +78,10 @@
         </div>
         <label class="normal-font btn btn-outline-secondary active" (click)="clearQueryParams()">&nbsp;Clear
             <span *ngIf="!mobile" >All</span>&nbsp;</label>
-    </div>    
-    <div class='optionsbar col-md-5 d-md-block d-none' >
-        <div id="basicfilter">
+    </div>
+
+    <div class='optionsbar col-md-5 d-md-block d-none'>
+        <div id="basicfilter" >
             <div class="btn-group-toggle locationbar d-none d-sm-block cityfilter" data-toggle="locationbuttons">
                 <label class="normal-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
                     <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
@@ -142,11 +143,9 @@
                 </div>
             </div>
             <div id="othercheck" class="row checkbox otherfilters">
-                <label class="col-md-3" for="">Other:</label>
-                <div class="col-md-8">
+                <label class="filterlable" for="">Other:</label>&nbsp;&nbsp;
                     <label><input id="CPRBox" type="checkbox" [value]="3" (change)="includeOthers(3)">&nbsp;CPR Certified&nbsp;</label>
                     <label><input id="NotaryBox" type="checkbox" [value]="2" (change)="includeOthers(2)">&nbsp;Notary&nbsp;</label>
-                </div>
             </div>
         </div>
         <br clear=all>
@@ -182,8 +181,9 @@
                                 <strong>
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.firstname}} {{person.lastname}}</button> <!-- {{person.pkpersonid}}  -->
-                                </strong>&nbsp; <span *ngIf=person.preferredfirstname>{{getPrefName(person)}}</span><br>
+                                        {{person.firstname}} {{getMiddleName(person)}}{{person.lastname}}</button>
+                                    <!--   {{person.pkpersonid}}  -->
+                                </strong>&nbsp; {{getPrefName(person)}} <br>
 
                             </div>
 
