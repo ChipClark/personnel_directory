@@ -37,10 +37,10 @@
                 id="dropdownMenuButton-nav" (click)="stafflist = !stafflist" >Roles or Department:&nbsp;&nbsp;{{staffDeptStatus()}}</label>
                 <div class="dropdown-toggle" aria-labelledby="dropdownMenuButton-nav" *ngIf="stafflist">
                     <a class="dropdown-item normal-font" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
-                    <a class="dropdown-item normal-font" *ngFor="let s of staffDept" (click)="stafflist; staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                    <a class="dropdown-item normal-font" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
                 </div>
             </div>
-            <div id="timekeeper-nav" class="row ">
+            <div id="timekeeper-nav" class="row">
                 <label class="col-8 dropdown-toggle normal-font filter-mobile-nav" for="timekeeperdept" 
                     id="dropdownMenuButton-nav" 
                     (click)="tklist = !tklist" >Timekeeper Dept:&nbsp;&nbsp;{{timekeeperStatus()}}</label>

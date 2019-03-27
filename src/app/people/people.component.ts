@@ -192,6 +192,8 @@ export class PeopleComponent implements OnInit {
     public timekeeperon = true;
     public cityidArray = [4, 1, 2, 3, 5];
     public roleidArray = [13, 1, 10, 20];
+    public stafflist = false;
+    public tklist = false;
     public roleCheckAll = true;
     public showAdvFilter = false;
     public cityid = null;
