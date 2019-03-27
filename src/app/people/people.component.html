@@ -125,7 +125,7 @@
                                 <strong>
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.firstname}} {{person.lastname}}</button>
+                                        {{person.firstname}} {{getMiddleName(person)}}{{person.lastname}}</button>
                                     <!--   {{person.pkpersonid}}  -->
                                 </strong>&nbsp; {{getPrefName(person)}} <br>
 

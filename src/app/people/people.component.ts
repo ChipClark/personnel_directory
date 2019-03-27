@@ -384,6 +384,22 @@ export class PeopleComponent implements OnInit {
     return pName;
   }
 
+  getMiddleName(currentperson: any): string {
+    let mname;
+    if (!currentperson.middlename) {
+      return null;
+    }
+    else {
+      if (currentperson.middlename.length == 1){
+        mname = currentperson.middlename + ". ";
+      }
+      else {
+        mname = currentperson.middlename + " ";
+      }
+    }
+    return mname;
+  }
+
   getPhone(currentperson: any): SafeHtml | SafeValue {
     var phonetypeid = 1;
     var officePhone = currentperson.phones.find(obj => {
