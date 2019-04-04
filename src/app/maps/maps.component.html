@@ -1,0 +1,35 @@
+<div id="selectoffice" class="officedropdown col-6">
+    <div class="col-md-10">
+        <select class="form-control" style="width: auto" name="offices" (change)=onChangeFloor($event.target.value)>
+            <option [ngValue]="0" disabled>Select Floor</option>
+            <optgroup label="Los Angeles">
+                <option value="la26">Floor 26</option>
+                <option value="la27">Floor 27</option>
+                <option value="la28">Floor 28</option>
+                <option value="la29">Floor 29</option>
+            </optgroup>
+            <optgroup label="Culver City">
+                <option value="cc18">Floor 18</option>
+            </optgroup>
+            <optgroup label="Orange County">
+                <option value="oc04">Floor 04</option>
+                <option value="oc05">Floor 05</option>
+            </optgroup>
+            <optgroup label="San Diego">
+                <option value="sd26">Floor 26</option>
+                <option value="sd27">Floor 27</option>
+            </optgroup>
+            <optgroup label="San Francisco">
+                <option value="sf12">Floor 12</option>
+                <option value="sf13">Floor 13</option>
+            </optgroup>
+        </select>
+    </div>
+</div>
+<div class="backfrommaps col-6">
+    <button class="backbutton" (click)="goBack()">Back</button>
+</div>
+<!-- <div id="map" class="svg-container" inlineSVG="assets/{{cityName}}-{{floorID}}.svg" [onSVGLoaded]="highlightOffice('o' + officeID)" (click)=goToPerson($event.target.id)></div> -->
+<div class="svg-container" (click)=goToPerson($event.target.id) >
+<router-outlet></router-outlet>
+</div>

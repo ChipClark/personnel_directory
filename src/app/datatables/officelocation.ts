@@ -22,6 +22,7 @@ export class OfficeLocation {
     active: true;
 }
 
+
 export class RoomLocation {
     city: string;
     cityfullname:  string;

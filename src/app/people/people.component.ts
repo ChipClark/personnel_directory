@@ -120,7 +120,6 @@ export class PeopleComponent implements OnInit {
       'id': 20
     }
   ];
-
   public staffDept = [
     {
       'name': 'Partner',
@@ -171,7 +170,6 @@ export class PeopleComponent implements OnInit {
       'id': 12
     }
   ];
-
   public timekeeperDept = [
     {
       'name': 'Corporate & Finance',
@@ -194,6 +192,8 @@ export class PeopleComponent implements OnInit {
     public timekeeperon = true;
     public cityidArray = [4, 1, 2, 3, 5];
     public roleidArray = [13, 1, 10, 20];
+    public stafflist = false;
+    public tklist = false;
     public roleCheckAll = true;
     public showAdvFilter = false;
     public cityid = null;
@@ -244,7 +244,7 @@ export class PeopleComponent implements OnInit {
     this.getRoomLocation();
     this.getPeople();
     //this.getSchools();
-    if (window.screen.width < 800) {
+    if (window.screen.width < 1000) {
       this.mobile = true;
     }
   }
@@ -334,12 +334,103 @@ export class PeopleComponent implements OnInit {
     }
   }
 
-  getFloorLocation(currentperson: Person) {
+  getFloorLocation(currentperson: any) {
     let floorID = this.roomLocation.find(p => {
       return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
     });
     if (floorID) {
-      currentperson.officefloorid = this.getOfficeFloor(floorID.officefloorid);
+      currentperson.officefloorid = floorID.officefloorid;
+      currentperson.floornumber = this.officeFloor(floorID.officefloorid);
+      currentperson.officecity = floorID.city.toLowerCase();
+      currentperson.officecityfullname = floorID.cityfullname;      
+    }
+    else {
+      let floorNum;
+      if (!currentperson.officenumber) {
+        return;
+      }
+      switch (currentperson.officelocationid) {
+        case 1:
+          floorNum = currentperson.officenumber.slice(0,2);
+          currentperson.officecity = "la";
+          currentperson.officecityfullname = "Los Angeles";      
+          break;
+        case 2: 
+          floorNum = currentperson.officenumber.slice(0,1);
+          currentperson.officecity = "oc";
+          currentperson.officecityfullname = "Orange County";      
+          break;
+        case 3:
+          floorNum = currentperson.officenumber.slice(0,1);
+          currentperson.officecity = "sd";
+          currentperson.officecityfullname = "San Diego";      
+          break;
+        case 4:
+          floorNum = currentperson.officenumber.slice(0,2);
+          currentperson.officecity = "cc";
+          currentperson.officecityfullname = "Century City";      
+          break;
+        case 5:
+          floorNum = currentperson.officenumber.slice(0,2);
+          if (floorNum == "c1") {
+            floorNum = currentperson.officenumber.slice(0,3);
+          }
+          currentperson.officecity = "sf";
+          currentperson.officecityfullname = "San Francisco";      
+          break;
+      }
+      switch (floorNum) {
+        case "4":
+          currentperson.floornumber = "04";
+          currentperson.officefloorid = 5;
+          break;
+        case "5":
+          currentperson.floornumber = "05";
+          currentperson.officefloorid = 6;
+          break;
+        case "6":
+          currentperson.floornumber = "26";
+          currentperson.officefloorid = 7;
+          break;
+        case "7": 
+          currentperson.floornumber = "27";
+          currentperson.officefloorid = 8;
+          break;
+        case "26":
+          currentperson.floornumber = "26";
+          currentperson.officefloorid = 1;
+          break;
+        case "27":
+          currentperson.floornumber = "27";
+          currentperson.officefloorid = 2;
+          break;
+        case "28":
+          currentperson.floornumber = "28";
+          currentperson.officefloorid = 3;
+          break;
+        case "29":
+          currentperson.floornumber = "29";
+          currentperson.officefloorid = 4;
+          break;
+        case "12":
+          currentperson.floornumber = "12";
+          currentperson.officefloorid = 10;
+          break;
+        case "13": 
+          currentperson.floornumber = "13";
+          currentperson.officefloorid = 11;
+          break;
+        case "18": 
+          currentperson.floornumber = "18";
+          currentperson.officefloorid = 9;
+          break;
+        case "c12":
+          currentperson.floornumber = "12";
+          currentperson.officefloorid = 9;
+        case "c13":
+          currentperson.floornumber = "13";
+          currentperson.officefloorid = 10;
+      }
     }
   }
 
@@ -406,9 +497,7 @@ export class PeopleComponent implements OnInit {
       return obj.phonetypeid === phonetypeid;
     });
 
-    if (currentperson.pkpersonid == 905) {
-      console.log(currentperson.phones);
-    }
+    
     if (!officePhone) {
       var nophone = 'Phone: NO Office Phone Number<br>'
       return nophone;
@@ -456,46 +545,46 @@ export class PeopleComponent implements OnInit {
     return "";
   }
 
-  getOfficeFloor(id): number {
+  getOfficeFloor(id): string {
     let floorNum = id;
     return this.officeFloor(floorNum);
   }
 
-  officeFloor(id): number {
+  officeFloor(id): string {
     var floor;
     switch (id) {
       case 1:
-        floor = 11;
+        floor = "26";
         break;
       case 2:
-        floor = 16;
+        floor = "27";
         break;
       case 3:
-        floor = 12;
+        floor = "28";
         break;
       case 4:
-        floor = 13;
+        floor = "29";
         break;
       case 5:
-        floor = 2;
+        floor = "04";
         break;
       case 6:
-        floor = 3;
+        floor = "05";
         break;
       case 7:
-        floor = 14;
+        floor = "26";
         break;
       case 8:
-        floor = 15;
+        floor = "27";
         break;
       case 9:
-        floor = 7;
+        floor = "18";
         break;
       case 10:
-        floor = 1;
+        floor = "12";
         break;
       case 11:
-        floor = 6;
+        floor = "13";
         break;
     }
     return floor;

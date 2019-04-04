@@ -12,3 +12,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit() { }
 
 }
+
+export class NavbarComponent {
+  isIn = false;   // store state
+  toggleState() { // click handler
+      let bool = this.isIn;
+      this.isIn = bool === false ? true : false; 
+  }
+}

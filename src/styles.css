@@ -55,6 +55,10 @@ body, input[text], button {
     padding-right: 5px;
 }
 
+.large-font {
+    font-size: 14pt;
+}
+
 .normal-font {
     font-size: 12pt;
 }
@@ -80,6 +84,19 @@ body, input[text], button {
     /* show a hand cursor on hover; some argue that we
     should keep the default arrow cursor for buttons */
     cursor: pointer;
-  }
+}
+
+.mobile-menu {
+    display: none;
+}
+
+
+@media only screen and (max-width: 600px){
+    .mobile-menu { 
+        display: block;
+        font-size: 16pt;
+    }
+}
+   
 
  

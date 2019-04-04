@@ -1,3 +1,61 @@
+<nav role="filters for mobile" class="mobile-menu">
+    <label class="navbar-toggle collapsed normal-font btn btn-outline active" data-toggle="collapse" data-target="#navbar-collapse-1">
+        <span class="sr-only">Toggle Filters</span>
+        <span class="large-font">Filters</span>
+    </label>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <div id="basicfilter">
+            <div id="Office Locations" class="btn-group-toggle locationbar cityfilter" data-toggle="locationbuttons">
+                <label class=" large-font btn btn-outline-secondary" [class.active]="!cityid" id="city6">
+                    <input type="radio" name="options" id="option1" class="generalbtn" [(ngModel)]="cityid" value=""
+                        [value]="" (click)="addQueryParams({city: null, page: null})">&nbsp;All&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 4" id="city1">
+                    <input type="radio" name="options" id="option2" class="generalbtn" [(ngModel)]="cityid" [value]="4"
+                        value="4" (click)="addQueryParams({city: 4, page: null})">&nbsp;CC&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 1" id="city2">
+                    <input type="radio" name="options" id="option3" class="generalbtn" [(ngModel)]="cityid" [value]="1"
+                        value="1" (click)="addQueryParams({city: 1, page: null})">&nbsp;LA&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 2" id="city3">
+                    <input type="radio" name="options" id="option4" class="generalbtn" [(ngModel)]="cityid" [value]="2"
+                        value="2" (click)="addQueryParams({city: 2, page: null})">&nbsp;OC&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 3" id="city4">
+                    <input type="radio" name="options" id="option5" class="generalbtn" [(ngModel)]="cityid" [value]="3"
+                        value="3" (click)="addQueryParams({city: 3, page: null})">&nbsp;SD&nbsp;
+                </label>&nbsp;
+                <label class=" large-font btn btn-outline-secondary blur" [class.active]="cityid == 5" id="city5">
+                    <input type="radio" name="options" id="option6" class="generalbtn" [(ngModel)]="cityid" [value]="5"
+                        value="5" (click)="addQueryParams({city: 5, page: null})">&nbsp;SF&nbsp;
+                </label>&nbsp;&nbsp;
+            </div>
+            <div id="staffdept-nav" class="row">
+                <label class="col-8 dropdown-toggle normal-font filter-mobile-nav" for="staffdept"
+                id="dropdownMenuButton-nav" (click)="stafflist = !stafflist" >Roles or Department:&nbsp;&nbsp;{{staffDeptStatus()}}</label>
+                <div class="dropdown-toggle" aria-labelledby="dropdownMenuButton-nav" *ngIf="stafflist">
+                    <a class="dropdown-item normal-font" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
+                    <a class="dropdown-item normal-font" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null})">{{s.name}}</a>
+                </div>
+            </div>
+            <div id="timekeeper-nav" class="row">
+                <label class="col-8 dropdown-toggle normal-font filter-mobile-nav" for="timekeeperdept" 
+                    id="dropdownMenuButton-nav" 
+                    (click)="tklist = !tklist" >Timekeeper Dept:&nbsp;&nbsp;{{timekeeperStatus()}}</label>
+                    
+                <div class="dropdown-toggle" aria-labelledby="dropdownMenuButton-nav" *ngIf="tklist">
+                    <a class="dropdown-item normal-font" (click)="timekeeperDeptId = null; addQueryParams({timekeeperdept: null, page: null})">All</a>
+                    <a class="dropdown-item normal-font" *ngFor="let t of timekeeperDept" (click)="timekeeperDeptId = t.id; addQueryParams({timekeeperdept: t.id, page: null})">{{t.name}}</a>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+</nav>
+
+
 <div id="filters">
     <div class="searchbar col-md-7 col-sm-12">
         <input *ngIf="!mobile" class="form-control searchbar" id="SearchBar" placeholder="Search by keyword" value="" autofocus
@@ -123,7 +181,7 @@
                                 <strong>
                                     <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
                                         data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.firstname}} {{person.lastname}}</button>  
+                                        {{person.firstname}} {{person.lastname}}</button>
                                     <!--   {{person.pkpersonid}}  -->
                                 </strong>&nbsp; {{getPrefName(person)}} <br>
 
@@ -147,11 +205,10 @@
                                     &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
                                     &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 </div><br>
-                                {{person.officelocation.officelocationcode}} Office Number:
-                                <a href="http://marketing/utils/personnel2/MapTest.asp?hi=1&h=o{{person.officenumber}}&off_id={{person.officefloorid}}"
+                                {{person.officelocation.officelocationcode}} Office Number: 
+                                <a *ngIf="person.officenumber" routerLink="/maps/{{person.officecity}}{{person.floornumber}}" [queryParams]="{offid: person.officenumber}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
-
-                                <!-- officeFloor(person.officefloorid) is the function to get he off_id but not working yet -->
+                                
                                 <div id="phonenumber" class="phonenumber" [innerHTML]="getPhone(person)"></div>
 
                                 <span *ngIf="person.personrelationship && !person.supportrelationships" id="assistant">

@@ -79,7 +79,6 @@
         .confidential {
             font-size: 14pt;
         }
-        
     }
     
     @media screen and (max-width: 767px) {
@@ -99,11 +98,10 @@
             left: 0px;
         }
         .confidential {
-            font-size: 14pt;
-            position: relative;
-            left: -10px;
+            padding-top: 15px;
+            font-size: 18pt;
         }
-        .bugcontact {
+        .bugcontact{
             display: none;
         }
     

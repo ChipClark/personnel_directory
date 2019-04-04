@@ -1,16 +1,40 @@
+<<<<<<< HEAD
 March 2019 (version 1.43)
 Update 1.4: The update addresses these issues.
+=======
+March 2019 (version beta 1.4)
+Update beta 1.4: The update addresses these issues.
+>>>>>>> maps
 
 
 Known Issues: 
  
+<<<<<<< HEAD
  - Large display format: large screens will display upto 4 users across
+=======
+ - maps are internal to the app, so they will display on mobile devices.
+
+ - Filters are accessible on mobile devices (via Filter button)
+
+ - layout changed to accommodate wide screens.
+ 
+ - filters are now always available (except on mobile). There is no need to click on "Advance Search".
+
+ - Role & Department can be combined with Timekeeper to provide more focused filter.
+ 
+ - Officer Services staff can be found by searching for "Office Services".
+
+ - Epiq and contractors are available. 
+>>>>>>> maps
 
  - Some people have the wrong office number, office, and/or phone number listed in their records. 
    This is a data issue and is being addressed. 
 
+<<<<<<< HEAD
  - New Maps implementation - works on mobile devices
 
+=======
+>>>>>>> maps
  - Search Bar works on mobile devices
 
 Please report any issues to the application at: 

@@ -33,6 +33,8 @@ export class APIService {
   schools: Schools[];
   education: Education[];
   degrees: DegreeTypes[];
+  floors: RoomLocation[];
+  officeLocation: OfficeLocation[];
   location: RoomLocation[];
   
  
@@ -77,6 +79,10 @@ export class APIService {
   }
   getDegrees(url): Observable<DegreeTypes[]> {
     return this.http.get<DegreeTypes[]>(url)
+  }
+
+  getOfficeLocations(url): Observable<OfficeLocation[]> {
+    return this.http.get<OfficeLocation[]>(url)
   }
 
   getLocation(url): Observable<RoomLocation[]> {
