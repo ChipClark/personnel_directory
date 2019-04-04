@@ -1,0 +1,18 @@
+March 2019 (version 1.43)
+Update 1.4: The update addresses these issues.
+
+
+Known Issues: 
+ 
+ - Large display format: large screens will display upto 4 users across
+
+ - Some people have the wrong office number, office, and/or phone number listed in their records. 
+   This is a data issue and is being addressed. 
+
+ - New Maps implementation - works on mobile devices
+
+ - Search Bar works on mobile devices
+
+Please report any issues to the application at: 
+https://app.smartsheet.com/b/form/e41d7d1cc9e24549a69b3ca9218ea3bc 
+

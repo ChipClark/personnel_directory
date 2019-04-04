@@ -406,6 +406,9 @@ export class PeopleComponent implements OnInit {
       return obj.phonetypeid === phonetypeid;
     });
 
+    if (currentperson.pkpersonid == 905) {
+      console.log(currentperson.phones);
+    }
     if (!officePhone) {
       var nophone = 'Phone: NO Office Phone Number<br>'
       return nophone;
