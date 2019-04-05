@@ -72,7 +72,7 @@ export class PeopleComponent implements OnInit {
   public notaryImg = '<img src="../assets/notary.png" class="notaryimg" data-toggle="tooltip" title="Notary Public" width="25px;">';
 
   public pageNumber = 1;
-  public limit = 10;
+  public limit = 12;
   public records;
   public numDisplayStart;
   public numDisplayEnd;
