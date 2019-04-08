@@ -164,7 +164,7 @@
     <div class="container">
 
         <div class="row">
-            <span *ngFor="let person of people | individual: individualid | cityArray : cityidArray | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId | timekeeperDept: timekeeperDeptId | other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
+            <span *ngFor="let person of people | individual: individualid | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId | timekeeperDept: timekeeperDeptId | other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 trackBy: person?.pkpersonid"
                 #nGForArray>

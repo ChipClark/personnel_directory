@@ -14,9 +14,9 @@ export class SearchPipe implements PipeTransform {
             if (this.checkPhone(p, regExp)) { return true; }
             return regExp.test(p.displayname) ||
                 regExp.test(p.officenumber) ||
+                regExp.test(p.preferredfirstname) ||
                 regExp.test(p.officelocation.officelocationcode) ||
                 regExp.test(p.jobtitle.jobtitle) ||
-                regExp.test(p.emails[0].emailaddress) ||
                 regExp.test(p.timekeepernumber) ||
                 regExp.test(p.legalsubdeptfriendlyname);
         };

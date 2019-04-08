@@ -1,5 +1,5 @@
-March 2019 (version 1.41)
-Update 1.41: The update addresses these issues.
+April 2019 (version 1.42)
+Update 1.42: The update addresses these issues.
 
 
 Known Issues: 
@@ -13,6 +13,8 @@ Known Issues:
 
  - Search Bar works on mobile devices
 
+ - Search works on PreferredFirstName (GoesBy) 
+ 
  - Display now shows 12 people per screen
 
 Please report any issues to the application at: 
