@@ -21,14 +21,6 @@ import { Photos } from '../datatables/photo';
 import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices, License, LicenseType } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
 import { PersonRelationship, Secretaries } from '../datatables/personrelationship';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { ACTIVE_INDEX } from '@angular/core/src/render3/interfaces/container';
-import { PersonSearchComponent } from '../person-search/person-search.component';
-import { identifierModuleUrl } from '@angular/compiler';
-import { forEach } from '@angular/router/src/utils/collection';
-import { filterQueryId } from '@angular/core/src/view/util';
-import { SearchPipe } from '../pipes/search.pipe';
 
 
 @Component({
@@ -43,11 +35,11 @@ import { SearchPipe } from '../pipes/search.pipe';
 
 export class PeopleComponent implements OnInit {
 
-  public baseURL = 'http://am-web05:3030/api/v1/people';
-  public schoolURL = 'http://am-api:3030/api/v1/schools';
-  public degreeTypesURL = 'http://am-api:3030/api/v1/degreetypes'
-  public educationURL = 'http://am-api:3030/api/v1/education';
-  public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
+  public baseURL = 'http://am-web05:3040/api/v1/people';
+  public schoolURL = 'http://am-api:3040/api/v1/schools';
+  public degreeTypesURL = 'http://am-api:3040/api/v1/degreetypes'
+  public educationURL = 'http://am-api:3040/api/v1/education';
+  public legalsubdeptsURL = 'http://am-api:3040/api/v1/legalsubdepartments';
   public roomLocationURL = './assets/location.json'
 
 
@@ -58,7 +50,7 @@ export class PeopleComponent implements OnInit {
 
 
   //includes
-  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
+  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship", "personpersontypes"';
   private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
   private educationFilter = '"education","schools","degreetypes"';
   public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
@@ -265,7 +257,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    //console.log(this.personURL);
+    // console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
@@ -329,7 +321,14 @@ export class PeopleComponent implements OnInit {
   }
 
   getSubDept(currentperson: any) {
-    if (currentperson.isattorney == true && currentperson.legalsubdepartments ) {
+    if (currentperson.jobtitle.jobtypeid == 3 
+      || currentperson.jobtitle.jobtypeid == 11 
+      || currentperson.jobtitle.jobtypeid == 12 
+      && currentperson.legalsubdepartments) {
+        if (currentperson.pkpersonid == 677) {
+          return;
+        }
+        // console.log(currentperson.displayname);
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
   }
@@ -439,7 +438,7 @@ export class PeopleComponent implements OnInit {
 
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
-    if (currentperson.isattorney == true ) {
+    if (currentperson.jobtitle.jobtypeid == 3 || currentperson.jobtitle.jobtypeid == 11 || currentperson.jobtitle.jobtypeid == 12 ) {
       if (!currentperson.legalsubdeptfriendlyname) { }
       else addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
     }
