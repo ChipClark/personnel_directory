@@ -170,7 +170,8 @@
                 #nGForArray>
                 <div class="col">
                     <div *ngIf="filtered?.length == 1" class="back"><button class="backbutton" (click)="goBack()">Back</button></div>
-                    <div class="people">
+
+                    <div class="people" >
                         <div class="userphoto">
                             <div [innerHTML]="getPhoto(person.photo)"></div>
                             <!--<img src="http://amjabber/AD/{{person.photofilename}}" id="{{person.displayname}}"
