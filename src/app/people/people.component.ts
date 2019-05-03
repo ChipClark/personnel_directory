@@ -50,7 +50,7 @@ export class PeopleComponent implements OnInit {
 
 
   //includes
-  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship", "personpersontypes"';
+  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
   private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
   private educationFilter = '"education","schools","degreetypes"';
   public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
@@ -257,7 +257,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    // console.log(this.personURL);
+    console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
