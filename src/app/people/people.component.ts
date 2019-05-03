@@ -35,11 +35,11 @@ import { PersonRelationship, Secretaries } from '../datatables/personrelationshi
 
 export class PeopleComponent implements OnInit {
 
-  public baseURL = 'http://am-web05:3030/api/v1/people';
-  public schoolURL = 'http://am-api:3030/api/v1/schools';
-  public degreeTypesURL = 'http://am-api:3030/api/v1/degreetypes'
-  public educationURL = 'http://am-api:3030/api/v1/education';
-  public legalsubdeptsURL = 'http://am-api:3030/api/v1/legalsubdepartments';
+  public baseURL = 'http://am-web05:3035/api/v1/people';
+  public schoolURL = 'http://am-api:3035/api/v1/schools';
+  public degreeTypesURL = 'http://am-api:3035/api/v1/degreetypes'
+  public educationURL = 'http://am-api:3035/api/v1/education';
+  public legalsubdeptsURL = 'http://am-api:3035/api/v1/legalsubdepartments';
   public roomLocationURL = './assets/location.json'
 
 
