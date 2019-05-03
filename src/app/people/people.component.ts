@@ -257,7 +257,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    // console.log(this.personURL);
+    console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
