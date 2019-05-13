@@ -25,6 +25,8 @@ const httpOptions = {
 
 export class APIService {
 
+  public baseURL = 'http://am-web05:3030/api/v1/';
+
   private skip;
   private limit = 20;
   private lastRecord;
@@ -54,6 +56,7 @@ export class APIService {
   */
 
   getDATA (url): Observable<Person[]> {
+    url = this.baseURL + url;
     return this.http.get<Person[]>(url)
       .pipe(
         
@@ -63,6 +66,7 @@ export class APIService {
   }
 
   getLegalSub (url): Observable<LegalSubDepartments[]> {
+    url = this.baseURL + url;
     return this.http.get<LegalSubDepartments[]>(url);
   }
   
@@ -72,20 +76,25 @@ export class APIService {
   }
 
   getSchools(url): Observable<Schools[]> {
+    url = this.baseURL + url;
     return this.http.get<Schools[]>(url)
   }
   getEducation(url): Observable<Education[]> {
+    url = this.baseURL + url;
     return this.http.get<Education[]>(url)
   }
   getDegrees(url): Observable<DegreeTypes[]> {
+    url = this.baseURL + url;
     return this.http.get<DegreeTypes[]>(url)
   }
 
   getOfficeLocations(url): Observable<OfficeLocation[]> {
+    url = this.baseURL + url;
     return this.http.get<OfficeLocation[]>(url)
   }
 
   getLocation(url): Observable<RoomLocation[]> {
+    url = this.baseURL + url;
     return this.http.get<RoomLocation[]>(url)
   }
 

@@ -200,7 +200,7 @@
                                     &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
                                         id="{{person.interactionid}}">
                                         <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                                    <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"
+                                    <span *ngIf="person.biographyurl">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"
                                             target="_blank">
                                             <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
                                     &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
