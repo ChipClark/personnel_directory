@@ -257,7 +257,7 @@ export class PeopleComponent implements OnInit {
 
   getPeople(): any {
     this.buildURL();
-    console.log(this.personURL);
+    // console.log(this.personURL);
     this.staffService.getDATA(this.personURL)
       .subscribe(people => {
         this.people = people;
@@ -325,10 +325,12 @@ export class PeopleComponent implements OnInit {
       || currentperson.jobtitle.jobtypeid == 11 
       || currentperson.jobtitle.jobtypeid == 12 
       && currentperson.legalsubdepartments) {
-        if (currentperson.pkpersonid == 677) {
+        if (currentperson.pkpersonid == 677, 909, 910) {
           return;
         }
-        // console.log(currentperson.displayname);
+        if (!currentperson.legalsubdepartments) {
+          console.log(currentperson);
+        }
       currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
   }

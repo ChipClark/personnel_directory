@@ -94,7 +94,7 @@ export class APIService {
   }
 
   getLocation(url): Observable<RoomLocation[]> {
-    url = this.baseURL + url;
+    // url = this.baseURL + url;
     return this.http.get<RoomLocation[]>(url)
   }
 
