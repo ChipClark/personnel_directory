@@ -344,6 +344,7 @@ export class PeopleComponent implements OnInit {
       currentperson.floornumber = this.officeFloor(floorID.officefloorid);
       currentperson.officecity = floorID.city.toLowerCase();
       currentperson.officecityfullname = floorID.cityfullname;      
+      // console.log(currentperson);
     }
     else {
       let floorNum;
@@ -441,8 +442,10 @@ export class PeopleComponent implements OnInit {
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
     if (currentperson.jobtitle.jobtypeid == 3 || currentperson.jobtitle.jobtypeid == 11 || currentperson.jobtitle.jobtypeid == 12 ) {
-      if (!currentperson.legalsubdeptfriendlyname) { }
-      else addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
+      if (currentperson.legalsubdeptfriendlyname  && 
+        currentperson.pkpersonid != 677, 909, 910) { 
+          addHTML = addHTML + '<br>' + currentperson.legalsubdepartments.legalsubdeptfriendlyname;
+        }
     }
     return addHTML;
   }
