@@ -1,136 +1,180 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Injectable, InjectionToken } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, BehaviorSubject } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap, concat } from 'rxjs/operators';
 
-import { Person, } from './person';
+import { Person, } from './datatables/person';
+import { DevVariablesComponent } from './dev-variables/dev-variables.component';
 import { MessageService } from './message.service';
-import { PeopleComponent } from './people/people.component';
-import { Schools, Education, DegreeTypes } from './datatables/school';
-import { OfficeLocation, RoomLocation } from './datatables/officelocation';
-import { JobTitle } from './datatables/jobs';
-import { LegalPractices, AttorneyPracticeAreas } from './datatables/practicestables';
+import { RoomLocation } from './datatables/officelocation';
 import { LegalSubDepartments } from './datatables/departmenttables';
-import { promise } from 'protractor';
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
  
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
 export class APIService {
 
-  public baseURL = 'http://non-functional/';  // needs API server setup
+  public userData$: Promise<any>;
 
-  private skip;
-  private limit = 20;
-  private lastRecord;
-  private headers;
+  public profileData$: Observable<any>;
+  public tokRefresh$: Observable<any>;
+  public logout$: Observable<any>;
+  private resBody = "";
+  public token;
+  public userID;
+  public userName;
+  public loginStatus: boolean;
+
+  url: string;
+  person: any;
   people: Person[];
-  schools: Schools[];
-  education: Education[];
-  degrees: DegreeTypes[];
-  floors: RoomLocation[];
-  officeLocation: OfficeLocation[];
-  location: RoomLocation[];
+  roomLocation: RoomLocation[];
+  legalsubdepts: LegalSubDepartments[];
+
   
- 
+  public baseURL = 'http://';   //  Include url to API server
+  public testAPI = 'http://';   //  Include url to API server
+  public localURL = 'http://';   //  Include url to API server
+  public roomLocationURL = '/assets/location.json';
+
+  public peopleURL = 'people';
+  public schoolURL = 'schools';
+  public degreeTypesURL = 'degreetypes'
+  public educationURL = 'education';
+  public legalsubdeptsURL = 'legalsubdepartments';
+
+  // Filters
+  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"},{"employmentstatus":"C"}]},'
+  public All = this.activepeopleFilter;
+  public addFilter = this.All;
+
+
+  //includes
+  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
+  private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
+  private educationFilter = '"education","schools","degreetypes"';
+  public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
+  public endRequest = '}';
+
+  private order = '"order":"lastname ASC",'
+  public personURL = this.peopleURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;
+
+  public apiDATA = new BehaviorSubject<any>(this.people);
+  currentData = this.apiDATA.asObservable();
+
+  public APP_INITIALIZER: InjectionToken<(() => void)[]>;
+  
+  
   constructor(
     private http: HttpClient,
-    private messageService: MessageService){ }
- 
-  /* GET People from the server */
-  /*  - replace call below with one below that.  
-  getDATA (url): Observable<HttpResponse<Person[]>> {
-    return this.http.get<Person[]>(url, { observe: 'response'})
-      .pipe(
-        tap(people => this.log(this.limit + " people returned")),
-        catchError(this.handleError('getPeople', [])),
-      );
-  }
-  */
+    private debugging: DevVariablesComponent,
+    private messageService: MessageService,
+    ) { }
 
-  getDATA (url): Observable<Person[]> {
-    url = this.baseURL + url;
-    return this.http.get<Person[]>(url)
-      .pipe(
-        
-        tap(people => this.log(this.limit + " people returned")),
-        catchError(this.handleError('getPeople', [])),
-      );
-  }
+    initAuth(): Promise<any> {
+      this.loginStatus = false;
+      if ( !this.debugging.onLocalHost ) {
+        this.userData$ = this.http.get('/.auth/me', {observe: 'response'}).toPromise();
+      }
+      if ( this.userData$ ) { this.loginStatus = true; }
+      else { this.loginStatus = false };
+      return this.userData$;
+    }
 
-  getLegalSub (url): Observable<LegalSubDepartments[]> {
-    url = this.baseURL + url;
-    return this.http.get<LegalSubDepartments[]>(url);
-  }
+    initLegalSub(): Promise<any[]> {
+      if ( this.debugging.onLocalHost ) {
+        return this.getLegalSub(this.legalsubdeptsURL).toPromise();
+      }
+      this.initAuth().then( res => {
+        this.resBody = res.body;
+        const lastToken = res.body[0].access_token.slice(Math.max(res.body[0].access_token.length - 30, 1));
+        this.token = res.body[0].access_token;
+        this.userID = res.body[0].user_id;
+        if (this.debugging.onDebug ) { 
+            console.log("token: " + lastToken);
+        };
+        return this.getLegalSub(this.legalsubdeptsURL).toPromise();
+      });
+      return;
+    }
+
+    initPeople(): Promise<Person[]> {
+      if ( this.debugging.onLocalHost ) {
+        return this.getPeopleData(this.personURL).toPromise();
+      }
+      this.initAuth().then( res => {
+        this.resBody = res.body;
+        return this.getPeopleData(this.personURL).toPromise();
+      });
+      return;
+    }
+
+    getLegalSub (url): Observable<any> {
+      if ( this.token == null ) {
+        return this.http.get<LegalSubDepartments[]>(this.setURLs(url));
+      }
+      return this.http.get<LegalSubDepartments[]>(this.setURLs(url), {headers: this.setHeaders(this.token, 'getLegalSub')})
+    }
+    
+    getPeopleData(url): Observable<any> {
+      if ( this.token == null ) {
+        return this.http.get<Person[]>(this.setURLs(url));
+      }
+      else {
+        return this.http.get<Person[]>(this.setURLs(url), {headers: this.setHeaders(this.token, 'getPeopleData')})
+        .pipe(
+          catchError(this.handleError('getPeople', [])),
+        );
+      }
+    }
   
+  setHeaders(token: string, caller: string): HttpHeaders {
+    const httpHeaders = new HttpHeaders({
+      'Authorization': 'Bearer ' + token,
+      'Content-type': 'application/json',
+      'Accept': 'application/json'    
+    });
+    if ( this.debugging.onDebug ) { 
+      console.log("in setHeaders()");    
+      console.log(httpHeaders);    
+    };
+    
+    return httpHeaders;
+  }
+
+  setURLs(url): string {
+    if ( this.debugging.onLocalHost ) {
+      this.baseURL = this.localURL;
+    }
+    else if ( this.debugging.testAPIServer) {
+      this.baseURL = this.testAPI;
+    }
+    // if ( this.debugging.onDebug ) { console.log(this.baseURL + url); };
+    return this.baseURL + url;
+  }
+
+  getRefresh(): Observable<any> {
+    return this.http.get('/.auth/refresh', {observe: 'response'});
+  }
+
   getPhoto(photoUrl: string): Promise<object> {
     var request = this.http.get(photoUrl).toPromise();
     return request;
   }
 
-  getSchools(url): Observable<Schools[]> {
-    url = this.baseURL + url;
-    return this.http.get<Schools[]>(url)
-  }
-  getEducation(url): Observable<Education[]> {
-    url = this.baseURL + url;
-    return this.http.get<Education[]>(url)
-  }
-  getDegrees(url): Observable<DegreeTypes[]> {
-    url = this.baseURL + url;
-    return this.http.get<DegreeTypes[]>(url)
-  }
-
-  getOfficeLocations(url): Observable<OfficeLocation[]> {
-    url = this.baseURL + url;
-    return this.http.get<OfficeLocation[]>(url)
-  }
-
-  getLocation(url): Observable<RoomLocation[]> {
-    // url = this.baseURL + url;
+  getLocation(url): Observable<any> {
     return this.http.get<RoomLocation[]>(url)
   }
 
 
-  /** GET person by id. Will 404 if id not found */
-  getPersonID(personURL: string): Observable<Person> {
-    var MyPerson = this.http.get<Person>(personURL).pipe(
-      tap(obj => this.log(`fetched ` + obj.displayname)),
-      catchError(this.handleError<Person>(`Person`))
-    );
-
-    return MyPerson;
-  }
     
-  /** GET person by id. Return `undefined` when id not found */
-  getPersonNo404<Data>(id: number): Observable<Person> {
-    const url = `${this.getDATA}/?id=${id}`;
-    return this.http.get<Person[]>(url)
-      .pipe(
-        map(people => people[0]), // returns a {0|1} element array
-        tap(h => {
-          const outcome = h ? `fetched` : `did not find`;
-          this.log(`${outcome} hero id=${id}`);
-        }),
-        catchError(this.handleError<Person>(`getHero id=${id}`))
-      );
-  }
-
- 
   /* GET people whose name contains search term */
   searchPeople(term: string): Observable<Person[]> {
     if (!term.trim()) {
       // if not search term, return empty person array.
       return of([]);
     }
-    return this.http.get<Person[]>(`${this.getDATA}/?name=${term}`).pipe(
+    return this.http.get<Person[]>(`${this.getPeopleData}/?name=${term}`).pipe(
       tap(_ => this.log(`found people matching "${term}"`)),
       catchError(this.handleError<Person[]>('searchPeople', []))
     );

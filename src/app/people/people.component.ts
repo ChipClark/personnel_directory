@@ -1,26 +1,26 @@
 // people.compenents.ts
 
-import { Component, OnInit, Input, ViewChild, ViewChildren } from '@angular/core';
-import { DomSanitizer, SafeHtml, SafeStyle, SafeScript, SafeUrl, SafeResourceUrl, SafeValue } from '@angular/platform-browser';
-import { Person } from '../person';
-import { iData, APIHeader } from '../JUNK';
-import { HttpClient, HttpHeaders, HttpHandler, HttpRequest } from '@angular/common/http';
+import { Component, OnInit, ViewChildren } from '@angular/core';
+import { DomSanitizer, SafeHtml,  SafeValue } from '@angular/platform-browser';
+import { AppComponent } from '../app.component';
+import { DevVariablesComponent } from '../dev-variables/dev-variables.component';
+import { Person } from '../datatables/person';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
+import 'rxjs/add/operator/takeUntil';
 import { APIService } from '../api.service';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 // datatables 
-import { PersonPage } from '../datatables/AllTextFields';
-import { OfficeLocation, RoomLocation } from '../datatables/officelocation';
-import { Schools, Education, DegreeTypes } from '../datatables/school';
+import {  RoomLocation } from '../datatables/officelocation';
 import { Phones } from '../datatables/phones';
 import { JobTitle, JobTypes } from '../datatables/jobs';
 import { Photos } from '../datatables/photo';
 import { LegalPractices, AttorneyPracticeAreas, LegalSubPractices, License, LicenseType } from '../datatables/practicestables';
 import { HRDepartments, LegalDepartments, LegalSubDepartments } from '../datatables/departmenttables';
-import { PersonRelationship, Secretaries } from '../datatables/personrelationship';
+import { PersonRelationship } from '../datatables/personrelationship';
 
 
 @Component({
@@ -35,33 +35,8 @@ import { PersonRelationship, Secretaries } from '../datatables/personrelationshi
 
 export class PeopleComponent implements OnInit {
 
-  public baseURL = 'people';
-  public schoolURL = 'schools';
-  public degreeTypesURL = 'degreetypes'
-  public educationURL = 'education';
-  public legalsubdeptsURL = 'legalsubdepartments';
-  public roomLocationURL = './assets/location.json'
-
-
-  // Filters
-  public activepeopleFilter = '?filter={"where":{"or":[{"employmentstatus":"A"},{"employmentstatus":"L"},{"employmentstatus":"C"}]},'
-  public All = this.activepeopleFilter;
-  public addFilter = this.All;
-
-
-  //includes
-  private officeFilter = '"emails","phones","jobtitle","officelocation","hrdepartment","photo","personrelationship"';
-  private practiceFilter = '"attorneypractices","practices","legalsubdepartments","licenses","licensetype"';
-  private educationFilter = '"education","schools","degreetypes"';
-  public generalIncludes = '"include":[' + this.officeFilter + ',' + this.practiceFilter + ']';
-  public endRequest = '}';
-
-  private order = '"order":"lastname ASC",'
-  public personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;
-
-  public hrdepartmentFilter = "";
-  public cprImg = '<img src="../assets/cpr.png" class="cprimg" data-toggle="tooltip" title="CPR Certified" width="25px;">';
-  public notaryImg = '<img src="../assets/notary.png" class="notaryimg" data-toggle="tooltip" title="Notary Public" width="25px;">';
+  public cprImg = '<img src="/assets/cpr.png" class="cprimg" data-toggle="tooltip" title="CPR Certified" width="25px;">';
+  public notaryImg = '<img src="/assets/notary.png" class="notaryimg" data-toggle="tooltip" title="Notary Public" width="25px;">';
 
   public pageNumber = 1;
   public limit = 12;
@@ -71,6 +46,13 @@ export class PeopleComponent implements OnInit {
   public lastRecord;
   public lastPage;
   public Math = Math;
+
+  public profileData$: Observable<any>;
+  public tokRefresh$: Observable<any>;
+  public logout$: Observable<any>;
+  private resBody = "";
+  public token;
+  public userID;
 
   public cities = [
     {
@@ -198,80 +180,112 @@ export class PeopleComponent implements OnInit {
     public individualid = null;
     public currentStaffDept = 'All';
     public mobile = false;
+    public loginStatus: boolean;
+  
+    public showLoadingIndicator = true;
 
-  url: string;
-  people: Person[];
-  person: any;
-  activePeople: Person[];
-  roomLocation: RoomLocation[];
-  //completePerson: PersonPage[];
-  relationships: PersonRelationship[];
-  schools: Schools[];
-  phone: Phones[];
-  router: RouterLink;
-  jobs: JobTitle[];
-  hrdepts: HRDepartments[];
-  attorneyareas: AttorneyPracticeAreas[];
-  practiceareas: LegalPractices[];
-  subpracticeareas: LegalSubPractices[];
-  legalDepts: LegalDepartments[];
-  legalsubdepts: LegalSubDepartments[];
-  license: License[];
-  licensetype: LicenseType[];
-  photo: Photos[];
-  degrees: DegreeTypes[];
-  education: Education[];
-
+    public people$: Promise<Person[]>;
+    public legalSub$: Promise<any[]>;
+    public userData$: Promise<any>;
+    public people: Person[];
+    public userName: string;
+    person: any;
+    roomLocation: RoomLocation[];
+    relationships: PersonRelationship[];
+    phone: Phones[];
+    router: RouterLink;
+    jobs: JobTitle[];
+    hrdepts: HRDepartments[];
+    attorneyareas: AttorneyPracticeAreas[];
+    practiceareas: LegalPractices[];
+    subpracticeareas: LegalSubPractices[];
+    legalDepts: LegalDepartments[];
+    legalsubdepts: LegalSubDepartments[];
+    license: License[];
+    licensetype: LicenseType[];
+    photo: Photos[];
+    
   constructor(
-    private staffService: APIService,
+    private mainApp: AppComponent,
+    private debugging: DevVariablesComponent,
+    private apiService: APIService,
     private http: HttpClient,
     protected sanitizer: DomSanitizer,
     private route: ActivatedRoute,
     private _router: Router,
     private location: Location
-  ) { }
+  ) { this.showLoadingIndicator = true; 
+      this.apiService.initAuth();
+     }
 
   ngOnInit() {
-    this.getLegalSubDepts();
-    this.getRoomLocation();
-    this.getPeople();
-    //this.getSchools();
-    if (window.screen.width < 1000) {
-      this.mobile = true;
-    }
-  }
-
-  getLegalSubDepts(): any {
-    this.staffService.getLegalSub(this.legalsubdeptsURL)
-      .subscribe(legalsubdepts => {
-        this.legalsubdepts = legalsubdepts;
-      });
-  }
-
-  getRoomLocation(): any {
-    this.staffService.getLocation(this.roomLocationURL)
-      .subscribe(roomLocation => {
-        this.roomLocation = roomLocation;
-      });
-  }
-
-  getPeople(): any {
-    this.buildURL();
-    // console.log(this.personURL);
-    this.staffService.getDATA(this.personURL)
-      .subscribe(people => {
-        this.people = people;
-        this.buildAllPeopleData();
-      });
     this.route.queryParamMap.subscribe(params => {
       const queryStrings: any = this.route.queryParamMap;
       this.executeQueryParams(queryStrings.source.value);
     });
+
+    this.initData();
+     
   }
 
-  buildAllPeopleData(): void {
+  ngOnDestroy() { }
+
+  initData() {
+    console.log("initData");
+    if ( this.apiService.people ) {
+      console.log("people exist!")
+      this.people = this.apiService.people;
+    }
+    else {
+      if ( !this.debugging.onLocalHost ) {
+        this.apiService.initAuth().then( res => {
+          this.resBody = res.body;
+          const lastToken = res.body[0].access_token.slice(Math.max(res.body[0].access_token.length - 30, 1));
+          this.token = res.body[0].access_token;
+          this.userID = res.body[0].user_id;
+          if (this.debugging.onDebug ) { 
+              console.log("token: " + lastToken);
+          };
+          this.apiService.initLegalSub().then(legalsubdepts => {
+            this.legalsubdepts = legalsubdepts;
+          });
+              
+          this.apiService.initPeople().then(people => {
+            this.people = people;
+            this.buildAllPeopleData();
+            this.showLoadingIndicator = false;
+          });
+        });
+      }
+      else {
+        this.apiService.initLegalSub().then(legalsubdepts => {
+          this.legalsubdepts = legalsubdepts;
+        });
+            
+        this.apiService.initPeople().then(people => {
+          this.people = people;
+          this.buildAllPeopleData();
+          this.showLoadingIndicator = false;
+        });
+
+      }
+    }
+    this.loginStatus = this.apiService.loginStatus;
+  }
+
+  buildAllPeopleData() {
     for (let i = 0; i < this.people.length; i++) {
       if (this.people[i]) {
+        if ( this.userID == this.people[i].adprincipaldomainaccount ) { 
+          this.people[i].activeuser = true;
+          if ( this.people[i].preferredfirstname ) { this.userName = this.people[i].preferredfirstname }
+          else {
+            this.userName = this.people[i].firstname
+          };
+        }
+        else {
+          this.people[i].activeuser = false;
+        }
         this.getSubDept(this.people[i]);
         this.getFloorLocation(this.people[i]);
       }
@@ -279,6 +293,7 @@ export class PeopleComponent implements OnInit {
         const relatedArray = this.people[i].personrelationship;
         for (let j = 0; j < relatedArray.length; j++) {
           for (let k = 0; k < this.people.length; k++) {
+            if (this.debugging.onDebug) { console.log(this.people[k]) };
             if (relatedArray[j].relatedpersonid === this.people[k].pkpersonid) {
               this.people[k].supportrelationships = true;
               const relatedPerson = {
@@ -303,51 +318,8 @@ export class PeopleComponent implements OnInit {
     }
   }
 
-  buildURL() {
-    this.personURL = this.baseURL + this.activepeopleFilter + this.order + this.generalIncludes + this.endRequest;  // URL to web api
-    //console.log(this.personURL);
-  }
-
-  getPerson(id): string {
-    if (!id) return null;
-    let findPerson = this.people.find(p => {
-      return p.pkpersonid === id;
-    })
-    if (!findPerson) {
-      return "No name found";
-    }
-    let personname = findPerson.firstname + " " + findPerson.lastname;
-    return personname;
-  }
-
-  getSubDept(currentperson: any) {
-    if (currentperson.jobtitle.jobtypeid == 3 
-      || currentperson.jobtitle.jobtypeid == 11 
-      || currentperson.jobtitle.jobtypeid == 12 
-      && currentperson.legalsubdepartments) {
-        if (currentperson.pkpersonid == 677, 909, 910) {
-          return;
-        }
-        if (!currentperson.legalsubdepartments) {
-          console.log(currentperson);
-        }
-      currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-    }
-  }
-
   getFloorLocation(currentperson: any) {
-    let floorID = this.roomLocation.find(p => {
-      return p.officelocationid === currentperson.officelocationid && p.officenumber === currentperson.officenumber
-    });
-    if (floorID) {
-      currentperson.officefloorid = floorID.officefloorid;
-      currentperson.floornumber = this.officeFloor(floorID.officefloorid);
-      currentperson.officecity = floorID.city.toLowerCase();
-      currentperson.officecityfullname = floorID.cityfullname;      
-      // console.log(currentperson);
-    }
-    else {
-      let floorNum;
+    let floorNum;
       if (!currentperson.officenumber) {
         return;
       }
@@ -433,7 +405,31 @@ export class PeopleComponent implements OnInit {
           currentperson.floornumber = "13";
           currentperson.officefloorid = 10;
       }
+  }
+
+  getSubDept(currentperson: any) {
+    if (currentperson.legalsubdepartments && 
+      currentperson.jobtitle.jobtypeid == 3 ||
+      currentperson.jobtitle.jobtypeid == 11 ||
+      currentperson.jobtitle.jobtypeid == 12 ) {
+      if (!currentperson.legalsubdepartments) {
+        return;
+      }
+    currentperson.legalsubdeptfriendlyname = currentperson.legalsubdepartments.legalsubdeptfriendlyname;
     }
+  }
+ 
+  
+  getPerson(id): string {
+    if (!id) return null;
+    let findPerson = this.people.find(p => {
+      return p.pkpersonid === id;
+    })
+    if (!findPerson) {
+      return "No name found";
+    }
+    let personname = findPerson.firstname + " " + findPerson.lastname;
+    return personname;
   }
 
   getTitles(currentperson: any): string {
@@ -441,12 +437,15 @@ export class PeopleComponent implements OnInit {
 
     var addHTML = "<strong>" + currentJobTitle + "</strong>";
 
-    if (currentperson.jobtitle.jobtypeid == 3 || currentperson.jobtitle.jobtypeid == 11 || currentperson.jobtitle.jobtypeid == 12 ) {
-      if (currentperson.legalsubdeptfriendlyname  && 
-        currentperson.pkpersonid != 677, 909, 910) { 
-          addHTML = addHTML + '<br>' + currentperson.legalsubdepartments.legalsubdeptfriendlyname;
-        }
-    }
+    if (currentperson.legalsubdepartments && 
+      currentperson.jobtitle.jobtypeid == 3 ||
+      currentperson.jobtitle.jobtypeid == 11 ||
+      currentperson.jobtitle.jobtypeid == 12 ) {
+
+        if (currentperson.legalsubdeptfriendlyname) { 
+          addHTML = addHTML + '<br>' + currentperson.legalsubdeptfriendlyname;
+        };
+    };
     return addHTML;
   }
 
@@ -508,7 +507,7 @@ export class PeopleComponent implements OnInit {
     }
 
     var pnum = officePhone.phonenumber;
-    //console.log(pnum);
+    // if ( this.debugging.onDebug ) console.log(pnum);
     pnum = pnum.replace(/\D+/g, '')
       .replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
@@ -516,10 +515,6 @@ export class PeopleComponent implements OnInit {
     phonenum = phonenum + '&nbsp;Phone: ' + pnum + '<br>';
     return this.sanitizer.bypassSecurityTrustHtml(phonenum);
 
-    //  USE IF WE WANT TO ADD LINKS TO THE PHONE NUMBERS  
-    //var phonenum = 'x<a href="tel:+' + officePhone.phoneextension + '" data-toggle="tooltip" title="extension">' + officePhone.phoneextension + '</a>';
-    //phonenum = phonenum + '&nbsp;Phone: <a href="tel:+' + officePhone.phonenumber + '" data-toggle="tooltip" title="call ' + currentperson.displayname + '">' + pnum + '</a><br>';
-    //return this.sanitizer.bypassSecurityTrustHtml(phonenum);  }
   }
 
   goBack(): void {
@@ -547,11 +542,6 @@ export class PeopleComponent implements OnInit {
       }
     }
     return "";
-  }
-
-  getOfficeFloor(id): string {
-    let floorNum = id;
-    return this.officeFloor(floorNum);
   }
 
   officeFloor(id): string {
@@ -598,7 +588,7 @@ export class PeopleComponent implements OnInit {
     let barnum = "";
     if (currentperson.licenses) {
       for (let i = 0; i < currentperson.licenses.length; i++) {
-        //console.log("number of bar licences" + i);
+        //if ( this.debugging.onDebug ) console.log("number of bar licences" + i);
         if (!currentperson.licenses[i].licensenumber) break;
         barnum = barnum + currentperson.licenses[i].licensestate
           + '&nbsp;Bar:&nbsp;' + currentperson.licenses[i].licensenumber + '<br>';
@@ -610,21 +600,31 @@ export class PeopleComponent implements OnInit {
   ifWebBio(currentperson: any): SafeHtml {
     let webbio = '&nbsp;<a href="http://' + currentperson.addomainaccount
       + '.allenmatkins.com" id="web bio for "' + currentperson.displayname + '" >'
-      + '<img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a>'
+      + '<img src="/assets/web.png" data-toggle="tooltip" title="Web Bio" width="15px;"></a>'
     return this.sanitizer.bypassSecurityTrustHtml(webbio);
   }
 
-
   sanitizeScript(sanitizer: DomSanitizer) { }
 
-  setTimekeeper(id): void {
+  setStaffDept(id): void {
     if (id == 0 || id== 1 || id == 10 || id == 13){
       this.timekeeperon = true;
     }
     else {
       this.timekeeperon = false;
       this.timekeeperDeptId = null;
-      this.addQueryParams({ timekeeperDeptId: null });
+    }
+  }
+
+  setTimekeeper(id): void {
+    if (id == 0 || id== 1 || id == 10 || id == 13){
+      this.timekeeperon = true;
+      this.addQueryParams({ staffDept: id, page: null });
+    }
+    else {
+      this.timekeeperon = false;
+      this.timekeeperDeptId = null;
+      this.addQueryParams({ staffDept: id, timekeeperDeptId: null, page: null });
     }
   }
 
@@ -667,7 +667,7 @@ export class PeopleComponent implements OnInit {
           break;
       }
     }
-    //console.log(query);
+    //if ( this.debugging.onDebug ) console.log(query);
     if (keys[0] === 'ind') {
       this._router.navigate([''], {
         queryParams: {
@@ -696,6 +696,21 @@ export class PeopleComponent implements OnInit {
     document.getElementById("CPRbox")
     document.getElementById("Notarybox")
 
+  }
+
+  clearFilters() {
+    this.staffDeptId = 0;
+    this.timekeeperDeptId = '';
+    this.cityidArray = [4, 1, 2, 3, 5];
+    this.roleidArray = [13, 2, 1, 10, 20];
+    this.otherArray = [];
+    this.roleCheckAll = true;
+    this.cityid = null;
+    this.roleid = null;
+    this.searchTerm = null;
+    this.alpha = null;
+    this.individualid = null;
+    this.pageNumber = null;
   }
 
   executeQueryParams(queryStrings): void {
@@ -743,21 +758,6 @@ export class PeopleComponent implements OnInit {
 
       }
     }
-  }
-
-  clearFilters() {
-    this.staffDeptId = 0;
-    this.timekeeperDeptId = '';
-    this.cityidArray = [4, 1, 2, 3, 5];
-    this.roleidArray = [13, 2, 1, 10, 20];
-    this.otherArray = [];
-    this.roleCheckAll = true;
-    this.cityid = null;
-    this.roleid = null;
-    this.searchTerm = null;
-    this.alpha = null;
-    this.individualid = null;
-    this.pageNumber = null;
   }
 
   includeCities(cityid): void {
@@ -867,6 +867,8 @@ export class PeopleComponent implements OnInit {
       this.addQueryParams({ search: null });
     }
   }
+
+
 
 
 }

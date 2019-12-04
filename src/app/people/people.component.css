@@ -12,17 +12,22 @@
   padding-right: 0px;
 }
 
+.internalBody {
+  margin-left:50px;
+  margin-right:50px;
+}
+
+
 .row {
   max-width: 18200px;
   margin-left:-30px;
   margin-right:0px;
   padding-left: 0px;
   padding-right: 0px;
-  height: auto;
 }
 
 .col {
-  max-width: 450px;
+  max-width: 475px;
   padding-left: 0px;
   padding-right: 0px;
 }
@@ -36,8 +41,7 @@
   /* IE Edge 12+ CSS styles go here */ 
   .people {
     margin: 0 0 0 0;
-    padding: 0em 0em 0em 0em;
-    height: 250px;
+    min-height: 250px;
   }
 }
 
@@ -47,9 +51,8 @@
 
 .people {
   margin: 0 0 2em 0;
-  height: auto;
-  padding: 1px;
-  width: auto;
+  padding: 2px;
+  min-width: 475px;
 }
 
 .people.selected:hover {
@@ -203,3 +206,5 @@
 .otherfilters {
   padding-top: 10px;
 }
+
+

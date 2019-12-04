@@ -1,3 +1,23 @@
+<div class="header-bar" >
+        <div class="container">
+          <div class="row">
+            <a href="/" class="col-2"><img class="header-img" alt="Allen Matkins" src="../../assets/TempLogo_sq.png"></a>
+            <div class="col-7">
+              <h1 class="header-tag">Personnel Directory</h1>
+              <!-- <div class="greeting">Hello, {{userName}}</div> -->
+            </div>
+            <div class="col-3 rightcol">
+              <span class="confidential">Confidential</span><br>
+                        <!-- <span class="bugcontact">Is there an error? <a href="https://app.smartsheet.com/b/form/e41d7d1cc9e24549a69b3ca9218ea3bc" target="_blank">Tell Us</a></span><br> -->
+              <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
+              <!-- <span *ngIf="loginStatus">
+                <a class="btn btn-primary active" href="/.auth/logout?post_logout_redirect_uri=https%3A%2F%2Fpd-web-front-dev-ea.azurewebsites.net%2Fhome">&nbsp;Logout&nbsp;</a>
+                <br>Hello {{userName}}
+              </span> -->
+            </div>
+          </div>
+        </div>
+</div>
 <nav role="filters for mobile" class="mobile-menu">
     <label class="navbar-toggle collapsed normal-font btn btn-outline active" data-toggle="collapse" data-target="#navbar-collapse-1">
         <span class="sr-only">Toggle Filters</span>
@@ -120,7 +140,7 @@
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" (click)="staffDeptId = 0; addQueryParams({staffdept: null, page: null})">All</a>
-                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="staffDeptId = s.id; addQueryParams({staffdept: s.id, page: null}); setTimekeeper(s.id)">{{s.name}}</a>
+                            <a class="dropdown-item" *ngFor="let s of staffDept" (click)="setStaffDept(s.id); setTimekeeper(s.id); addQueryParams({staffdept: s.id, page: null}); ">{{s.name}}</a>
                         </div>
                     </div>
                 </div>
@@ -161,17 +181,19 @@
             {{Math.min(limit * p.getCurrent(),p.getTotalItems())}} of {{ p.getTotalItems() }}</pagination-template>
     </div>
     <br clear=all>
-    <div class="container">
+    <div class="container internalBody">
+        <div *ngIf="showLoadingIndicator" class="spinner"></div>
+
 
         <div class="row">
+            <div *ngIf="showLoadingIndicator"></div>
             <span *ngFor="let person of people | individual: individualid | city: cityid | role: roleid | alpha: alpha | search: searchTerm | roleArray : roleidArray | staffDept : staffDeptId | timekeeperDept: timekeeperDeptId | other: otherArray | paginate: { itemsPerPage: limit, currentPage: pageNumber };
                 let i = index;
                 trackBy: person?.pkpersonid"
                 #nGForArray>
                 <div class="col">
                     <div *ngIf="filtered?.length == 1" class="back"><button class="backbutton" (click)="goBack()">Back</button></div>
-
-                    <div class="people" >
+                    <div class="people">
                         <div class="userphoto">
                             <div [innerHTML]="getPhoto(person.photo)"></div>
                             <!--<img src="http://amjabber/AD/{{person.photofilename}}" id="{{person.displayname}}"
@@ -179,13 +201,14 @@
                         </div>
                         <div class="userdetails">
                             <div class="username">
-                                <strong>
-                                    <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
-                                        data-toggle="tooltip" title="see more about {{person.displayname}}">
-                                        {{person.firstname}} {{person.lastname}}</button>
+                                <button class="username btn btn-outline-secondary blur" (click)="individualid = person.pkpersonid; addQueryParams({ind: individualid})"
+                                    data-toggle="tooltip" title="see more about {{person.displayname}}">
+                                    <span *ngIf="person.pkpersonid == 933" class="username" ><strong>Mark C. Nicoletti</strong></span>
+                                    <span *ngIf="person.pkpersonid != 933" class="username" ><strong>{{person.firstname}} {{person.lastname}}&nbsp; {{getPrefName(person)}} </strong></span>
+                                </button>
                                     <!--   {{person.pkpersonid}}  -->
-                                </strong>&nbsp; {{getPrefName(person)}} <br>
-
+                                <br>
+                                <!-- {{person.adprincipaldomainaccount}} -->
                             </div>
 
                             <div class="userinfo">
@@ -200,13 +223,13 @@
                                     &nbsp;<a href="http://crmam01/InterAction/relationship-overview-person?contactId={{person.interactionid}}"
                                         id="{{person.interactionid}}">
                                         <img src="../../assets/ia.jpg" data-toggle="tooltip" title="InterAction" width="20px;"></a>
-                                    <span *ngIf="person.biographyurl">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"
+                                    <span *ngIf="person.hasbiography">&nbsp;&nbsp;<a href="{{person.biographyurl}}" id="website bio for {{person.displayname}}"
                                             target="_blank">
                                             <img src="../../assets/web.png" data-toggle="tooltip" title="Web Bio" width="20px;"></a></span>
                                     &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifCPR(person)"></span>
                                     &nbsp;<span class="__web-inspector-hide-shortcut__" [innerHTML]="ifNotary(person)"></span>
                                 </div><br>
-                                {{person.officelocation.officelocationcode}} Office Number: 
+                                {{person.officelocation.officelocationcode}} Office Number:
                                 <a *ngIf="person.officenumber" routerLink="/maps/{{person.officecity}}{{person.floornumber}}" [queryParams]="{offid: person.officenumber}"
                                     class="__web-inspector-hide-shortcut__">{{person.officenumber}}</a><br>
                                 
@@ -226,11 +249,6 @@
                                 </span>
                                 <div *ngIf="person.isattorney" [innerHTML]="getBAR(person)"></div>
                                 TK #:{{person.timekeepernumber}}
-
-                                <!--<div *ngIf="filtered?.length == 1">
-                                    <strong>More:</strong><br>
-                                    <div id="Education" [innerHTML="getEducation(person)"]></div>
-                                </div>-->
                             </div>
 
 
@@ -247,26 +265,3 @@
     </div>
 
 </div>
-<!-- 
-<pagination-template #p="paginationApi"
-                     (pageChange)="pageChange.emit($event)">
-{{p.getTotalItems()}}
-        <div class="pagination-previous" [class.disabled]="p.isFirstPage()">
-            <a *ngIf="!p.isFirstPage()" (click)="p.previous()">  </a>
-        </div>
-
-        <div *ngFor="let page of p.pages" [class.current]="p.getCurrent() === page.value">
-            <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
-                <span>{{ page.label }}</span>
-            </a>
-            <div *ngIf="p.getCurrent() === page.value">
-                <span>{{ page.label }}</span>
-            </div>
-        </div>
-
-        <div class="pagination-next" [class.disabled]="p.isLastPage()">
-            <a *ngIf="!p.isLastPage()" (click)="p.next()">  </a>
-        </div>
-
-</pagination-template>
- -->

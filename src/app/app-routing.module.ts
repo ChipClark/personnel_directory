@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Input } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { PeopleComponent } from './people/people.component';
@@ -18,6 +18,7 @@ import { Sf13Component } from './maps/sf13/sf13.component';
 const routes: Routes = [
   { path: 'root', component: PeopleComponent },
   { path: '', component: PeopleComponent, pathMatch: 'full' },
+  { path: '.auth/refresh', redirectTo: '', pathMatch: 'full' },
   { path: 'maps', component: MapComponent, children: [
     { path: 'cc18', component: Cc18Component },
     { path: 'la26', component: La26Component },
@@ -38,8 +39,8 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
+
+
 export class AppRoutingModule {
-
-
-
 }
