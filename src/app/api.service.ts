@@ -25,7 +25,7 @@ const httpOptions = {
 
 export class APIService {
 
-  public baseURL = 'http://am-web05:3035/api/v1/';
+  public baseURL = 'http://non-functional/';  // needs API server setup
 
   private skip;
   private limit = 20;
